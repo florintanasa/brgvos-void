@@ -1,0 +1,1 @@
+live.autologin live.user=brgvos live.shell=/bin/bash console=ttyS0 vconsole.keymap=ro locale.LANG=ro_RO.UTF-8
