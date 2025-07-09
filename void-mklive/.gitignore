@@ -1,0 +1,17 @@
+*.img
+*.xz
+*.iso
+*.raw
+*.tar.gz
+*.box
+xbps-cache
+xbps-cachedir*
+stamps*
+!dracut/*/*.sh
+!packer/scripts/*.sh
+void-live-*/
+distdir-*/
+release/
+packer/cloud-*/
+packer/vagrant-*/
+mklive-build*/
