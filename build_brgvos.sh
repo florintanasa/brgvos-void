@@ -23,7 +23,7 @@ sudo ./mkiso.sh \
 -T $title \
 -C "$kernel_arg" \
 -p "$other_pkg" \
--o $title'_'$variant'_'$locale'_'$arch'_'$data \
+-o $title'_'$variant'_'$locale'_'$arch'_'$data'.iso' \
 -I ../includedir
 
 sync
