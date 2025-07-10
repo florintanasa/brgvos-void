@@ -11,6 +11,7 @@ root_shell=$(cat ../root_shell)
 linux_version=$(cat ../linux_version)
 title=$(cat ../title)
 kernel_arg=$(cat ../kernel_arg)
+other_pkg=$(cat ../other_pkg)
 # run void linux script to build iso iamge with our distribution
 sudo ./mkiso.sh \
 -a $arch \
@@ -20,5 +21,6 @@ sudo ./mkiso.sh \
 -e $root_shell \
 -v $linux_version \
 -T $title \
--C $kernel_arg 
+-C "$kernel_arg" \
+-p "$other_pkg" 
 
