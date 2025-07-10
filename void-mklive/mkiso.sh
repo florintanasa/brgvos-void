@@ -60,11 +60,11 @@ include_installer() {
     if [ -x installer.sh ]; then
         MKLIVE_VERSION="$(PROGNAME='' version)"
         installer=$(mktemp)
-        sed "s/@@MKLIVE_VERSION@@/${MKLIVE_VERSION}/" installer.sh > "$installer"
-        install -Dm755 "$installer" "$INCLUDEDIR"/usr/bin/void-installer
+        sed "s/@@MKLIVE_VERSION@@/${MKLIVE_VERSION}/" installer_ro.sh > "$installer"
+        install -Dm755 "$installer" "$INCLUDEDIR"/usr/bin/brgvos-installer
         rm "$installer"
     else
-        echo installer.sh not found >&2
+        echo installer_ro.sh not found >&2
         exit 1
     fi
 }
