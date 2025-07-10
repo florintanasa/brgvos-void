@@ -6,7 +6,7 @@
 # some alias commands
 alias ls='ls --color=auto'
 alias lls='eza -logh --icons --group-directories-first'
-
+alias dufs='duf --hide special'
 # whith text color for terminal prompt
 #PS1='[\u@\h \W]\$ '
 # green text color for teminal prompt
