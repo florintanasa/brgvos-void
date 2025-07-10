@@ -1,11 +1,11 @@
 ###############################################################################
 
-Welcome to the Void Linux Live system. Two users are available to log in:
+Welcome to the BRGV-OS Linux Live system. Two users are available to log in:
 
 	- root:voidlinux
-	- anon:voidlinux
+	- brgvos:voidlinux
 
-The `anon` user additionally has `sudo(8)` permissions to run any command
+The `brgvos` user additionally has `sudo(8)` permissions to run any command
 without a password.
 
 To start the installation please type:
@@ -18,11 +18,10 @@ sure to configure your network interface and then use:
 	- xbps-install(1) to install/update packages
 	- xbps-query(1) to query for package info
 
-The Void Linux Handbook is also available for offline access in multiple
-formats, and can be accessed with the `void-docs(1)` utility.
+The BRGV-OS Linux is based by Void Linux distribution.
 
-Thanks for using Void Linux.
+Thanks for using BRGV-OS Linux.
 
-    https://www.voidlinux.org
+    https://svgenebank.ro
 
 ###############################################################################
