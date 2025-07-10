@@ -498,10 +498,11 @@ generate_iso_image() {
 #
 # main()
 #
-while getopts "a:b:r:c:C:T:Kk:l:i:I:S:e:s:o:p:g:v:P:Vh" opt; do
+while getopts "a:b:B:r:c:C:T:Kk:l:i:I:S:e:s:o:p:g:v:P:Vh" opt; do
 	case $opt in
 		a) TARGET_ARCH="$OPTARG";;
 		b) BASE_SYSTEM_PKG="$OPTARG";;
+        B) VARIANT="$OPTARG";;
 		r) XBPS_REPOSITORY="--repository=$OPTARG $XBPS_REPOSITORY";;
 		c) XBPS_CACHEDIR="$OPTARG";;
 		g) IGNORE_PKGS+=($OPTARG) ;;
@@ -691,6 +692,11 @@ fi
 if [ "${#INCLUDE_DIRS[@]}" -gt 0 ];then
     print_step "Copying directory structures into the rootfs ..."
     copy_include_directories
+fi
+
+if [ "$VARIANT" = gnome ]; then
+    print_step "Prepare GNOME desktop..."
+    sleep 10
 fi
 
 print_step "Generating initramfs image ($INITRAMFS_COMPRESSION)..."
