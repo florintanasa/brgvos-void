@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+data=$(date +'%d%m%Y_%H%M%S')
 # change working directory
 cd void-mklive
 # flag used for build the iso
@@ -12,7 +12,7 @@ linux_version=$(cat ../linux_version)
 title=$(cat ../title)
 kernel_arg=$(cat ../kernel_arg)
 other_pkg=$(cat ../other_pkg)
-# run void linux script to build iso iamge with our distribution
+# run void linux script to build iso file image with our distribution
 sudo ./mkiso.sh \
 -a $arch \
 -b $variant \
@@ -22,5 +22,8 @@ sudo ./mkiso.sh \
 -v $linux_version \
 -T $title \
 -C "$kernel_arg" \
--p "$other_pkg" 
+-p "$other_pkg" \
+-o $title'_'$variant'_'$locale'_'$arch'_'$data \
+-I ../includedir
 
+sync
