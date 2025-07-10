@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
+# set the date and time
 data=$(date +'%d%m%Y_%H%M%S')
+# change the owner for includedir
+chown root:root -R includedir
 # change working directory
 cd void-mklive
 # flag used for build the iso
