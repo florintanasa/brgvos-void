@@ -2,7 +2,7 @@
 
 # change working directory
 cd void-mklive
-# flas used for build the iso
+# flag used for build the iso
 arch=$(cat ../arch)
 variant=$(cat ../variant)
 keymap=$(cat ../keymap)
