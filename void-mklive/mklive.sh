@@ -179,7 +179,6 @@ install_packages() {
         chroot "$ROOTFS" env -i xbps-alternatives -s dash
     fi
 
-    variant_gnome
 
     post_install_packages
 }
@@ -682,30 +681,6 @@ fi
 print_step "Installing void pkgs into the rootfs: ${PACKAGE_LIST[*]} ..."
 install_packages
 
-variant_gnome() {
-if [ "$VARIANT" = gnome ]; then
-    print_step "Prepare GNOME desktop..."
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/apps-menu* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/auto-move-windows* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/launch-new-instance* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/native-window-placement* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/places-menu* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/screenshot-window-sizer* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/window-list* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/windowsNavigator* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/workspace-indicator* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/light-style* -rf
-    chroot "$ROOTFS" rm /usr/share/gnome-shell/extensions/system-monitor* -rf
-
-    chroot "$ROOTFS" env -i echo "nameserver 8.8.8.8" > /etc/resolv.conf 
-    chroot "$ROOTFS" env -i pipx install gnome-extensions-cli --global
-    #chroot "$ROOTFS" /root/.local/bin/gext -F install arcmenu@arcmenu.com
-    #chroot "$ROOTFS" /root/.local/bin/gext -F enable arcmenu@arcmenu.com
-    
-    sleep 10
-fi
-}
-
 : ${DEFAULT_SERVICE_LIST:=agetty-tty1 agetty-tty2 agetty-tty3 agetty-tty4 agetty-tty5 agetty-tty6 udevd}
 print_step "Enabling services: ${SERVICE_LIST} ..."
 enable_services ${DEFAULT_SERVICE_LIST} ${SERVICE_LIST}
@@ -718,6 +693,36 @@ fi
 if [ "${#INCLUDE_DIRS[@]}" -gt 0 ];then
     print_step "Copying directory structures into the rootfs ..."
     copy_include_directories
+fi
+
+
+if [ "$VARIANT" = gnome ]; then
+    print_step "Prepare GNOME desktop..."
+    echo $ROOTFS
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/auto-move-windows@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/apps-menu@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/launch-new-instance@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/native-window-placement@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/places-menu@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/window-list@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/windowsNavigator@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/light-style@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/system-monitor@gnome-shell-extensions.gcampax.github.com
+
+    chroot "$ROOTFS" pipx install gnome-extensions-cli --global
+    
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/blur-my-shellaunetx.v68.shell-extension.zip
+    chroot "$ROOTFS" gext -F install arcmenu@arcmenu.com
+    
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/arcmenu@arcmenu.com /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/blur-my-shell@aunetx /usr/share/gnome-shell/extensions/
+    
+    chroot "$ROOTFS" gext -F enable blur-my-shell@aunetx
+    chroot "$ROOTFS" gext -F enable arcmenu@arcmenu.com
+    
+    sleep 10
 fi
 
 print_step "Generating initramfs image ($INITRAMFS_COMPRESSION)..."
