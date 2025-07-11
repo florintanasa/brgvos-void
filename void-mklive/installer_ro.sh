@@ -86,8 +86,8 @@ UNDERLINE="\Zu"
 RESET="\Zn"
 
 # Properties shared per widget.
-MENULABEL="${BOLD}Use UP and DOWN keys to navigate \
-menus. Use TAB to switch between buttons and ENTER to select.${RESET}"
+MENULABEL="${BOLD}Folosiți tastele SUS și JOS pentru a naviga în meniu. \
+Folosiți TAB pentru a comuta între butoane și ENTER pentru a selecta.${RESET}"
 MENUSIZE="14 60 0"
 INPUTSIZE="8 60"
 MSGBOXSIZE="8 70"
@@ -98,7 +98,7 @@ DIALOG() {
     rm -f $ANSWER
     dialog --colors --keep-tite --no-shadow --no-mouse \
         --backtitle "${BOLD}${WHITE}Instalare BRGV-OS Linux -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
-        --cancel-label "Back" --aspect 20 "$@" 2>$ANSWER
+        --cancel-label "Înapoi" --aspect 20 "$@" 2>$ANSWER
     return $?
 }
 
@@ -437,7 +437,7 @@ menu_filesystems() {
     local dev fstype fssize mntpoint reformat
 
     while true; do
-        DIALOG --ok-label "Schimbă" --cancel-label "Gata" \
+        DIALOG --ok-label "Modifică" --cancel-label "Gata" \
             --title " Selectează partiția pentru modificare " --menu "$MENULABEL" \
             ${MENUSIZE} $(show_partitions)
         [ $? -ne 0 ] && return
@@ -507,17 +507,18 @@ menu_partitions() {
 
             DIALOG --title "Modificarea Tabelă de Partiție pentru $device" --msgbox "\n
 ${BOLD}${software} va fi executat pe discul $device.${RESET}\n\n
-Pentru sistemele BIOS, sunt acceptate tabelele de partiții MBR sau GPT. Pentru a utiliza GPT\n
-pe sistemele BIOS ale PC-ului, trebuie adăugată o partiție goală de 1 MB la primii\n
-2 GB ai discului cu tipul de partiție \`BIOS Boot'.\n
+Pentru sistemele BIOS, sunt acceptate tabelele de partiții MBR sau GPT.\n
+Pentru a utiliza GPT pe sistemele BIOS ale PC-ului, trebuie adăugată o\n
+partiție goală de 1 MB la primii 2 GB ai discului cu tipul de partiție \`BIOS Boot'.\n
 ${BOLD}NOTĂ: nu aveți nevoie de acest lucru pe sistemele EFI.${RESET}\n\n
-Pentru sistemele EFI, GPT este obligatoriu și trebuie creată o partiție FAT32 cu cel puțin 100MB\n
-cu tipul de partiție \`EFI System'. Aceasta va fi utilizată ca\n
-partiție de sistem EFI. Această partiție trebuie să aibă punctul de montare \`/boot/efi'.\n\n
-Este necesară cel puțin o partiție pentru rootfs (/). Pentru această partiție,\n
-sunt necesari cel puțin 8 GB, dar se recomandă mai mult. Partiția rootfs\n
-ar trebui să aibă tipul de partiție \`Linux Filesystem'. Pentru swap, RAM*2\n
-ar trebui să fie suficient și ar trebui utilizat tipul de partiție \`Linux swap' should.\n\n
+Pentru sistemele EFI, GPT este obligatoriu și trebuie creată o partiție\n
+FAT32 cu cel puțin 100MB cu tipul de partiție \`EFI System'. Aceasta va fi 
+utilizată ca partiție de sistem EFI. Această partiție trebuie să aibă\n punctul de montare \`/boot/efi'.\n\n
+Este necesară cel puțin o partiție pentru rootfs (/). Pentru această partiție,  
+sunt necesari cel puțin 8 GB, dar se recomandă mai mult.\n
+Partiția rootfs ar trebui să aibă tipul de partiție \`Linux Filesystem'.\n
+Pentru swap, RAM*2 ar trebui să fie suficient și ar trebui utilizat tipul \n
+de partiție \`Linux swap'.\n\n
 ${BOLD}AVERTISMENT: /usr nu este suportat ca partiție separată.${RESET}\n
 ${RESET}\n" 23 80
             if [ $? -eq 0 ]; then
@@ -566,7 +567,7 @@ menu_locale() {
     local _locales="$(grep -E '\.UTF-8' /etc/default/libc-locales|awk '{print $1}'|sed -e 's/^#//')"
     local LOCALES ISO639 ISO3166
     local TMPFILE=$(mktemp -t vinstall-XXXXXXXX || exit 1)
-    INFOBOX "Scanning locales ..." 4 60
+    INFOBOX "Caut localizări ..." 4 60
     for f in ${_locales}; do
         eval $(echo $f | awk 'BEGIN { FS="." } \
             { FS="_"; split($1, a); printf "ISO639=%s ISO3166=%s\n", a[1], a[2] }')
@@ -686,8 +687,8 @@ menu_useraccount() {
 
     while true; do
         _preset=$(get_option USERLOGIN)
-        [ -z "$_preset" ] && _preset="void"
-        DIALOG --inputbox "Introduceți un nume de utilizator principal:" ${INPUTSIZE} "$_preset"
+        [ -z "$_preset" ] && _preset="brgvos"
+        DIALOG --inputbox "Introduceți un nume de utilizator:" ${INPUTSIZE} "$_preset"
         if [ $? -eq 0 ]; then
             _userlogin="$(cat $ANSWER)"
             # based on useradd(8) § Caveats
@@ -708,7 +709,7 @@ menu_useraccount() {
     while true; do
         _preset=$(get_option USERNAME)
         [ -z "$_preset" ] && _preset="Nume Utilizator"
-        DIALOG --inputbox "Introduceți un nume ce va fi afișat la conectare '$(get_option USERLOGIN)' :" \
+        DIALOG --inputbox "Introduceți un nume ce va fi afișat la conectare pentru '$(get_option USERLOGIN)' :" \
             ${INPUTSIZE} "$_preset"
         if [ $? -eq 0 ]; then
             set_option USERNAME "$(cat $ANSWER)"
@@ -723,7 +724,7 @@ menu_useraccount() {
         if [ -z "${_firstpass}" ]; then
             _desc="Stabiliți parola pentru autentificare '$(get_option USERLOGIN)'"
         else
-            _again=" again"
+            _again=" din nou"
         fi
         DIALOG --insecure --passwordbox "${_desc}${_again}" ${INPUTSIZE}
         if [ $? -eq 0 ]; then
@@ -1195,7 +1196,7 @@ log_and_count() {
         if [ "$progress" != "$copy_progress" ]; then
             whole=$((progress / 10))
             tenth=$((progress % 10))
-            printf "Progres: %d.%d%% (%d of %d files)\n" $whole $tenth $copy_count $copy_total
+            printf "Progres: %d.%d%% (%d din %d fișiere)\n" $whole $tenth $copy_count $copy_total
             copy_progress=$progress
         fi
     done
@@ -1212,7 +1213,7 @@ copy_rootfs() {
         tar --extract --xattrs --xattrs-include='*' --preserve-permissions -v -f - -C $TARGETDIR | \
         log_and_count | \
         DIALOG --title "${TITLE}" \
-            --progressbox "Copierea imaginii live în fișierul rootfs țintă" 5 60
+            --progressbox "Copierea imaginii live în noul rootfs țintă" 5 60
     if [ $? -ne 0 ]; then
         DIE 1
     fi
@@ -1517,42 +1518,42 @@ menu() {
     if xbps-uhelper arch | grep -qe '-musl$'; then
         AFTER_HOSTNAME="Timezone"
         DIALOG --default-item $DEFITEM \
-            --extra-button --extra-label "Setări" \
+            --extra-button --extra-label "Salvate" \
             --title " BRGV-OS Linux meniu de instalare " \
             --menu "$MENULABEL" 10 70 0 \
-            "Keyboard" "Set system keyboard" \
-            "Network" "Set up the network" \
-            "Source" "Set source installation" \
-            "Mirror" "Select XBPS mirror" \
-            "Hostname" "Set system hostname" \
-            "Timezone" "Set system time zone" \
-            "RootPassword" "Set system root password" \
-            "UserAccount" "Set primary user name and password" \
-            "BootLoader" "Set disk to install bootloader" \
-            "Partition" "Partition disk(s)" \
-            "Filesystems" "Configure filesystems and mount points" \
-            "Install" "Start installation with saved settings" \
-            "Exit" "Exit installation"
+            "Keyboard" "Setați tastatura sistemului" \
+            "Network" "Configurați rețeaua" \
+            "Source" "Setați sursa de instalare" \
+            "Mirror" "Selectați oglinda pt. pachetele XBPS" \
+            "Hostname" "Setați numele sistemului" \
+            "Timezone" "Setați fusul orar al sistemului" \
+            "RootPassword" "Setați parola utilizatorului root" \
+            "UserAccount" "Setați numele de utilizator și parola" \
+            "BootLoader" "Setați discul pentru instalarea bootloader-ului" \
+            "Partition" "Partiționați discul(-rile)" \
+            "Filesystems" "Configurați sistemul de fișiere și punctele de montare" \
+            "Install" "Porniți instalarea cu setările realizate" \
+            "Exit" "Ieșiți din instalare"
     else
         AFTER_HOSTNAME="Locale"
         DIALOG --default-item $DEFITEM \
-            --extra-button --extra-label "Setări" \
-            --title " BTGV-OS Linux meniu de instalare " \
+            --extra-button --extra-label "Salvate" \
+            --title " BRGV-OS Linux meniu de instalare " \
             --menu "$MENULABEL" 10 70 0 \
-            "Keyboard" "Set system keyboard" \
-            "Network" "Set up the network" \
-            "Source" "Set source installation" \
-            "Mirror" "Select XBPS mirror" \
-            "Hostname" "Set system hostname" \
-            "Locale" "Set system locale" \
-            "Timezone" "Set system time zone" \
-            "RootPassword" "Set system root password" \
-            "UserAccount" "Set primary user name and password" \
-            "BootLoader" "Set disk to install bootloader" \
-            "Partition" "Partition disk(s)" \
-            "Filesystems" "Configure filesystems and mount points" \
-            "Install" "Start installation with saved settings" \
-            "Exit" "Exit installation"
+            "Keyboard" "Setează tastatura sistemului" \
+            "Network" "Configurați rețeaua" \
+            "Source" "Setați sursa de instalare" \
+            "Mirror" "Selectați oglinda pt. pachetele XBPS" \
+            "Hostname" "Setați numele sistemului" \
+            "Locale" "Setați localizarea sistemului" \
+            "Timezone" "Setați fusul orar al sistemului" \
+            "RootPassword" "Setați parola utilizatorului root" \
+            "UserAccount" "Setați numele de utilizator și parola" \
+            "BootLoader" "Setați discul pentru instalarea bootloader-ului" \
+            "Partition" "Partiționați discul(-rile)" \
+            "Filesystems" "Configurați sistemul de fișiere și punctele de montare" \
+            "Install" "Porniți instalarea cu setările realizate" \
+            "Exit" "Ieșiți din instalare"
     fi
 
     if [ $? -eq 3 ]; then
@@ -1560,7 +1561,7 @@ menu() {
         cp $CONF_FILE /tmp/conf_hidden.$$;
         sed -i "s/^ROOTPASSWORD .*/ROOTPASSWORD <-hidden->/" /tmp/conf_hidden.$$
         sed -i "s/^USERPASSWORD .*/USERPASSWORD <-hidden->/" /tmp/conf_hidden.$$
-        DIALOG --title "Saved settings for installation" --textbox /tmp/conf_hidden.$$ 14 60
+        DIALOG --title "Setări salvate pentru instalare" --textbox /tmp/conf_hidden.$$ 14 60
         rm /tmp/conf_hidden.$$
         return
     fi
@@ -1581,7 +1582,7 @@ menu() {
         "Filesystems") menu_filesystems && [ -n "$FILESYSTEMS_DONE" ] && DEFITEM="Install";;
         "Install") menu_install;;
         "Exit") DIE;;
-        *) DIALOG --yesno "Abort Installation?" ${YESNOSIZE} && DIE
+        *) DIALOG --yesno "Anulați instalarea?" ${YESNOSIZE} && DIE
     esac
 }
 
@@ -1598,7 +1599,7 @@ fi
 #
 # main()
 #
-DIALOG --title "${BOLD}${RED} Enter the void ... ${RESET}" --msgbox "\n
+DIALOG --title "${BOLD}${RED} Să începem ... ${RESET}" --msgbox "\n
 Bun venit la instalarea Void Linux. O instalare simplă și minimalistă a \
 distribuție Linux realizată de la zero și construită din arborele de pachete sursă \
 disponibil pentru XBPS, un nou sistem alternativ de pachete binare..\n\n
