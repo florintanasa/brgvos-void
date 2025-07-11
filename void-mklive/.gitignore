@@ -4,6 +4,7 @@
 *.raw
 *.tar.gz
 *.box
+*.sha256
 xbps-cache
 xbps-cachedir*
 stamps*
