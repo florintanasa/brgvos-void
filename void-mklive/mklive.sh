@@ -698,7 +698,9 @@ fi
 
 if [ "$VARIANT" = gnome ]; then
     print_step "Prepare GNOME desktop..."
+    # print the path for $ROOTFS
     echo $ROOTFS
+    # delete default extensions installed
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/auto-move-windows@gnome-shell-extensions.gcampax.github.com
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/apps-menu@gnome-shell-extensions.gcampax.github.com
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/launch-new-instance@gnome-shell-extensions.gcampax.github.com
@@ -710,17 +712,91 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/light-style@gnome-shell-extensions.gcampax.github.com
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/system-monitor@gnome-shell-extensions.gcampax.github.com
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com'
 
+    # install gext global to be used for enable the extensions
+    # is not used to install because leave dev and proc mounted on $ROOTFS and the mklive crash
     chroot "$ROOTFS" pipx install gnome-extensions-cli --global
     
+    # install extensions first version
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/arcmenuarcmenu.com.v66.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/blur-my-shellaunetx.v68.shell-extension.zip
-    chroot "$ROOTFS" gext -F install arcmenu@arcmenu.com
-    
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/ProxySwitcherflannaghan.com.v25.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/clipboard-indicatortudmotu.com.v68.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/customize-ibushollowman.ml.v91.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/dash-to-paneljderose9.github.com.v68.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/lockkeysvaina.lt.v61.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/mediacontrolscliffniff.github.com.v38.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/network-statsgnome.noroadsleft.xyz.v27.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/tiling-assistantleleat-on-github.v52.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
+
+    # install extensions second version but is intercative
+    #chroot "$ROOTFS" unzip -q /tmp/arcmenuarcmenu.com.v66.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/blur-my-shellaunetx.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/ProxySwitcherflannaghan.com.v25.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/clipboard-indicatortudmotu.com.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/customize-ibushollowman.ml.v91.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/dash-to-paneljderose9.github.com.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/lockkeysvaina.lt.v61.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/mediacontrolscliffniff.github.com.v38.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/network-statsgnome.noroadsleft.xyz.v27.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/tiling-assistantleleat-on-github.v52.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+
+    # work also but crash mklive because can't unmount the dev and proc remain accesated by dbus
+    #chroot "$ROOTFS" gext -F install blur-my-shell@aunetx
+    #chroot "$ROOTFS" gext -F install arcmenu@arcmenu.com
+
+    # move estension from user to system this for first version
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/arcmenu@arcmenu.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/blur-my-shell@aunetx /usr/share/gnome-shell/extensions/
-    
-    chroot "$ROOTFS" gext -F enable blur-my-shell@aunetx
-    chroot "$ROOTFS" gext -F enable arcmenu@arcmenu.com
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/customize-ibus@hollowman.ml /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/network-stats@gnome.noroadsleft.xyz /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/openweather-extension@penguin-teal.github.io /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/lockkeys@vaina.lt /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/tiling-assistant@leleat-on-github /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com  /usr/share/gnome-shell/extensions/
+
+    # create directory schemas for extensions 
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/customize-ibus@hollowman.ml/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/network-stats@gnome.noroadsleft.xyz/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/openweather-extension@penguin-teal.github.io/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/lockkeys@vaina.lt/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/tiling-assistant@leleat-on-github/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
+    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+
+    # compile schemas for extensions 
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/customize-ibus@hollowman.ml/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/network-stats@gnome.noroadsleft.xyz/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/openweather-extension@penguin-teal.github.io/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/lockkeys@vaina.lt/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/tiling-assistant@leleat-on-github/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+
+    # add permissions to the user to read extensions
+    chroot "$ROOTFS" chmod -R 755 /usr/share/gnome-shell/extensions/
+
+    # update dconf settings for extensions
+    chroot "$ROOTFS" dconf update
     
     sleep 10
 fi
