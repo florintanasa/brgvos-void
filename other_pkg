@@ -5,8 +5,10 @@ duf
 ps_mem 
 xdg-desktop-portal-gtk 
 xdg-desktop-portal-gnome 
+xdg-user-dirs
 flatpak 
 gparted 
 vsv
 python3-pipx
 curl
+zip
