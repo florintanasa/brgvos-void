@@ -712,7 +712,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/light-style@gnome-shell-extensions.gcampax.github.com
     chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/system-monitor@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com'
+    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com
 
     # install gext global to be used for enable the extensions
     # is not used to install because leave dev and proc mounted on $ROOTFS and the mklive crash
@@ -731,6 +731,9 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" gnome-extensions install --force /tmp/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/tiling-assistantleleat-on-github.v52.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/loc@brgvos.com.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/noti-bottom-right@brgvos.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/switcher@brgvos.zip
 
     # install extensions second version but is intercative
     #chroot "$ROOTFS" unzip -q /tmp/arcmenuarcmenu.com.v66.shell-extension.zip -d /usr/share/gnome-shell/extensions/
@@ -763,20 +766,26 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com  /usr/share/gnome-shell/extensions/
-
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/loc@brgvos.com  /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/noti-bottom-right@brgvos  /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/switcher@brgvos  /usr/share/gnome-shell/extensions/
+    
     # create directory schemas for extensions 
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/customize-ibus@hollowman.ml/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/network-stats@gnome.noroadsleft.xyz/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/openweather-extension@penguin-teal.github.io/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/lockkeys@vaina.lt/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/tiling-assistant@leleat-on-github/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
-    #chroot "$ROOTFS" mkdir /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/customize-ibus@hollowman.ml/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/network-stats@gnome.noroadsleft.xyz/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/openweather-extension@penguin-teal.github.io/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/lockkeys@vaina.lt/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/tiling-assistant@leleat-on-github/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
 
     # compile schemas for extensions 
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
@@ -791,6 +800,9 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
 
     # add permissions to the user to read extensions
     chroot "$ROOTFS" chmod -R 755 /usr/share/gnome-shell/extensions/
