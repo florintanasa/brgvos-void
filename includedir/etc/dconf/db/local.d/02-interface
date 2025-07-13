@@ -1,0 +1,16 @@
+[org/gnome/desktop/interface]
+clock-show-date=false
+clock-show-seconds=false
+clock-show-weekday=false
+color-scheme='prefer-light'
+# Fix a GTK bug. See: https://bbs.archlinux.org/viewtopic.php?id=299624
+cursor-size=32
+cursor-theme='Fluent-cursors'
+document-font-name='Maple Mono 13'
+enable-hot-corners=false
+font-antialiasing='grayscale'
+font-hinting='slight'
+font-name='Adwaita Sans 11'
+gtk-theme='Fluent-round-Light'
+icon-theme='Fluent-light'
+monospace-font-name='Maple Mono 11'
