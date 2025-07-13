@@ -1,0 +1,14 @@
+[org/gnome/shell/extensions/openweatherrefined]
+actual-city=0
+has-run=true
+locs=[(uint32 0, 'Suceava,România', uint32 0, '47.5326534,25.8345939')]
+my-loc-prov='geoclue'
+owm-api-translate=true
+position-in-panel='left'
+position-index=0
+pressure-unit='mbar'
+show-comment-in-panel=false
+show-sunsetrise-in-panel=false
+use-system-icons=true
+wind-direction=true
+wind-speed-unit='km/h'
