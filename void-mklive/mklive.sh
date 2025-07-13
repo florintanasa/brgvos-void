@@ -719,35 +719,35 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" pipx install gnome-extensions-cli --global
     
     # install extensions first version
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/arcmenuarcmenu.com.v66.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/blur-my-shellaunetx.v68.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/ProxySwitcherflannaghan.com.v25.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/clipboard-indicatortudmotu.com.v68.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/customize-ibushollowman.ml.v91.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/dash-to-paneljderose9.github.com.v68.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/lockkeysvaina.lt.v61.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/mediacontrolscliffniff.github.com.v38.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/network-statsgnome.noroadsleft.xyz.v27.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/tiling-assistantleleat-on-github.v52.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/loc@brgvos.com.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/noti-bottom-right@brgvos.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/switcher@brgvos.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/arcmenuarcmenu.com.v66.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/blur-my-shellaunetx.v68.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/ProxySwitcherflannaghan.com.v25.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/clipboard-indicatortudmotu.com.v68.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/customize-ibushollowman.ml.v91.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dash-to-paneljderose9.github.com.v68.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/lockkeysvaina.lt.v61.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/mediacontrolscliffniff.github.com.v38.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/network-statsgnome.noroadsleft.xyz.v27.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tiling-assistantleleat-on-github.v52.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/loc@brgvos.com.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/noti-bottom-right@brgvos.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/switcher@brgvos.zip
 
     # install extensions second version but is intercative
-    #chroot "$ROOTFS" unzip -q /tmp/arcmenuarcmenu.com.v66.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/blur-my-shellaunetx.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/ProxySwitcherflannaghan.com.v25.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/clipboard-indicatortudmotu.com.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/customize-ibushollowman.ml.v91.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/dash-to-paneljderose9.github.com.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/arcmenuarcmenu.com.v66.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/blur-my-shellaunetx.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/ProxySwitcherflannaghan.com.v25.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/clipboard-indicatortudmotu.com.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/customize-ibushollowman.ml.v91.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/dash-to-paneljderose9.github.com.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
     #chroot "$ROOTFS" unzip -q /tmp/lockkeysvaina.lt.v61.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/mediacontrolscliffniff.github.com.v38.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/network-statsgnome.noroadsleft.xyz.v27.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/tiling-assistantleleat-on-github.v52.shell-extension.zip -d /usr/share/gnome-shell/extensions/
-    #chroot "$ROOTFS" unzip -q /tmp/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/mediacontrolscliffniff.github.com.v38.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/network-statsgnome.noroadsleft.xyz.v27.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/tiling-assistantleleat-on-github.v52.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip -d /usr/share/gnome-shell/extensions/
 
     # work also but crash mklive because can't unmount the dev and proc remain accesated by dbus
     #chroot "$ROOTFS" gext -F install blur-my-shell@aunetx
@@ -809,7 +809,30 @@ if [ "$VARIANT" = gnome ]; then
 
     # update dconf settings for extensions
     chroot "$ROOTFS" dconf update
+
+    # extract Fluent icons and Fluent cursors
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/01-Fluent.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-cursors.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-dark-cursors.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-green.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-grey.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-orange.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-pink.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-purple.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-red.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-yellow.tar.xz -C /usr/share/icons
     
+    # extract Fluent themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-green.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-grey.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-orange.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-pink.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-purple.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-red.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-teal.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-yellow.tar.xz -C /usr/share/themes
+    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round.tar.xz -C /usr/share/themes
+
     sleep 10
 fi
 
