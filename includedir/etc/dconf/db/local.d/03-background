@@ -1,4 +1,4 @@
-[org/gnome/desktop/backgrounds]
+[org/gnome/desktop/background]
 color-shading-type='solid'
 picture-options='zoom'
 picture-uri='file:///usr/share/backgrounds/Fluent-building-light.jpg'
