@@ -10,7 +10,7 @@ without a password.
 
 To start the installation please type:
 
-    # void-installer
+    # brgvos-installer
 
 and follow the on-screen instructions. To install additional software make
 sure to configure your network interface and then use:
@@ -22,6 +22,6 @@ The BRGV-OS Linux is based by Void Linux distribution.
 
 Thanks for using BRGV-OS Linux.
 
-    https://svgenebank.ro
+    https://github.com/florintanasa/brgvos-void
 
 ###############################################################################
