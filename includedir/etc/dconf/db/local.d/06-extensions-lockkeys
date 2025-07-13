@@ -1,0 +1,3 @@
+[org/gnome/shell/extensions/lockkeys]
+notification-preferences='off'
+style='show-hide-capslock'
