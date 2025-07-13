@@ -807,9 +807,6 @@ if [ "$VARIANT" = gnome ]; then
     # add permissions to the user to read extensions
     chroot "$ROOTFS" chmod -R 755 /usr/share/gnome-shell/extensions/
 
-    # update dconf settings for extensions
-    chroot "$ROOTFS" dconf update
-
     # extract Fluent icons and Fluent cursors
     chroot "$ROOTFS" tar -Jxf /tmp/icons/01-Fluent.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-cursors.tar.xz -C /usr/share/icons
@@ -832,6 +829,12 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-teal.tar.xz -C /usr/share/themes
     chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-yellow.tar.xz -C /usr/share/themes
     chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round.tar.xz -C /usr/share/themes
+
+    # add custom icon for arcmenu
+    chroot "$ROOTFS" cp /tmp/icons/brgvos-logo.svg /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/icons/
+
+    # update dconf settings for extensions
+    chroot "$ROOTFS" dconf update
 
     sleep 10
 fi
