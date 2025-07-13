@@ -1592,7 +1592,7 @@ if ! command -v dialog >/dev/null; then
 fi
 
 if [ "$(id -u)" != "0" ]; then
-   echo "void-installer must run as root" 1>&2
+   echo "brgvos-installer trebuie rulat ca root" 1>&2
    exit 1
 fi
 
