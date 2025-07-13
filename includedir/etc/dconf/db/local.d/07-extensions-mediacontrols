@@ -1,0 +1,14 @@
+[shell/extensions/mediacontrols]
+elements-order=['ICON', 'LABEL', 'CONTROLS']
+extension-index=uint32 100
+extension-position='Right'
+fixed-label-width=false
+hide-media-notification=true
+labels-order=@as []
+scroll-labels=true
+show-control-icons-next=true
+show-control-icons-previous=false
+show-control-icons-seek-backward=false
+show-control-icons-seek-forward=false
+show-label=true
+show-player-icon=false
