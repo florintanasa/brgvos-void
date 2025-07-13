@@ -1,0 +1,4 @@
+[org/gnome/shell/extensions/clipboard-indicator]
+display-mode=3
+paste-on-select=true
+toggle-menu=['<Super>v']
