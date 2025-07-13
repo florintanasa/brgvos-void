@@ -1,0 +1,3 @@
+[org/gnome/shell/extensions/network-stats]
+display-mode='total_speed'
+show-icon=false
