@@ -1,0 +1,12 @@
+[org/gnome/shell/extensions/customize-ibus]
+candidate-orientation=uint32 1
+enable-custom-theme-dark=false
+enable-orientation=true
+indicator-opacity=uint32 229
+input-indicator-animation=uint32 1
+input-indicator-only-on-toggle=true
+input-mode-list={'null': true, '': true}
+menu-ibus-preference=true
+menu-ibus-restart=true
+menu-ibus-version=true
+use-input-indicator=false
