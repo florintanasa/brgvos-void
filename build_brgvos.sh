@@ -39,4 +39,8 @@ sudo ./mkiso.sh \
 HASH=`sha256sum $title'_'$variant'_'$locale'_'$arch'_'$data.iso`
 echo $HASH > $title'_'$variant'_'$locale'_'$arch'_'$data.sha256
 
+# change back the owner for includedir
+cd ..
+chown florin:florin -R includedir
+
 sync
