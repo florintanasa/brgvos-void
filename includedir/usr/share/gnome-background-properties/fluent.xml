@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>BRGVOS Background</name>
+    <name xml:lang="ro">BRGV</name>
+    <name xml:lang="en">GeneBank</name>
+    <filename>/usr/share/backgrounds/gnome/fluent-l.jpg</filename>
+    <filename-dark>/usr/share/backgrounds/gnome/fluent-d.jpg</filename-dark>
+    <options>zoom</options>
+    <shade_type>solid</shade_type>
+    <pcolor>#ff0000</pcolor>
+    <scolor>#00ffff</scolor>
+  </wallpaper>
+</wallpapers>
