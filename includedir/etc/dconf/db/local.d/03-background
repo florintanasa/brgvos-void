@@ -1,7 +1,7 @@
 [org/gnome/desktop/background]
 color-shading-type='solid'
 picture-options='zoom'
-picture-uri='file:///usr/share/backgrounds/Fluent-building-light.jpg'
-picture-uri-dark='file:///usr/share/backgrounds/Fluent-building-night.jpg'
+picture-uri='file:///usr/share/backgrounds/gnome/fluent-l.jpg'
+picture-uri-dark='file:///usr/share/backgrounds/gnome/fluent-d.jpg'
 primary-color='#000000000000'
 secondary-color='#000000000000'
