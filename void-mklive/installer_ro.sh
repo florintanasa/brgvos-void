@@ -1205,7 +1205,7 @@ log_and_count() {
 copy_rootfs() {
     local tar_in="--create --one-file-system --xattrs"
     TITLE="Verificați $LOG pentru detalii ..."
-    INFOBOX "Numărăm fișierele, vă rugăm să aveți răbdare ..." 4 60
+    INFOBOX "Pregătim fișierele, vă rugăm să aveți răbdare ..." 4 60
     copy_total=$(tar ${tar_in} -v -f /dev/null / 2>/dev/null | wc -l)
     export copy_total copy_count=0 copy_progress=
     clear
