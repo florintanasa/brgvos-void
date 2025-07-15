@@ -1,0 +1,9 @@
+[org/gnome/shell/weather]
+automatic-location=true
+locations=[<(uint32 2, <('Suceava / Salcea', 'LRSV', false, [(0.83164938857529791, 0.45814892864851153)], @a(dd) [])>)>]
+
+[org/gnome/Weather]
+locations=[<(uint32 2, <('Suceava / Salcea', 'LRSV', false, [(0.83164938857529791, 0.45814892864851153)], @a(dd) [])>)>]
+window-height=494
+window-maximized=false
+window-width=670
