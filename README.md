@@ -10,3 +10,5 @@ BRGV-OS is based by Void Linux, is a custom Void Linux based distribution.
 After that, if everythink works, we find the iso image is in directory `void-mklive`
 
 The work is progress..
+
+<!-- https://github.com/scopatz/nanorc -->
