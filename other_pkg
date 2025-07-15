@@ -11,5 +11,12 @@ gparted
 vsv 
 python3-pipx 
 curl 
+wget 
 zip 
 ocean-sound-theme
+bash-completion
+spice-vdagent
+xf86-video-qxl
+firefox-i18n-ro
+gtk-engine-murrine
+gnome-themes-extra-gtk
