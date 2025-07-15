@@ -1,0 +1,6 @@
+[org/gnome/desktop/screensaver]
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/gnome/fluent-l.jpg'
+primary-color='#ff0000'
+secondary-color='#00ffff'
