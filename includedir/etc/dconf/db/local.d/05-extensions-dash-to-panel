@@ -2,7 +2,7 @@
 animate-appicon-hover=false
 animate-appicon-hover-animation-extent={'RIPPLE': 4, 'PLANK': 4, 'SIMPLE': 1}
 appicon-margin=0
-appicon-padding=8
+appicon-padding=6
 appicon-style='NORMAL'
 available-monitors=[0]
 dot-color-dominant=true
