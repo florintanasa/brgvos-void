@@ -19,6 +19,7 @@ linux_version=$(cat ../linux_version)
 title=$(cat ../title)
 kernel_arg=$(cat ../kernel_arg)
 other_pkg=$(cat ../other_pkg)
+service=$(cat ../services)
 
 # run void linux script to build iso file image with our distribution
 sudo ./mkiso.sh \
@@ -32,6 +33,7 @@ sudo ./mkiso.sh \
 -T $title \
 -C "$kernel_arg" \
 -p "$other_pkg" \
+-S "$service" \
 -o $title'_'$variant'_'$locale'_'$arch'_'$data.iso \
 -I ../includedir
 
