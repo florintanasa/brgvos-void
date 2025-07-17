@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=OctoXBPS Notifier
+Icon=octopi
+Exec=bash -c "sleep 10 && /usr/bin/octoxbps-notifier"
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;
+#NotShowIn=GNOME;XFCE;LXDE;KDE;
+StartupNotify=true
+X-LXQt-Need-Tray=true
