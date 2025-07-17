@@ -43,7 +43,10 @@ freefont-ttf
 hunspell-ro_RO 
 hyphen-ro 
 manpages-ro 
-evolution
+evolution 
+rhythmbox 
+shotwell 
+gvfs-smb 
 xtools 
 mtools 
 ntfs-3g 
@@ -75,3 +78,7 @@ tlp-rdw
 powertop 
 socklog-void 
 octoxbps 
+btop 
+git 
+base-devel 
+meson 
