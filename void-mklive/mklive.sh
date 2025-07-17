@@ -731,6 +731,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tiling-assistantleleat-on-github.v52.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/appindicatorsupportrgcjonas.gmail.com.v60.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/loc@brgvos.com.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/noti-bottom-right@brgvos.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/switcher@brgvos.zip
@@ -748,6 +749,7 @@ if [ "$VARIANT" = gnome ]; then
     #chroot "$ROOTFS" unzip -q /tmp/extensions/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip -d /usr/share/gnome-shell/extensions/
     #chroot "$ROOTFS" unzip -q /tmp/extensions/tiling-assistantleleat-on-github.v52.shell-extension.zip -d /usr/share/gnome-shell/extensions/
     #chroot "$ROOTFS" unzip -q /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip -d /usr/share/gnome-shell/extensions/
+    #chroot "$ROOTFS" unzip -q /tmp/extensions/appindicatorsupportrgcjonas.gmail.com.v60.shell-extension.zip -d /usr/share/gnome-shell/extensions/
 
     # work also but crash mklive because can't unmount the dev and proc remain accesated by dbus
     #chroot "$ROOTFS" gext -F install blur-my-shell@aunetx
@@ -769,6 +771,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/loc@brgvos.com  /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/noti-bottom-right@brgvos  /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/switcher@brgvos  /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com /usr/share/gnome-shell/extensions/
     
     # create directory schemas for extensions 
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
@@ -783,6 +786,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
@@ -800,6 +804,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
@@ -835,6 +840,9 @@ if [ "$VARIANT" = gnome ]; then
 
     # update dconf settings for extensions
     chroot "$ROOTFS" dconf update
+
+    # setup flathub
+    chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
     sleep 10
 fi
