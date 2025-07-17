@@ -1,0 +1,7 @@
+bluetoothd 
+cupsd 
+cronie 
+tlp 
+socklog-unix 
+nanoklogd 
+spice-vdagentd
