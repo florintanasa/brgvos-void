@@ -18,7 +18,9 @@ wget
 zip 
 7zip 
 ocean-sound-theme
-bash-completion
+bash-completion 
+openjdk17-jre 
+openjdk17 
 spice-vdagent
 xf86-video-qxl
 firefox-i18n-ro
@@ -80,5 +82,5 @@ socklog-void
 octoxbps 
 btop 
 git 
-base-devel 
-meson 
+adwaita-qt 
+adwaita-qt6 
