@@ -822,7 +822,7 @@ set_bootloader() {
 
     # Check if it's an EFI system via efivars module.
     if [ -n "$EFI_SYSTEM" ]; then
-        grub_args="--target=$EFI_TARGET --efi-directory=/boot/efi --bootloader-id=void_grub --recheck"
+        grub_args="--target=$EFI_TARGET --efi-directory=/boot/efi --bootloader-id=brgvos_grub --recheck"
     fi
     echo "Se instalează grub $grub_args $dev..." >$LOG
     chroot $TARGETDIR grub-install $grub_args $dev >$LOG 2>&1
@@ -831,6 +831,10 @@ set_bootloader() {
 instalarea GRUB a eșuat $dev!\nVerificați $LOG pentru erori." ${MSGBOXSIZE}
         DIE 1
     fi
+    echo "Pregătesc Logo-ul și denumirea în meniul grub $TARGETDIR..." >$LOG
+    chroot $TARGETDIR sed -i 's+#GRUB_BACKGROUND=/usr/share/void-artwork/splash.png+GRUB_BACKGROUND=/usr/share/brgvos-artwork/splash.png+g' /etc/default/grub >$LOG 2>&1
+    chroot $TARGETDIR sed -i 's/GRUB_DISTRIBUTOR="Void"/GRUB_DISTRIBUTOR="BRGV-OS"/g' /etc/default/grub >$LOG 2>&1
+    chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=4"/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=4 quiet splash"/g' /etc/default/grub >$LOG 2>&1
     echo "Rularea grub-mkconfig pe $TARGETDIR..." >$LOG
     chroot $TARGETDIR grub-mkconfig -o /boot/grub/grub.cfg >$LOG 2>&1
     if [ $? -ne 0 ]; then
@@ -855,7 +859,7 @@ test_network() {
         return 1
     fi
     if [ "$1" = "nm" ]; then
-        DIALOG --msgbox "Managerul de rețea este activat, dar rețeaua este inaccesibilă. Vă rugăm să îl configurați extern cu nmcli, nmtui sau applet-ul Manager de rețea din bara de instrumente." ${MSGBOXSIZE}
+        DIALOG --msgbox "Managerul de rețea este activat, dar rețeaua este inaccesibilă. Vă rugăm să configurați extern cu nmcli, nmtui sau applet-ul Manager de rețea din bara de instrumente." ${MSGBOXSIZE}
     else
         DIALOG --msgbox "Rețeaua este inaccesibilă, vă rugăm să o configurați corect." ${MSGBOXSIZE}
     fi
@@ -1587,7 +1591,7 @@ menu() {
 }
 
 if ! command -v dialog >/dev/null; then
-    echo "ERROR: missing dialog command, exiting..."
+    echo "EROARE: comandă dialog lipsă, se închide..."
     exit 1
 fi
 
@@ -1600,8 +1604,8 @@ fi
 # main()
 #
 DIALOG --title "${BOLD}${RED} Să începem ... ${RESET}" --msgbox "\n
-Bun venit la instalarea Void Linux. O instalare simplă și minimalistă a \
-distribuție Linux realizată de la zero și construită din arborele de pachete sursă \
+Bun venit la instalarea BRGV-OS. O instalare simplă și minimalistă a \
+distribuție Linux ce se bazează pe munca celor de la Void Linux și construită din arborele de pachete sursă \
 disponibil pentru XBPS, un nou sistem alternativ de pachete binare..\n\n
 Instalarea ar trebui să fie destul de simplă." 16 80
 
