@@ -294,7 +294,7 @@ menuentry "${entrytitle}" --id "${id}" ${hotkey:+--hotkey $hotkey} {
     linux (\${voidlive})/boot/${KERNEL_IMG} \\
         root=live:CDLABEL=VOID_LIVE ro init=/sbin/init \\
         rd.luks=0 rd.md=0 rd.dm=0 loglevel=4 gpt add_efi_memmap \\
-        vconsole.unicode=1 vconsole.keymap=${KEYMAP} locale.LANG=${LOCALE} ${cmdline}
+        vconsole.unicode=1 vconsole.keymap=${KEYMAP} locale.LANG=${LOCALE} ${cmdline} quiet splash
     initrd (\${voidlive})/boot/initrd
 EOF
         if [ -n "${dtb}" ]; then
@@ -731,10 +731,12 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/openweather-extensionpenguin-teal.github.io.v18.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tiling-assistantleleat-on-github.v52.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dingrastersoft.com.v76.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/appindicatorsupportrgcjonas.gmail.com.v60.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/loc@brgvos.com.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/noti-bottom-right@brgvos.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/switcher@brgvos.zip
+
 
     # install extensions second version but is intercative
     #chroot "$ROOTFS" unzip -q /tmp/extensions/arcmenuarcmenu.com.v66.shell-extension.zip -d /usr/share/gnome-shell/extensions/
@@ -768,10 +770,11 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com  /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/ding@rastersoft.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/loc@brgvos.com  /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/noti-bottom-right@brgvos  /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/switcher@brgvos  /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com /usr/share/gnome-shell/extensions/
     
     # create directory schemas for extensions 
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
@@ -787,6 +790,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
@@ -805,6 +809,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
@@ -843,6 +848,9 @@ if [ "$VARIANT" = gnome ]; then
 
     # setup flathub
     chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+    # set plymouth theme for BRGV-OS
+    chroot "$ROOTFS" plymouth-set-default-theme -R brgvos
 
     sleep 10
 fi
