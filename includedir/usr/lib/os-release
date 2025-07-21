@@ -1,0 +1,9 @@
+NAME="BRGV-OS"
+ID="void"
+PRETTY_NAME="BRGV-OS Linux"
+HOME_URL="https://github.com/florintanasa/brgvos-void"
+DOCUMENTATION_URL="https://docs.voidlinux.org/"
+LOGO="brgvos-logo"
+ANSI_COLOR="0;38;2;71;128;97"
+
+DISTRIB_ID="void"
