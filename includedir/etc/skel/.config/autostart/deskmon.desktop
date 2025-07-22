@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Descmon
+Icon=octopi
+Exec=bash -c "sleep 10 && $HOME/.local/bin/deskmon"
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;
+#NotShowIn=GNOME;XFCE;LXDE;KDE;
+StartupNotify=true
+X-LXQt-Need-Tray=true
