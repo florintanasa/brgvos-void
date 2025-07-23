@@ -35,24 +35,40 @@ sudo xbps-install -S <name_package>
 ```
 
 Using `nix` packages manager:
-```bash 
+```bash
+# install nix packages manager
 sudo xbps-install -S nix
+# enable the nix service
 sudo ln -s /etc/sv/nix-daemon /var/service/
+# start the nix service
 sudo sv up nix-daemon
+# check the states of the services
 sudo vsv
+# load the profile without logout-login
 source /etc/profile
+# add the channels
 nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
 nix-channel --add https://nixos.org/channels/nixos-25.05 nixpkgs
+# update the chanels
 nix-channel --update
+# check the list with channels 
 nix-channel --list
+# create soft link to applications to be loaded on menu
 ln -s "$HOME/.nix-profile/share/applications" "$HOME/.local/share/applications/nix-env"
+# example to install - pgmodeler
 nix-env -iA nixpkgs.pgmodeler
+# start the application
 pgmodeler
 ```
 
-Using 'flatpak':
-...
+Using `flatpak`:
+We can search the applications on https://flathub.org/ and then we can install manualy:
 
+```bash
+flatpak install flathub org.gnome.gitlab.somas.Apostrophe
+```
+
+or we can use `gnome-software` Application Gui.
 
 ## License
 
