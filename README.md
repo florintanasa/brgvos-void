@@ -26,7 +26,7 @@ Next video is a example...
 [<img src="https://img.youtube.com/vi/QVdH_dGIyOQ/maxresdefault.jpg" width="400" height="280"
 />](https://www.youtube.com/embed/QVdH_dGIyOQ)
 
-## Hoe to install applications
+## How to install applications
 
 Using `xbs` packages manager:
 
