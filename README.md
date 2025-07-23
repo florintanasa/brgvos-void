@@ -8,7 +8,7 @@ It is suggested to use Void Linux or other based by this distribution.
 To build the iso image is necessary to use a Void Linux distribution where we run next commands:  
 
 > [!IMPORTANT]  
-> In this moment the build is for romanian language only but with few modifications can be buildid for antohers.
+> In this moment the build is for romanian language only, but with few modifications can be buildid for antohers.
 
 ```bash
 git clone https://github.com/florintanasa/brgvos-void.git
