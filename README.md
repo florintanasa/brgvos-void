@@ -26,6 +26,33 @@ Next video is a example...
 [<img src="https://img.youtube.com/vi/QVdH_dGIyOQ/maxresdefault.jpg" width="400" height="280"
 />](https://www.youtube.com/embed/QVdH_dGIyOQ)
 
+## Hoe to install applications
+
+Using `xbs` packages manager:
+
+```bash
+sudo xbps-install -S <name_package>
+```
+
+Using `nix` packages manager:
+```bash 
+sudo xbps-install -S nix
+sudo ln -s /etc/sv/nix-daemon /var/service/
+sudo sv up nix-daemon
+sudo vsv
+source /etc/profile
+nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
+nix-channel --add https://nixos.org/channels/nixos-25.05 nixpkgs
+nix-channel --update
+nix-channel --list
+ln -s "$HOME/.nix-profile/share/applications" "$HOME/.local/share/applications/nix-env"
+nix-env -iA nixpkgs.pgmodeler
+pgmodeler
+```
+
+Using 'flatpak':
+...
+
 
 ## License
 
