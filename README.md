@@ -96,6 +96,6 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE
 
 The open-source software included in **BRGV-OS** is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**.
 
-The work is progress..
+The work is in progress..
 
 <!-- https://github.com/scopatz/nanorc -->
