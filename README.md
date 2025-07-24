@@ -1,6 +1,13 @@
 # BRGV-OS
 
 BRGV-OS is a custom [Void Linux](https://voidlinux.org/) based distribution that aims to facilitate developers and users to transitioning from Windows to Linux by maintaining familiar operational habits and workflows.
+|                     Theme Light                                     |                         Theme Dark                               |
+|:-------------------------------------------------------------------:|:----------------------------------------------------------------:|
+|![BRGV-OS Light](./screenshots/screeshot_1.png "BRGV-OS Light Theme")|![BRGV-OS Dark](./screenshots/screenshot_1_dark.png "BRGV-OS Dark Theme")|
+
+|                                                        |                                                        |
+|:------------------------------------------------------:|:------------------------------------------------------:|
+|![BRGV-OS 1](./screenshots/screenshot_2.png "BRGV-OS 1")|![BRGV-OS 2](./screenshots/screenshot_3.png "BRGV-OS 2")|
 
 ## How to build
 
@@ -20,7 +27,7 @@ After that, if everythink works, we find the iso image is in directory `void-mkl
 
 ISO file can be downloaded from [here](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) 
 
-Test ISO file result in virtual machine.
+Test the result of ISO file in virtual machine.
 Next video is a example...  
 
 [<img src="https://img.youtube.com/vi/QVdH_dGIyOQ/maxresdefault.jpg" width="400" height="280"
@@ -30,9 +37,27 @@ Next video is a example...
 
 Using `xbs` packages manager:
 
+* in console:
+
 ```bash
 sudo xbps-install -S <name_package>
 ```
+
+* or the GUI - OctoXBPS
+
+Using `flatpak`:
+We can search the applications on https://flathub.org/ and then we can install manualy:
+
+```bash
+flatpak install flathub org.gnome.gitlab.somas.Apostrophe
+```
+
+or we can use `gnome-software` Application Gui.
+
+|                        OctoXBPS                             |                        Applications                           |
+|:-----------------------------------------------------------:|:-------------------------------------------------------------:|
+|![octoXBPS](./screenshots/screenshot_octoxbps.png "octoXBPS")|![Aplications](./screenshots/screenshot_app.png "Applications")|
+
 
 Using `nix` packages manager:
 ```bash
@@ -53,22 +78,15 @@ nix-channel --add https://nixos.org/channels/nixos-25.05 nixpkgs
 nix-channel --update
 # check the list with channels 
 nix-channel --list
-# create soft link to applications to be loaded on menu
-ln -s "$HOME/.nix-profile/share/applications" "$HOME/.local/share/applications/nix-env"
+# add the dir were is nix application in .bash_profile
+echo 'export XDG_DATA_DIRS="$HOME/.nix-profile/share:$XDG_DATA_DIRS"' >> ~/.bash_profile
 # example to install - pgmodeler
 nix-env -iA nixpkgs.pgmodeler
 # start the application
 pgmodeler
 ```
 
-Using `flatpak`:
-We can search the applications on https://flathub.org/ and then we can install manualy:
 
-```bash
-flatpak install flathub org.gnome.gitlab.somas.Apostrophe
-```
-
-or we can use `gnome-software` Application Gui.
 
 ## License
 
