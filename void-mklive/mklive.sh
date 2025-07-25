@@ -733,6 +733,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dingrastersoft.com.v76.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/appindicatorsupportrgcjonas.gmail.com.v60.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/accent-directoriestaiwbi.com.v15.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/loc@brgvos.com.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/noti-bottom-right@brgvos.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/switcher@brgvos.zip
@@ -772,6 +773,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com  /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/ding@rastersoft.com /usr/share/gnome-shell/extensions/
+    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/accent-directories@taiwbi.com /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/loc@brgvos.com  /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/noti-bottom-right@brgvos  /usr/share/gnome-shell/extensions/
     chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/switcher@brgvos  /usr/share/gnome-shell/extensions/
@@ -791,6 +793,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas
+    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/accent-directories@taiwbi.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
     chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
@@ -810,6 +813,7 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas
+    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/accent-directories@taiwbi.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/loc@brgvos.com/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/noti-bottom-right@brgvos/schemas
     chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/switcher@brgvos/schemas
