@@ -44,21 +44,38 @@ export default class AccentDirsPreferences extends ExtensionPreferences {
         });
         page.add(ThemeGroup);
         // Get available user shell themes
-        const userThemes = this._getAvailableUserThemes();
+        const userThemesLight = this._getAvailableUserThemes();
+        const userThemesDark = this._getAvailableUserThemes();
         // Create dropdown for each accent color
-        const accentColors = [
+        const accentColorsLight = [
             'blue', 'teal', 'green', 'yellow',
             'orange', 'red', 'pink', 'purple', 'slate'
         ];
-        accentColors.forEach(color => {
+        const accentColorsDark = [
+            'blue', 'teal', 'green', 'yellow',
+            'orange', 'red', 'pink', 'purple', 'slate'
+        ];
+        accentColorsLight.forEach(color => {
             const row = new Adw.ComboRow({
                 title: _(color.charAt(0).toUpperCase() + color.slice(1)),
-                model: this._createUserThemeModel(userThemes),
-                selected: this._getSelectedIndex(preferences, color, userThemes)
+                model: this._createUserThemeModel(userThemesLight),
+                selected: this._getSelectedIndexLight(preferences, color, userThemesLight)
             });
             row.connect('notify::selected', () => {
-                const selected = userThemes[row.selected];
-                preferences.set_string(`${color}-theme`, selected);
+                const selected = userThemesLight[row.selected];
+                preferences.set_string(`${color}-theme-light`, selected);
+            });
+            ThemeGroup.add(row);
+        });
+        accentColorsDark.forEach(color => {
+            const row = new Adw.ComboRow({
+                title: _(color.charAt(0).toUpperCase() + color.slice(1)),
+                model: this._createUserThemeModel(userThemesDark),
+                selected: this._getSelectedIndexDark(preferences, color, userThemesDark)
+            });
+            row.connect('notify::selected', () => {
+                const selected = userThemesDark[row.selected];
+                preferences.set_string(`${color}-theme-dark`, selected);
             });
             ThemeGroup.add(row);
         });
@@ -96,8 +113,13 @@ export default class AccentDirsPreferences extends ExtensionPreferences {
     _createUserThemeModel(themes) {
         return new Gtk.StringList({ strings: themes });
     }
-    _getSelectedIndex(preferences, color, themes) {
-        const savedTheme = preferences.get_string(`${color}-theme`);
+    _getSelectedIndexLight(preferences, color, themes) {
+        const savedTheme = preferences.get_string(`${color}-theme-light`);
+        const theme = savedTheme;
+        return Math.max(0, themes.indexOf(theme));
+    }
+    _getSelectedIndexDark(preferences, color, themes) {
+        const savedTheme = preferences.get_string(`${color}-theme-dark`);
         const theme = savedTheme;
         return Math.max(0, themes.indexOf(theme));
     }
