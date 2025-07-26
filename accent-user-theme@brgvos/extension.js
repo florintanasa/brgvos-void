@@ -35,15 +35,15 @@ export default class AccentColorUserThemeExtension extends Extension {
         });
         // Initializing user shell themes
         this.userThemes = Object.values({
-            blue: "Fluent-round",
-            teal: "Fluent-round-teal",
-            green: "Fluent-round-green",
-            yellow: "Fluent-round-yellow",
-            orange: "Fluent-round-orange",
-            red: "Fluent-round-red",
-            pink: "Fluent-round-pink",
-            purple: "Fluent-round-purple",
-            slate: "Fluent-round-grey",
+            blue: "Fluent-round-Light",
+            teal: "Fluent-round-teal-Light",
+            green: "Fluent-round-green-Light",
+            yellow: "Fluent-round-yellow-Light",
+            orange: "Fluent-round-orange-Light",
+            red: "Fluent-round-red-Light",
+            pink: "Fluent-round-pink-Light",
+            purple: "Fluent-round-purple-Light",
+            slate: "Fluent-round-grey-Light",
         });
         // Get Preferences
         this._preferences = this.getSettings();
