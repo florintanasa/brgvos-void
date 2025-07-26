@@ -22,8 +22,10 @@ export default class AccentColorUserThemeExtension extends Extension {
     _usettings;
     _preferences;
     _accentColorChangedId = 0;
+    _colorSchemeChangedId = 0;
     _customThemeChangedId = 0;
-    userThemes = Object.values({});
+    userThemesLight = Object.values({});
+    userThemesDark = Object.values({});
     enable() {
         // Get the interface settings
         this._settings = new Gio.Settings({
@@ -34,7 +36,7 @@ export default class AccentColorUserThemeExtension extends Extension {
             schema: "org.gnome.shell.extensions.user-theme",
         });
         // Initializing user shell themes
-        this.userThemes = Object.values({
+        this.userThemesLight = Object.values({
             blue: "Fluent-round-Light",
             teal: "Fluent-round-teal-Light",
             green: "Fluent-round-green-Light",
@@ -45,10 +47,23 @@ export default class AccentColorUserThemeExtension extends Extension {
             purple: "Fluent-round-purple-Light",
             slate: "Fluent-round-grey-Light",
         });
+        this.userThemesDark = Object.values({
+            blue: "Fluent-round-Dark",
+            teal: "Fluent-round-teal-Dark",
+            green: "Fluent-round-green-Dark",
+            yellow: "Fluent-round-yellow-Dark",
+            orange: "Fluent-round-orange-Dark",
+            red: "Fluent-round-red-Dark",
+            pink: "Fluent-round-pink-Dark",
+            purple: "Fluent-round-purple-Dark",
+            slate: "Fluent-round-grey-Dark",
+        });
         // Get Preferences
         this._preferences = this.getSettings();
         // Connect to accent color changes
         this._accentColorChangedId = this._settings.connect("changed::accent-color", this._onAccentColorChanged.bind(this));
+        // Connect to color scheme changes
+        this._colorSchemeChangedId = this._settings.connect("changed::color-scheme", this._onAccentColorChanged.bind(this));
         // Initial theme update
         this._onAccentColorChanged();
     }
@@ -63,7 +78,8 @@ export default class AccentColorUserThemeExtension extends Extension {
             this._customThemeChangedId = 0;
         }
         // Clear the userThemes array
-        this.userThemes = [];
+        this.userThemesLight = [];
+        this.userThemesDark = [];
         // Optionally reset to default user shell theme - Adwaita
         this._setUserTheme("Adwaita");
         // Null out settings
@@ -72,14 +88,29 @@ export default class AccentColorUserThemeExtension extends Extension {
         this._preferences = null;
     }
     _onAccentColorChanged() {
-        // Get the current accent color
-        const accentColor = this._settings?.get_string("accent-color") ?? "blue";
-        // Get custom theme from preferences
-        const customTheme = this._preferences?.get_string(`${accentColor}-theme`);
-        // Get the corresponding user shell theme or default to Adwaita
-        const userTheme = customTheme || "Adwaita";
-        // Set the user shell theme
-        this._setUserTheme(userTheme);
+        if(this._settings?.get_string("color-scheme") === 'prefer-dark')
+        {
+            // Get the current accent color
+            const accentColor = this._settings?.get_string("accent-color") ?? "blue";
+            // Get custom theme from preferences
+            const customTheme = this._preferences?.get_string(`${accentColor}-theme-dark`);
+            // Get the corresponding user shell theme or default to Adwaita
+            const userTheme = customTheme || "Adwaita";
+            // Set the user shell theme
+            this._setUserTheme(userTheme);
+        }
+        else
+        {
+            // Get the current accent color
+            const accentColor = this._settings?.get_string("accent-color") ?? "blue";
+            // Get custom theme from preferences
+            const customTheme = this._preferences?.get_string(`${accentColor}-theme-light`);
+            // Get the corresponding user shell theme or default to Adwaita
+            const userTheme = customTheme || "Adwaita";
+            // Set the user shell theme
+            this._setUserTheme(userTheme);            
+        }
+
     }
     _setUserTheme(themeName) {
         // Set the user shell theme
