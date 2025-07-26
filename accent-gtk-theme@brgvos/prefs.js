@@ -44,21 +44,38 @@ export default class AccentDirsPreferences extends ExtensionPreferences {
         });
         page.add(ThemeGroup);
         // Get available gtk themes
-        const gtkThemes = this._getAvailableGtkThemes();
+        const gtkThemesLight = this._getAvailableGtkThemes();
+        const gtkThemesDark = this._getAvailableGtkThemes();
         // Create dropdown for each accent color
-        const accentColors = [
+        const accentColorsLight = [
             'blue', 'teal', 'green', 'yellow',
             'orange', 'red', 'pink', 'purple', 'slate'
         ];
-        accentColors.forEach(color => {
+        const accentColorsDark = [
+            'blue', 'teal', 'green', 'yellow',
+            'orange', 'red', 'pink', 'purple', 'slate'
+        ];
+        accentColorsLight.forEach(color => {
             const row = new Adw.ComboRow({
                 title: _(color.charAt(0).toUpperCase() + color.slice(1)),
-                model: this._createGtkThemeModel(gtkThemes),
-                selected: this._getSelectedIndex(preferences, color, gtkThemes)
+                model: this._createGtkThemeModel(gtkThemesLight),
+                selected: this._getSelectedIndexLight(preferences, color, gtkThemesLight)
             });
             row.connect('notify::selected', () => {
-                const selected = gtkThemes[row.selected];
-                preferences.set_string(`${color}-theme`, selected);
+                const selected = gtkThemesLight[row.selected];
+                preferences.set_string(`${color}-theme-light`, selected);
+            });
+            ThemeGroup.add(row);
+        });
+        accentColorsDark.forEach(color => {
+            const row = new Adw.ComboRow({
+                title: _(color.charAt(0).toUpperCase() + color.slice(1)),
+                model: this._createGtkThemeModel(gtkThemesDark),
+                selected: this._getSelectedIndexDark(preferences, color, gtkThemesDark)
+            });
+            row.connect('notify::selected', () => {
+                const selected = gtkThemesDark[row.selected];
+                preferences.set_string(`${color}-theme-dark`, selected);
             });
             ThemeGroup.add(row);
         });
@@ -96,8 +113,13 @@ export default class AccentDirsPreferences extends ExtensionPreferences {
     _createGtkThemeModel(themes) {
         return new Gtk.StringList({ strings: themes });
     }
-    _getSelectedIndex(preferences, color, themes) {
-        const savedTheme = preferences.get_string(`${color}-theme`);
+    _getSelectedIndexLight(preferences, color, themes) {
+        const savedTheme = preferences.get_string(`${color}-theme-light`);
+        const theme = savedTheme;
+        return Math.max(0, themes.indexOf(theme));
+    }
+    _getSelectedIndexDark(preferences, color, themes) {
+        const savedTheme = preferences.get_string(`${color}-theme-dark`);
         const theme = savedTheme;
         return Math.max(0, themes.indexOf(theme));
     }
