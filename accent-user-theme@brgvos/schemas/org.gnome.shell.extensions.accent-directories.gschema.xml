@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="accent-color-user-theme-extension">
+    <schema id="org.gnome.shell.extensions.accent-user-theme"
+            path="/org/gnome/shell/extensions/accent-user-theme/">
+        <key type="b" name="change-app-colors">
+            <default>true</default>
+            <summary>Whether to change user shell theme based on accent color</summary>
+            <description>Enables or disables changing user shell theme based on accent color</description>
+        </key>
+        
+        <!-- Add keys for custom themes -->
+        <key type="s" name="blue-theme">
+            <default>"Fluent-round"</default>
+            <summary>Custom user theme for blue accent</summary>
+        </key>
+        <key type="s" name="teal-theme">
+            <default>"Fluent-round-teal"</default>
+            <summary>Custom user theme for teal accent</summary>
+        </key>
+        <key type="s" name="green-theme">
+            <default>"Fluent-round-green"</default>
+            <summary>Custom user theme for green accent</summary>
+        </key>
+        <key type="s" name="yellow-theme">
+            <default>"Fluent-round-yellow"</default>
+            <summary>Custom user theme for yellow accent</summary>
+        </key>
+        <key type="s" name="orange-theme">
+            <default>"Fluent-round-orange"</default>
+            <summary>Custom user theme for orange accent</summary>
+        </key>
+        <key type="s" name="red-theme">
+            <default>"Fluent-round-red"</default>
+            <summary>Custom user theme for red accent</summary>
+        </key>
+        <key type="s" name="pink-theme">
+            <default>"Fluent-round-pink"</default>
+            <summary>Custom user theme for pink accent</summary>
+        </key>
+        <key type="s" name="purple-theme">
+            <default>"Fluent-round-purple"</default>
+            <summary>Custom user theme for purple accent</summary>
+        </key>
+        <key type="s" name="slate-theme">
+            <default>"Fluent-round-grey"</default>
+            <summary>Custom user theme for slate accent</summary>
+        </key>
+    </schema>
+</schemalist>
