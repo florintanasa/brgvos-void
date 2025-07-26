@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="accent-color-icon-theme-extension">
+<schemalist gettext-domain="accent-color-gtk-theme-extension">
     <schema id="org.gnome.shell.extensions.accent-gtk-theme"
             path="/org/gnome/shell/extensions/accent-gtk-theme/">
         <key type="b" name="change-app-colors">
@@ -11,39 +11,39 @@
         <!-- Add keys for custom themes -->
         <key type="s" name="blue-theme">
             <default>"Fluent-round"</default>
-            <summary>Custom icon theme for blue accent</summary>
+            <summary>Custom gtk theme for blue accent</summary>
         </key>
         <key type="s" name="teal-theme">
             <default>"Fluent-round-teal"</default>
-            <summary>Custom icon theme for teal accent</summary>
+            <summary>Custom gtk theme for teal accent</summary>
         </key>
         <key type="s" name="green-theme">
             <default>"Fluent-round-green"</default>
-            <summary>Custom icon theme for green accent</summary>
+            <summary>Custom gtk theme for green accent</summary>
         </key>
         <key type="s" name="yellow-theme">
             <default>"Fluent-round-yellow"</default>
-            <summary>Custom icon theme for yellow accent</summary>
+            <summary>Custom gtk theme for yellow accent</summary>
         </key>
         <key type="s" name="orange-theme">
             <default>"Fluent-round-orange"</default>
-            <summary>Custom icon theme for orange accent</summary>
+            <summary>Custom gtk theme for orange accent</summary>
         </key>
         <key type="s" name="red-theme">
             <default>"Fluent-round-red"</default>
-            <summary>Custom icon theme for red accent</summary>
+            <summary>Custom gtk theme for red accent</summary>
         </key>
         <key type="s" name="pink-theme">
             <default>"Fluent-round-pink"</default>
-            <summary>Custom icon theme for pink accent</summary>
+            <summary>Custom gtk theme for pink accent</summary>
         </key>
         <key type="s" name="purple-theme">
             <default>"Fluent-round-purple"</default>
-            <summary>Custom icon theme for purple accent</summary>
+            <summary>Custom gtk theme for purple accent</summary>
         </key>
         <key type="s" name="slate-theme">
             <default>"Fluent-round-grey"</default>
-            <summary>Custom icon theme for slate accent</summary>
+            <summary>Custom gtk theme for slate accent</summary>
         </key>
     </schema>
 </schemalist>
