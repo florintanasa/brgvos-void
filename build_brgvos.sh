@@ -32,6 +32,16 @@ linux_version=$(cat ../linux_version)
 title=$(cat ../title)
 service=$(cat ../services)
 
+
+# Prepare variables for Romanian language
+if [ "$locale" = zh_TW.UTF-8 ]; then
+    info_msg "Prepare variables for Romanian language"
+    other_pkg=$(cat ../other_pkg)
+    other_pkg+=$(cat ../override/locale/zh_TW/other_pkg_zh_TW)
+    kernel_arg=$(cat ../override/locale/zh_TW/kernel_arg_zh_TW)
+    cp ../override/locale/zh_TW/includedir/etc/dconf/db/local.d/01-input-sources ../includedir/etc/dconf/db/local.d/01-input-sources
+fi
+
 # Prepare variables for Romanian language
 if [ "$locale" = ro_RO.UTF-8 ]; then
     info_msg "Prepare variables for Romanian language"
@@ -115,6 +125,10 @@ if [ "$locale" = en_US.UTF-8 ]; then
     sed -i "s/'name': 'Accessories'/'name': 'Accesorii'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
     sed -i "s/'name': 'Themes settings'/'name': 'Setări teme'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
     sed -i "s/sources=\[('xkb', 'us'), ('xkb', 'ro')]\s*/sources=[('xkb', 'ro'), ('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources
+fi
+
+if [ "$locale" = zh_TW.UTF-8 ]; then
+	cp ../override/locale/ro/includedir/etc/dconf/db/local.d/01-input-sources ../includedir/etc/dconf/db/local.d/01-input-sources
 fi
 
 # Change back the owner for includedir and iso directories

@@ -1,0 +1,14 @@
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'ro'), ('xkb', 'us')]
+xkb-options=@as []
+mru-sources=[('xkb', 'us')]
+
+[org/gnome/desktop/peripherals/keyboard]
+numlock-state=true
+
+[org/gnome/desktop/peripherals/mouse]
+accel-profile='flat'
+speed=0.0
+
+[org/gnome/desktop/peripherals/touchpad]
+two-finger-scrolling-enabled=true

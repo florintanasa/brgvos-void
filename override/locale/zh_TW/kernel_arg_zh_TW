@@ -1,0 +1,1 @@
+live.user=brgvos live.autologin live.shell=/bin/bash console=ttyS0 vconsole.keymap=us locale.LANG=zh_TW.UTF-8 quiet splash
