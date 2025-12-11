@@ -2853,8 +2853,8 @@ menu() {
       "UserAccount" "Setați numele de utilizator și parola" \
       "BootLoader" "Setați discul pentru instalarea bootloader-ului" \
       "Partition" "Partiționați discul(-rile)" \
-      "Raid" "Raid software" \
       "LVM&LUKS" "Configurați LVM și/sau criptarea cu LUKS" \
+      "Raid" "Raid software" \
       "Filesystems" "Configurați sistemul de fișiere și punctele de montare" \
       "Install" "Porniți instalarea cu setările realizate" \
       "Exit" "Ieșiți din mediul de instalare"
@@ -2875,8 +2875,8 @@ menu() {
       "UserAccount" "Setați numele de utilizator și parola" \
       "BootLoader" "Setați discul pentru instalarea bootloader-ului" \
       "Partition" "Partiționați discul(-rile)" \
-      "Raid" "Raid software" \
       "LVM&LUKS" "Configurați LVM și/sau criptarea cu LUKS" \
+      "Raid" "Raid software" \
       "Filesystems" "Configurați sistemul de fișiere și punctele de montare" \
       "Install" "Porniți instalarea cu setările realizate" \
       "Exit" "Ieșiți din mediul de instalare"
@@ -2904,13 +2904,13 @@ menu() {
   "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] \
     && DEFITEM="BootLoader";;
   "BootLoader") menu_bootloader && [ -n "$BOOTLOADER_DONE" ] && DEFITEM="Partition";;
-  "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="Raid";;
-  "Raid") menu_raid && [ -n "$RAID_DONE" ] && DEFITEM="LVM&LUKS";;
-  "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Filesystems";;
+  "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="LVM&LUKS";;
+  "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Raid";;
+  "Raid") menu_raid && [ -n "$RAID_DONE" ] && DEFITEM="Filesystems";;
   "Filesystems") menu_filesystems && [ -n "$FILESYSTEMS_DONE" ] && DEFITEM="Install";;
   "Install") menu_install;;
   "Exit") DIE;;
-  *) DIALOG --yesno "Anulați instalarea?" ${YESNOSIZE} && DIE
+  *) DIALOG --yes-label "Da" --no-label "Nu" --yesno "${RED}Anulați instalarea?${RESET}" ${YESNOSIZE} && DIE
   esac
 }
 
