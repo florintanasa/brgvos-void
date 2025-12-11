@@ -1117,7 +1117,7 @@ ${BOLD}${MAGENTA}RAID ${RED}60 ${YELLOW}(Dublă Paritate + Stripare)${RESET}\n
     if [ "$_raid" -ge 0 ]; then
       while true; do
         DIALOG --ok-label "Select" --cancel-label "Gata" --extra-button --extra-label "Anulează" \
-          --title " Select partition(s) for raid" --menu "$MENULABEL" \
+          --title " Selectați partițiile pentru RAID $_raid " --menu "$MENULABEL" \
           ${MENUSIZE} $(show_partitions_filtered "$_dev")
         rv=$?
         if [ "$rv" = 0 ]; then # Check if user press Select button
@@ -1170,7 +1170,7 @@ monitor_progress() {
   local mdadm_pid=$mdadm_pid
   local last_perc=0
   local written=0
-  TITLE="Progres pentru scriere zero"
+  TITLE="Progres pentru scrierea cu zero"
   GAUGE "Începerea procesului…" 10 70 0 &
   local dlg_pid=$!
   while :; do
