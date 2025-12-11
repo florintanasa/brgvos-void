@@ -2854,8 +2854,8 @@ menu() {
       "UserAccount" "Set primary user name and password" \
       "BootLoader" "Set disk to install bootloader" \
       "Partition" "Partition disk(s)" \
-      "Raid" "Raid software" \
       "LVM&LUKS" "Set LVM and crypto LUKS" \
+      "Raid" "Raid software" \
       "Filesystems" "Configure filesystems and mount points" \
       "Install" "Start installation with saved settings" \
       "Exit" "Exit installation"
@@ -2876,8 +2876,8 @@ menu() {
       "UserAccount" "Set primary user name and password" \
       "BootLoader" "Set disk to install bootloader" \
       "Partition" "Partition disk(s)" \
-      "Raid" "Raid software" \
       "LVM&LUKS" "Set LVM and crypto LUKS" \
+      "Raid" "Raid software" \
       "Filesystems" "Configure filesystems and mount points" \
       "Install" "Start installation with saved settings" \
       "Exit" "Exit installation"
@@ -2905,13 +2905,13 @@ menu() {
   "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] \
     && DEFITEM="BootLoader";;
   "BootLoader") menu_bootloader && [ -n "$BOOTLOADER_DONE" ] && DEFITEM="Partition";;
-  "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="Raid";;
-  "Raid") menu_raid && [ -n "$RAID_DONE" ] && DEFITEM="LVM&LUKS";;
-  "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Filesystems";;
+  "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="LVM&LUKS";;
+  "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Raid";;
+  "Raid") menu_raid && [ -n "$RAID_DONE" ] && DEFITEM="Filesystems";;
   "Filesystems") menu_filesystems && [ -n "$FILESYSTEMS_DONE" ] && DEFITEM="Install";;
   "Install") menu_install;;
   "Exit") DIE;;
-  *) DIALOG --yesno "Abort Installation?" ${YESNOSIZE} && DIE
+  *) DIALOG --yesno "${RED}Abort Installation?${RESET}" ${YESNOSIZE} && DIE
   esac
 }
 
