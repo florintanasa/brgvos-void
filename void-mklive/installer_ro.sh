@@ -285,7 +285,7 @@ WIDGET_SIZE="10 70"
 DIALOG() {
   rm -f $ANSWER
   dialog --colors --keep-tite --no-shadow --no-mouse \
-    --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+    --backtitle "${BOLD}${WHITE}BRGV-OS instalare Linux -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
     --cancel-label "Înapoi" --aspect 20 "$@" 2>$ANSWER
   return $?
 }
@@ -293,8 +293,15 @@ DIALOG() {
 INFOBOX() {
   # Note: dialog --infobox and --keep-tite don't work together
   dialog --colors --no-shadow --no-mouse \
-    --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+    --backtitle "${BOLD}${WHITE}BRGV-OS instalare Linux -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
     --title "${TITLE}" --aspect 20 --infobox "$@"
+}
+
+GAUGE() {
+  # Note: dialog --infobox and --keep-tite don't work together
+  dialog --colors --no-shadow --no-mouse \
+    --backtitle "${BOLD}${WHITE}BRGV-OS instalare Linux -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+    --title "${TITLE}" --aspect 20 --gauge "$@"
 }
 
 # Function used for clean exit from script
