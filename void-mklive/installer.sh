@@ -2108,8 +2108,28 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
         DIE 1
       fi
     # Check if was mounted HDD or SSD
+    # For LVM on RAID on LUKS
+    if $(lvs --noheadings|while read -r lvname vgname perms size; do
+      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev" &&
+      lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q md) &&
+      $(cat /proc/mdstat | grep $(basename $(lvdisplay -m $dev | awk '/^    Physical volume/ {print $3}')) | grep -q dm); then
+      # Get the name of RAID
+      md=$(lvdisplay -m $dev | awk '/^    Physical volume/ {print $3}'| grep md)
+      # Get encrypt devices from the RAID
+      dm=$(mdadm --detail $md | awk '{print $8}' | grep /dev/dm)
+      echo -e "For LVM+RAID+LUKS are used RAID: ${bold}$md${reset} with encrypted blocks:\n${bold}$dm${reset}" >>"$LOG"
+      disk_name=$(lsblk -ndo pkname "$(for s in /sys/block/$(basename "$dm")/slaves/*; do
+        echo "/dev/${s##*/}"
+      done)")
+      # Read every line from disk_name into matrices
+      mapfile -t _map <<< "$disk_name"
+      mapfile -t _dm <<< "$dm"
+      echo "Determine type of disk for ${bold}${_map[0]}${reset} used for block ${bold}${_dm[0]}${reset}" >>"$LOG"
+      # Get first element from matrices
+      # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
+      disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
     # For LVM on LUKS
-    if lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q crypt; then
+    elif lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q crypt; then
       disk_name=$(lsblk -ndo pkname $(
         for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
           dm=$(basename "$(readlink -f "$pv")")
@@ -2292,8 +2312,28 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
     fi
     # Check if was mounted HDD or SSD
     echo "For device ${bold}$dev${reset}" >>"$LOG"
+    # For LVM on RAID on LUKS
+    if $(lvs --noheadings|while read -r lvname vgname perms size; do
+      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev" &&
+      lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q md) &&
+      $(cat /proc/mdstat | grep $(basename $(lvdisplay -m $dev | awk '/^    Physical volume/ {print $3}')) | grep -q dm); then
+      # Get the name of RAID
+      md=$(lvdisplay -m $dev | awk '/^    Physical volume/ {print $3}'| grep md)
+      # Get encrypt devices from the RAID
+      dm=$(mdadm --detail $md | awk '{print $8}' | grep /dev/dm)
+      echo -e "For LVM+RAID+LUKS are used RAID: ${bold}$md${reset} with encrypted blocks:\n${bold}$dm${reset}" >>"$LOG"
+      disk_name=$(lsblk -ndo pkname "$(for s in /sys/block/$(basename "$dm")/slaves/*; do
+        echo "/dev/${s##*/}"
+          done)")
+      # Read every line from disk_name into matrices
+      mapfile -t _map <<< "$disk_name"
+      mapfile -t _dm <<< "$dm"
+      echo "Determine type of disk for ${bold}${_map[0]}${reset} used for block ${bold}${_dm[0]}${reset}" >>"$LOG"
+      # Get first element from matrices
+      # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
+      disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
     # For LVM on LUKS
-    if lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q crypt; then
+    elif lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q crypt; then
       disk_name=$(lsblk -ndo pkname $(
         for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
           dm=$(basename "$(readlink -f "$pv")")
