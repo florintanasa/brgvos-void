@@ -1016,7 +1016,7 @@ ${BOLD}${RED}AVERTISMENT:\n
 Când o partiție este adăugată la un array RAID existent, datele de pe acea partiție se pierd deoarece subsistemul RAID
 zero‑ează dispozitivul înainte de a-l încorpora.\n
 Partiţia ${BLUE}'/boot/efi' ${RED}din configuraţia RAID are opţiunea ${BLUE}'noauto' ${RED}în
-${BLUE}'/etc/fstab'${RED}, deci nu este montată automat la pornire. Montaţi‑o manual numai când este necesar (de ex., înainte
+${BLUE}'/etc/fstab'${RED}, deci nu este montată automat la pornire. Montaţi‑o manual când este necesar (de ex., înainte
 de a rula update, dracut etc.).${RESET}
 \n
 \n
@@ -1610,7 +1610,7 @@ menu_useraccount() {
     _groups="wheel,audio,video,floppy,cdrom,optical,kvm,users,xbuilder"
   fi
   while true; do
-    _desc="Selectați apartenența la grupuri pentru utilizator '$(get_option USERLOGIN)':"
+    _desc="Selectați apartenența la grupuri pentru utilizatorul '$(get_option USERLOGIN)':"
     for _group in $(cat /etc/group); do
       _gid="$(echo ${_group} | cut -d: -f3)"
       _group="$(echo ${_group} | cut -d: -f1)"
@@ -2505,7 +2505,7 @@ log_and_count() {
     if [ "$progress" != "$copy_progress" ]; then
       whole=$((progress / 10))
       tenth=$((progress % 10))
-      printf "Progres: %d.%d%% (%d of %d files)\n" $whole $tenth $copy_count $copy_total
+      printf "Progres: %d.%d%% (%d din %d de fișiere)\n" $whole $tenth $copy_count $copy_total
       copy_progress=$progress
     fi
   done
