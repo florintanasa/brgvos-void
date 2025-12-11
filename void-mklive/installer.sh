@@ -297,6 +297,13 @@ INFOBOX() {
     --title "${TITLE}" --aspect 20 --infobox "$@"
 }
 
+GAUGE() {
+  # Note: dialog --infobox and --keep-tite don't work together
+  dialog --colors --no-shadow --no-mouse \
+    --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+    --title "${TITLE}" --aspect 20 --gauge "$@"
+}
+
 # Function used for clean exit from script
 DIE() {
   # Define some variable local
@@ -1137,6 +1144,74 @@ ${BOLD}${MAGENTA}RAID ${RED}60 ${YELLOW}(Double Parity + Stripe)${RESET}\n
   fi
 }
 
+#  Function to calculate total capacity, out used on set_raid function
+calculate_total_capacity() {
+  local -a devs=("$@")
+  local total=0 size
+  for d in "${devs[@]}"; do
+    size=$(blockdev --getsize64 "$d")
+    total=$((total + size))
+  done
+  echo $((total / 1024))          # transform in KB
+}
+
+# Function to monitor progress for --write-zeroes
+#  $1 – total capacity in KB - calculated by function calculate_total_capacity
+#  $2 – device name for RAID (ex: md0)
+#  $3 - RAID type (ex: 5)
+#  $@ – Devices list
+monitor_progress() {
+  local total_kb=$1
+  local md_name=$2
+  local _raid=$3
+  shift 3
+  local -a devs=("$@")
+  # PID of mdadm launch by set_raid function
+  local mdadm_pid=$mdadm_pid
+  local last_perc=0
+  local written=0
+  TITLE="Progress for writing zero"
+  GAUGE "Start of the process…" 10 70 0 &
+  local dlg_pid=$!
+  while :; do
+    local cur_written=0
+    for d in "${devs[@]}"; do
+      if [[ -b "$d" ]]; then
+        # iostat with -dk, jump the header and take col 7 (KB written)
+        local kb
+        kb=$(iostat -dk "$d" 1 1 | tail -n +4 | awk '{print $7}' | head -n1)
+        [[ -z $kb ]] && kb=0
+        cur_written=$((cur_written + kb))
+      fi
+    done
+    written=$cur_written
+    # Percent calcul
+    local perc=0
+    (( total_kb > 0 )) && perc=$((written * 100 / total_kb))
+    # Check the RAID status from /proc/mdstat
+    local status=$(grep "md${_index}" /proc/mdstat)
+    if echo "$status" | grep -q "active"; then
+      echo "Complete zeroing!" >> "$LOG"
+      perc=100
+    fi
+    # Refresh gauge dialog only if percentage is changed
+    if (( perc != last_perc )); then
+      last_perc=$perc
+      echo "$perc" | GAUGE "RAID $_raid: $md_name\nTotal capacity to write zero: ${total_kb}KB\nWritten: ${written}KB" 10 70
+    fi
+
+    # Out from function when the mdadm command is closed
+    if ! ps -p $mdadm_pid > /dev/null; then
+      echo "The mdadm command is finished." >> "$LOG"
+      break
+    fi
+    # Wait 1s
+    sleep 1
+  done
+  # Kill dialog using PID at the final
+  kill "$dlg_pid" 2>/dev/null
+}
+
 # Function to create raid software with loaded parameters from saved configure file
 set_raid() {
   # Define some local variables
@@ -1161,26 +1236,84 @@ set_raid() {
           set -- $_raidpv; mdadm --create --verbose /dev/md${_index} --level=0 --homehost="$_hostname" \
             --raid-devices="$_raidnbdev" "$@"
         else
-          set -- $_raidpv; mdadm --create --verbose /dev/md${_index} --level=0 --write-zeroes --homehost="$_hostname" \
-          --raid-devices="$_raidnbdev" "$@"
+          set -- $_raidpv;
+          mdadm --create --verbose /dev/md${_index} --level=0 --write-zeroes --homehost="$_hostname" \
+                --raid-devices="$_raidnbdev" "$@" &> /dev/null &
+          mdadm_pid=$!
+          set -- $_raidpv;
+          # Call the function calculate_total_capacity with parameters (list of partitions) and assign the result
+          total_kb=$(calculate_total_capacity "$@")
+          set -- $_raidpv;
+          # Call the function with parameters
+          monitor_progress "$total_kb" "md${_index}" "$_raid" "$@"
         fi
       elif [ "$_raid" -eq 1 ]; then
-        set -- $_raidpv; mdadm --create --verbose /dev/md${_index} --level=1 --write-zeroes --homehost="$_hostname" \
-        --bitmap='internal' --metadata=1.2 --raid-devices="$_raidnbdev" "$@"
+        set -- $_raidpv;
+        #mdadm --create --verbose /dev/md${_index} --level=1 --write-zeroes --homehost="$_hostname" \
+        #--bitmap='internal' --metadata=1.2 --raid-devices="$_raidnbdev" "$@"
+        mdadm --create --verbose /dev/md${_index} --level=1 --write-zeroes --homehost="$_hostname" \
+          --bitmap='internal' --metadata=1.2 --raid-devices="$_raidnbdev" "$@" &> /dev/null &
+        mdadm_pid=$!
+        set -- $_raidpv;
+        # Call the function calculate_total_capacity with parameters (list of partitions) and assign the result
+        total_kb=$(calculate_total_capacity "$@")
+        set -- $_raidpv;
+        # Call the function with parameters
+        monitor_progress "$total_kb" "md${_index}" "$_raid" "$@"
       elif [ "$_raid" -eq 4 ]; then
-        set -- $_raidpv; mdadm --create --verbose /dev/md${_index} --level=4 --write-zeroes --homehost="$_hostname" \
-        --bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        set -- $_raidpv;
+        #mdadm --create --verbose /dev/md${_index} --level=4 --write-zeroes --homehost="$_hostname" \
+        #--bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        mdadm --create --verbose /dev/md${_index} --level=4 --write-zeroes --homehost="$_hostname" \
+          --bitmap='internal' --raid-devices="$_raidnbdev" "$@" &> /dev/null &
+        mdadm_pid=$!
+        set -- $_raidpv;
+        # Call the function calculate_total_capacity with parameters (list of partitions) and assign the result
+        total_kb=$(calculate_total_capacity "$@")
+        set -- $_raidpv;
+        # Call the function with parameters
+        monitor_progress "$total_kb" "md${_index}" "$_raid" "$@"
       elif [ "$_raid" -eq 5 ]; then
-        set -- $_raidpv; mdadm --create --verbose /dev/md${_index} --level=5 --write-zeroes --homehost="$_hostname" \
-        --bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        set -- $_raidpv;
+        #mdadm --create --verbose /dev/md${_index} --level=5 --write-zeroes --homehost="$_hostname" \
+        #--bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        mdadm --create --verbose /dev/md${_index} --level=5 --write-zeroes --homehost="$_hostname" \
+          --bitmap='internal' --raid-devices="$_raidnbdev" "$@" &> /dev/null &
+        mdadm_pid=$!
+        set -- $_raidpv;
+        # Call the function calculate_total_capacity with parameters (list of partitions) and assign the result
+        total_kb=$(calculate_total_capacity "$@")
+        set -- $_raidpv;
+        # Call the function with parameters
+        monitor_progress "$total_kb" "md${_index}" "$_raid" "$@"
       elif [ "$_raid" -eq 6 ]; then
-        set -- $_raidpv; mdadm --create --verbose /dev/md${_index} --level=6 --write-zeroes --homehost="$_hostname" \
-        --bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        set -- $_raidpv;
+        #mdadm --create --verbose /dev/md${_index} --level=6 --write-zeroes --homehost="$_hostname" \
+        #--bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        mdadm --create --verbose /dev/md${_index} --level=6 --write-zeroes --homehost="$_hostname" \
+          --bitmap='internal' --raid-devices="$_raidnbdev" "$@" &> /dev/null &
+        mdadm_pid=$!
+        set -- $_raidpv;
+        # Call the function calculate_total_capacity with parameters (list of partitions) and assign the result
+        total_kb=$(calculate_total_capacity "$@")
+        set -- $_raidpv;
+        # Call the function with parameters
+        monitor_progress "$total_kb" "md${_index}" "$_raid" "$@"
       elif [ "$_raid" -eq 10 ]; then
-        set -- $_raidpv; mdadm --create --verbose /dev/md${_index} --level=10 --write-zeroes --homehost="$_hostname" \
-        --bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        set -- $_raidpv;
+        #mdadm --create --verbose /dev/md${_index} --level=10 --write-zeroes --homehost="$_hostname" \
+        #--bitmap='internal' --raid-devices="$_raidnbdev" "$@"
+        mdadm --create --verbose /dev/md${_index} --level=10 --write-zeroes --homehost="$_hostname" \
+          --bitmap='internal' --raid-devices="$_raidnbdev" "$@" &> /dev/null &
+        mdadm_pid=$!
+        set -- $_raidpv;
+        # Call the function calculate_total_capacity with parameters (list of partitions) and assign the result
+        total_kb=$(calculate_total_capacity "$@")
+        set -- $_raidpv;
+        # Call the function with parameters
+        monitor_progress "$total_kb" "md${_index}" "$_raid" "$@"
       fi
-    } >>"$LOG" 2>&1
+    } #>>"$LOG" 2>&1
     # Prepare config file /etc/mdadm.conf
     _mdadm=$(mdadm --detail --scan)
     echo "$_mdadm" > /etc/mdadm.conf
