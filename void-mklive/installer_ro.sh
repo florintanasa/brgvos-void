@@ -691,7 +691,7 @@ menu_filesystems() {
     else
       mntpoint=swap
     fi
-    DIALOG --yesno "Doriți să realizați un nou tip de sistem de fișiere pentru $dev?" ${YESNOSIZE}
+    DIALOG --yes-label "Da" --no-label "Nu" --yesno "Doriți să realizați un nou tip de sistem de fișiere pentru $dev?" ${YESNOSIZE}
     result=$?
     if [ "$result" -eq 0 ]; then
       reformat=1
@@ -1116,7 +1116,7 @@ ${BOLD}${MAGENTA}RAID ${RED}60 ${YELLOW}(Dublă Paritate + Stripare)${RESET}\n
     # Check if the user select RAID
     if [ "$_raid" -ge 0 ]; then
       while true; do
-        DIALOG --ok-label "Select" --cancel-label "Done" --extra-button --extra-label "Abort" \
+        DIALOG --ok-label "Select" --cancel-label "Gata" --extra-button --extra-label "Anulează" \
           --title " Select partition(s) for raid" --menu "$MENULABEL" \
           ${MENUSIZE} $(show_partitions_filtered "$_dev")
         rv=$?
@@ -1515,7 +1515,7 @@ menu_rootpassword() {
       fi
       if [ -n "${_firstpass}" -a -n "${_secondpass}" ]; then
         if [ "${_firstpass}" != "${_secondpass}" ]; then
-          INFOBOX "Parolele nu se potrivesc! Va trebui să le introduceți din nou." 6 60
+          INFOBOX "${RED}EROARE:${RESET}Parolele nu se potrivesc! Va trebui să le introduceți din nou." 6 60
           unset _firstpass _secondpass _again
           sleep 2 && clear && continue
         fi
@@ -1552,7 +1552,7 @@ menu_useraccount() {
         USERLOGIN_DONE=1
         break
       else
-        INFOBOX "Nume de utilizator nevalid! Va trebui să încercați din nou." 6 60
+        INFOBOX "${RED}EROARE:${RESET}Nume de utilizator nevalid! Va trebui să încercați din nou." 6 60
         unset _userlogin
         sleep 2 && clear && continue
       fi
@@ -1590,7 +1590,7 @@ menu_useraccount() {
       fi
       if [ -n "${_firstpass}" -a -n "${_secondpass}" ]; then
         if [ "${_firstpass}" != "${_secondpass}" ]; then
-          INFOBOX "Parolele nu se potrivesc! Va trebui să le introduceți din nou." 6 60
+          INFOBOX "${RED}EROARE:${RESET}Parolele nu se potrivesc! Va trebui să le introduceți din nou." 6 60
           unset _firstpass _secondpass _again
           sleep 2 && clear && continue
         fi
@@ -1664,7 +1664,7 @@ menu_bootloader() {
     fi
   done
   while true; do
-    DIALOG --yesno "Utilizați un terminal grafic pentru bootloader?" ${YESNOSIZE}
+    DIALOG --yes-label "Da" --no-label "Nu" --yesno "Utilizați un terminal grafic pentru bootloader?" ${YESNOSIZE}
     if [ $? -eq 0 ]; then
       set_option TEXTCONSOLE 0
       break
@@ -1808,7 +1808,7 @@ test_network() {
   if [ "$1" = "nm" ]; then
     DIALOG --msgbox "Managerul de rețea este activat, dar rețeaua este inaccesibilă. Vă rugăm să configurați extern cu nmcli, nmtui sau applet-ul Manager de rețea din bara de instrumente." ${MSGBOXSIZE}
   else
-    DIALOG --msgbox "Rețeaua este inaccesibilă, vă rugăm să o configurați corect." ${MSGBOXSIZE}
+    DIALOG --msgbox "${RED}EROARE:${RESET}Rețeaua este inaccesibilă, vă rugăm să o configurați corect." ${MSGBOXSIZE}
   fi
 }
 
@@ -1827,10 +1827,10 @@ configure_wifi() {
     DIALOG --msgbox "SSID nevalid." ${MSGBOXSIZE}
     return 1
   elif [ -z "$enc" -o "$enc" != "wep" -a "$enc" != "wpa" ]; then
-    DIALOG --msgbox "Tip de criptare nevalid (valori posibile: wep sau wpa)." ${MSGBOXSIZE}
+    DIALOG --msgbox "${RED}EROARE:${RESET}Tip de criptare nevalid (valori posibile: wep sau wpa)." ${MSGBOXSIZE}
     return 1
   elif [ -z "$pass" ]; then
-    DIALOG --msgbox "Parolă incorectă pentru AP" ${MSGBOXSIZE}
+    DIALOG --msgbox "${RED}EROARE:${RESET}Parolă incorectă pentru AP" ${MSGBOXSIZE}
   fi
 
   # reset the configuration to the default, if necessary
@@ -1862,7 +1862,7 @@ EOF
 configure_net() {
   local dev="$1" rval
 
-  DIALOG --yesno "Doriți să utilizați DHCP pentru $dev?" ${YESNOSIZE}
+  DIALOG --yes-label "Da" --no-label "Nu" --yesno "Doriți să utilizați DHCP pentru $dev?" ${YESNOSIZE}
   rval=$?
   if [ $rval -eq 0 ]; then
     configure_net_dhcp $dev
@@ -2626,11 +2626,11 @@ menu_install() {
   BOOTLOADER_DONE="$(get_option BOOTLOADER)"
 
   if [ -z "$ROOTPASSWORD_DONE" ]; then
-    DIALOG --msgbox "${BOLD}Parola de root nu a fost configurată, \
+    DIALOG --msgbox "${BOLD}${RED}EROARE:${RESET}${BOLD}Parola de root nu a fost configurată, \
     vă rugăm să faceți acest lucru înainte de a începe instalarea.${RESET}" ${MSGBOXSIZE}
     return 1
   elif [ -z "$BOOTLOADER_DONE" ]; then
-    DIALOG --msgbox "${BOLD}Discul pentru instalarea bootloader-ului nu a fost \
+    DIALOG --msgbox "${BOLD}${RED}EROARE:${RESET}${BOLD}Discul pentru instalarea bootloader-ului nu a fost \
     configurat, vă rugăm să faceți acest lucru înainte de a începe instalarea.${RESET}" ${MSGBOXSIZE}
     return 1
   fi
@@ -2640,7 +2640,7 @@ menu_install() {
   validate_filesystems || return 1
 
   if [ -z "$FILESYSTEMS_DONE" ]; then
-    DIALOG --msgbox "${BOLD}Sistemele de fișiere necesare nu au fost configurate, \
+    DIALOG --msgbox "${BOLD}${RED}EROARE:${RESET}${BOLD}Sistemele de fișiere necesare nu au fost configurate, \
     vă rugăm să faceți acest lucru înainte de a începe instalarea.${RESET}" ${MSGBOXSIZE}
     return 1
   fi
@@ -2649,13 +2649,13 @@ menu_install() {
   validate_useraccount
 
   if [ -z "$USERACCOUNT_DONE" ]; then
-    DIALOG --yesno "${BOLD}Contul de utilizator nu este configurat corect.${RESET}\n\n
+    DIALOG --yes-label "Da" --no-label "Nu" --yesno "${BOLD}Contul de utilizator nu este configurat corect.${RESET}\n\n
     ${BOLD}${RED}AVERTISMENT: nu va fi creat niciun utilizator. Veți putea să vă conectați \
     doar cu utilizatorul root în noul sistem.${RESET}\n\n
     ${BOLD}Doriți să continuați?${RESET}" 10 60 || return
   fi
 
-  DIALOG --yesno "${BOLD}Următoarele operațiuni vor fi executate:${RESET}\n\n
+  DIALOG --yes-label "Da" --no-label "Nu" --yesno "${BOLD}Următoarele operațiuni vor fi executate:${RESET}\n\n
   ${BOLD}${TARGETFS}${RESET}\n
   ${BOLD}${RED}AVERTISMENT: datele de pe partițiile marcate SISTEM DE FIȘIER NOU vor fi COMPLET DISTRUSE.${RESET}\n\n
   ${BOLD}Doriți să continuați?${RESET}" 20 80 || return
@@ -2793,7 +2793,7 @@ menu_install() {
   umount_filesystems
 
   # installed successfully.
-  DIALOG --yesno "${BOLD}BRGV-OS Linux a fost instalat cu succes!${RESET}\n
+  DIALOG --yes-label "Da" --no-label "Nu" --yesno "${BOLD}${GREEN}BRGV-OS Linux a fost instalat cu succes!${RESET}\n
   Doriți să reporniți sistemul?" ${YESNOSIZE}
   if [ $? -eq 0 ]; then
     shutdown -r now
