@@ -1117,7 +1117,7 @@ ${BOLD}${MAGENTA}RAID ${RED}60 ${YELLOW}(Double Parity + Stripe)${RESET}\n
     if [ "$_raid" -ge 0 ]; then
       while true; do
         DIALOG --ok-label "Select" --cancel-label "Done" --extra-button --extra-label "Abort" \
-          --title " Select partition(s) for raid" --menu "$MENULABEL" \
+          --title " Select partitions for RAID $_raid" --menu "$MENULABEL" \
           ${MENUSIZE} $(show_partitions_filtered "$_dev")
         rv=$?
         if [ "$rv" = 0 ]; then # Check if user press Select button
