@@ -2222,7 +2222,12 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
     else
       disk_name=$(lsblk -ndo pkname "$dev")
       echo "Determine type of disk (SSD/HDD) is used ${bold}$disk_name${reset}" >>"$LOG"
-      disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      if [ -z "$disk_name" ]; then
+        echo "I can't determine the disk_name, so I used defaults mount options for SSD" >>"$LOG"
+        disk_type=0
+      else
+        disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      fi
     fi
     # Prepare options for mount command for HDD or SSD, but first check if is HDD
     if [ "$disk_type" -eq 1 ]; then # So it's HDD
@@ -2424,7 +2429,12 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
     else
       disk_name=$(lsblk -ndo pkname "$dev")
       echo "Determine type of disk (SSD/HDD) is used for ${bold}$disk_name${reset}" >>"$LOG"
-      disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      if [ -z "$disk_name" ]; then
+        echo "I can't determine the disk_name, so I used defaults mount options for SSD" >>"$LOG"
+        disk_type=0
+      else
+        disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      fi
     fi
     # Add entry to target fstab
     uuid=$(blkid -o value -s UUID "$dev")
