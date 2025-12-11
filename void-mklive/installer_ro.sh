@@ -2222,7 +2222,12 @@ create_filesystems() {
     else
       disk_name=$(lsblk -ndo pkname "$dev")
       echo "Determin tipul de disc utilizat (SSD/HDD) pentru ${bold}$disk_name${reset}" >>"$LOG"
-      disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      if [ -z "$disk_name" ]; then
+        echo "Nu pot determina pentru discul disk_name, astfel că am să folosesc implic opțiunile pentru SSD" >>"$LOG"
+        disk_type=0
+      else
+        disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      fi
     fi
     # Prepare options for mount command for HDD or SSD, but first check if is HDD
     if [ "$disk_type" -eq 1 ]; then # So it's HDD
@@ -2424,7 +2429,12 @@ create_filesystems() {
     else
       disk_name=$(lsblk -ndo pkname "$dev")
       echo "Determin tipul de disc utilizat (SSD/HDD) pentru ${bold}$disk_name${reset}" >>"$LOG"
-      disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      if [ -z "$disk_name" ]; then
+        echo "Nu pot determina pentru discul disk_name, astfel că am să folosesc implic opțiunile pentru SSD" >>"$LOG"
+        disk_type=0
+      else
+        disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
+      fi
     fi
     # Add entry to target fstab
     uuid=$(blkid -o value -s UUID "$dev")
