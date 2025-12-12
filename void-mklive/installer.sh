@@ -2128,6 +2128,41 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
       # Get first element from matrices
       # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
+    # For LVM on LUKS on RAID
+    elif lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q crypt &&
+        ls /sys/class/block/$(basename $(readlink -f  /dev/mapper/crypt_0))/slaves/ | grep -q md ; then
+        md=$(
+          for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
+            dm=$(basename "$(readlink -f "$pv")")
+            for s in /sys/class/block/$dm/slaves/*; do
+              echo "/dev/${s##*/}"
+            done
+          done
+        )
+        disk_name=$(for s in /sys/class/block/$(basename "$(readlink -f "$md")")/slaves/*; do
+          _dev=$(basename "$s")
+          if echo $_dev | grep -q md; then
+            for s in /sys/class/block/$_dev/slaves/*; do
+              _dev=$(basename "$s")
+              parent=$(lsblk -ndo pkname /dev/"$_dev")
+              if [ -n "$parent" ]; then
+                echo "$parent"
+              fi
+            done | sort -u
+          else
+            parent=$(lsblk -ndo pkname /dev/"$_dev")
+            if [ -n "$parent" ]; then
+              echo "$parent"
+            fi
+          fi
+        done | sort -u)
+        echo -e "For LVM+LUKS+RAID are used next disks:\n${bold}$disk_name${reset}" >>"$LOG"
+        # Read every line from disk_name into matrices
+        mapfile -t _map <<< "$disk_name"
+        echo "Determine type of disk (SSD/HDD) is used for ${bold}${_map[0]}${reset}" >>"$LOG"
+        # Get first element from matrices
+        # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
+        disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
     # For LVM on LUKS
     elif lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q crypt; then
       disk_name=$(lsblk -ndo pkname $(
@@ -2334,6 +2369,41 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
       mapfile -t _map <<< "$disk_name"
       mapfile -t _dm <<< "$dm"
       echo "Determine type of disk for ${bold}${_map[0]}${reset} used for block ${bold}${_dm[0]}${reset}" >>"$LOG"
+      # Get first element from matrices
+      # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
+      disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
+    # For LVM on LUKS on RAID
+    elif lvdisplay -m $dev 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q crypt &&
+      ls /sys/class/block/$(basename $(readlink -f  /dev/mapper/crypt_0))/slaves/ | grep -q md ; then
+      md=$(
+        for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
+          dm=$(basename "$(readlink -f "$pv")")
+          for s in /sys/class/block/$dm/slaves/*; do
+            echo "/dev/${s##*/}"
+          done
+        done
+      )
+      disk_name=$(for s in /sys/class/block/$(basename "$(readlink -f "$md")")/slaves/*; do
+        _dev=$(basename "$s")
+        if echo $_dev | grep -q md; then
+          for s in /sys/class/block/$_dev/slaves/*; do
+            _dev=$(basename "$s")
+            parent=$(lsblk -ndo pkname /dev/"$_dev")
+            if [ -n "$parent" ]; then
+              echo "$parent"
+            fi
+          done | sort -u
+        else
+          parent=$(lsblk -ndo pkname /dev/"$_dev")
+          if [ -n "$parent" ]; then
+            echo "$parent"
+          fi
+        fi
+      done | sort -u)
+      echo -e "For LVM+LUKS+RAID are used next disks:\n${bold}$disk_name${reset}" >>"$LOG"
+      # Read every line from disk_name into matrices
+      mapfile -t _map <<< "$disk_name"
+      echo "Determine type of disk (SSD/HDD) is used for ${bold}${_map[0]}${reset}" >>"$LOG"
       # Get first element from matrices
       # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
