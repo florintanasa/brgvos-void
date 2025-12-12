@@ -1552,7 +1552,7 @@ menu_useraccount() {
         USERLOGIN_DONE=1
         break
       else
-        INFOBOX "Invalid login name! Please try again." 6 60
+        INFOBOX "${RED}ERROR:${RESET}Invalid login name! Please try again." 6 60
         unset _userlogin
         sleep 2 && clear && continue
       fi
