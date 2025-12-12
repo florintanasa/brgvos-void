@@ -2249,7 +2249,7 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
       echo -e "For RAID are used next disks:\n ${bold}$disk_name${reset}" >>"$LOG"
       # Read every line from disk_name into matrices
       mapfile -t _map <<< "$disk_name"
-      echo "Determin tipul de disc utilizat (SSD/HDD) pentru ${bold}${_map[0]}${reset}" >>"$LOG"
+      echo "Determine type of disk (SSD/HDD) is used for ${bold}${_map[0]}${reset}" >>"$LOG"
       # Get first element from matrices
       # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
