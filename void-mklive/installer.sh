@@ -2303,7 +2303,7 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
           fi
         fi
       done | sort -u)
-      echo -e "For RAID are used next disks:\n ${bold}$disk_name${reset}" >>"$LOG"
+      echo -e "For RAID are used next disks:\n${bold}$disk_name${reset}" >>"$LOG"
       # Read every line from disk_name into matrices
       mapfile -t _map <<< "$disk_name"
       echo "Determine type of disk (SSD/HDD) is used for ${bold}${_map[0]}${reset}" >>"$LOG"
