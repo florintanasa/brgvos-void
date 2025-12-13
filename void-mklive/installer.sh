@@ -926,31 +926,45 @@ set_lvm_luks() {
   # Check if user choose to encrypt the device
   if [ "$_crypt" = 1 ]; then
       PASSPHRASE=$(get_option USERPASSWORD)
-    [ -z "$_index" ] && _index=0  # Initialize an index for unique naming if not exist saved in configure file
+      [ -z "$_index" ] && _index=0  # Initialize an index for unique naming if not exist saved in configure file
       for _device in $_pv; do  # Ensure $_pv contains the correct devices
-        {
-            echo -n "$PASSPHRASE" | cryptsetup luksFormat --type=luks1 "$_device" -d -
-            # Generate a unique name based on the index
-            _crypt_name="crypt_${_index}"
-            echo -n "$PASSPHRASE" | cryptsetup luksOpen "$_device" "$_crypt_name" -d -
-           _cd+="/dev/mapper/$_crypt_name "
-           _cd+=" "
-           _crypts+="${_crypt_name}"
-           _crypts+=" "
-           _index=$((_index + 1))  # Increment the index for the next device
-        } >>"$LOG" 2>&1
-        _devcrypt+=$(for s in /sys/class/block/$(basename "$(readlink -f /dev/mapper/$_crypt_name)")/slaves/*; do echo "/dev/${s##*/}"; done)
-        _devcrypt+=" "
+          {
+              TITLE="Starting encryption..."
+              echo "$TITLE" >>"$LOG"
+              echo -n "$PASSPHRASE" | cryptsetup luksFormat --type=luks1 "$_device" -d - &
+              luks_pid=$! # load PID
+              # Monitor the process with an infobox
+              start_time=$(date +%s)
+              while kill -0 "$luks_pid" 2>/dev/null; do
+                  current_time=$(date +%s)
+                  elapsed=$((current_time - start_time))
+                  echo -ne "Encrypting $_device... Time elapsed: $elapsed seconds\033[0K\r" >>"$LOG"
+                  INFOBOX "Start encrypting ${BOLD}$_device${RESET} ...\nTime elapsed: ${BOLD}$elapsed${RESET} seconds" 4 80
+                  sleep 1
+              done
+              # Wait for the process to finish
+              wait "$luks_pid"
+              # Generate a unique name based on the index
+              _crypt_name="crypt_${_index}"
+              echo -n "$PASSPHRASE" | cryptsetup luksOpen "$_device" "$_crypt_name" -d -
+              _cd+="/dev/mapper/$_crypt_name "
+              _cd+=" "
+              _crypts+="${_crypt_name}"
+              _crypts+=" "
+              _index=$((_index + 1))  # Increment the index for the next device
+          } #>>"$LOG" 2>&1
+          _devcrypt+=$(for s in /sys/class/block/$(basename "$(readlink -f /dev/mapper/$_crypt_name)")/slaves/*; do
+            echo "/dev/${s##*/}"; done)
+          _devcrypt+=" "
       done
-    set_option INDEX "$_index" # save in configure file the last unused index to be used for next set_lvm_luks appellation
-    # Delete last space
-    _cd=$(echo "$_cd"|awk '{$1=$1;print}')
-    #_crypts=$(echo "$_crypts"|awk '{$1=$1;print}')
-    #_devcrypt=$(echo "$_devcrypt"|awk '{$1=$1;print}')
-    set_option CRYPTS "${_crypts}"
-    set_option DEVCRYPT "${_devcrypt}"
-    #export DEVCRYPT="${_devcrypt}"
-    echo "Device(s) ${_devcrypt} was encrypted" >>"$LOG"
+      set_option INDEX "$_index" # Save the last unused index for the next set_lvm_luks appellation
+      # Delete last space
+      _cd=$(echo "$_cd"|awk '{$1=$1;print}')
+      # Save the options in configure file
+      set_option CRYPTS "${_crypts}"
+      set_option DEVCRYPT "${_devcrypt}"
+      # Send the message with job done
+      echo -e "\nDevice(s) ${_devcrypt} is/are encrypted" >>"$LOG"
   fi
   # Check if user choose to use LVM for devices
   if [ "$_lvm" = 1 ]; then
