@@ -2180,6 +2180,31 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
       # Get first element from matrices
       # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
+    # For LVM on RAID
+    elif lvs --noheadings|while read -r lvname vgname perms size; do
+      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev" &&
+      lvdisplay -m "$dev" 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q md; then
+        md=$(
+          for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
+            dm=$(basename "$(readlink -f "$pv")")
+            for s in /sys/class/block/"$dm"/slaves/*; do
+              echo "/dev/${s##*/}"
+            done
+          done
+        )
+        disk_name=$(for s in $md; do
+                      parent=$(lsblk -ndo pkname "$s")
+                        if [ -n "$parent" ]; then
+                          echo "$parent"
+                        fi
+                   done)
+      echo -e "For LVM+RAID are used next disks:\n${bold}$disk_name${reset}" >>"$LOG"
+      # Read every line from disk_name into matrices
+      mapfile -t _map <<< "$disk_name"
+      echo "Determine type of disk (SSD/HDD) is used for ${bold}${_map[0]}${reset}" >>"$LOG"
+      # Get first element from matrices
+      # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
+      disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
     # For RAID on LUKS
     elif [ "$(cat /proc/mdstat | grep "$(basename "$dev")" | awk '{print $1}')" = "$(basename "$dev")" ] &&
       ls -d /dev/mapper/crypt_* 2>/dev/null|grep '[0-9]'| grep -q crypt; then
@@ -2455,6 +2480,31 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
       # Get element from matrices
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
       echo "Determine type of disk (SSD/HDD) is used ${bold}${_map[0]}${reset}" >>"$LOG"
+    # For LVM on RAID
+    elif lvs --noheadings|while read -r lvname vgname perms size; do
+      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev" &&
+      lvdisplay -m "$dev" 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q md; then
+        md=$(
+          for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
+            dm=$(basename "$(readlink -f "$pv")")
+            for s in /sys/class/block/"$dm"/slaves/*; do
+              echo "/dev/${s##*/}"
+            done
+          done
+        )
+        disk_name=$(for s in $md; do
+                      parent=$(lsblk -ndo pkname "$s")
+                        if [ -n "$parent" ]; then
+                          echo "$parent"
+                        fi
+                   done)
+      echo -e "For LVM+RAID are used next disks:\n${bold}$disk_name${reset}" >>"$LOG"
+      # Read every line from disk_name into matrices
+      mapfile -t _map <<< "$disk_name"
+      echo "Determine type of disk (SSD/HDD) is used for ${bold}${_map[0]}${reset}" >>"$LOG"
+      # Get first element from matrices
+      # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
+      disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
     # For RAID on LUKS
     elif [ "$(cat /proc/mdstat | grep "$(basename "$dev")" | awk '{print $1}')" = "$(basename "$dev")" ] &&
       ls -d /dev/mapper/crypt_* 2>/dev/null|grep '[0-9]'| grep -q crypt; then
