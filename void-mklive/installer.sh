@@ -2749,12 +2749,11 @@ log_and_count() {
   while read line; do
     echo "$line" >>$LOG
     copy_count=$((copy_count + 1))
-    progress=$((1000 * copy_count / copy_total))
+    progress=$((100 * copy_count / copy_total))
     if [ "$progress" != "$copy_progress" ]; then
-      whole=$((progress / 10))
-      tenth=$((progress % 10))
-      printf "Progress: %d.%d%% (%d of %d files)\n" $whole $tenth $copy_count $copy_total
       copy_progress=$progress
+      echo $progress | \
+      GAUGE "Copying live image to target rootfs.\n\n    Total files: ${copy_total}\n  Written files: ${copy_count}" 10 80
     fi
   done
 }
@@ -2769,9 +2768,7 @@ copy_rootfs() {
   clear
   tar ${tar_in} -f - / 2>/dev/null | \
     tar --extract --xattrs --xattrs-include='*' --preserve-permissions -v -f - -C $TARGETDIR | \
-    log_and_count | \
-    DIALOG --title "${TITLE}" \
-      --progressbox "Copying live image to target rootfs." 5 80
+    log_and_count
   if [ $? -ne 0 ]; then
     DIE 1
   fi
