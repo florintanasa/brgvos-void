@@ -2180,26 +2180,31 @@ create_filesystems() {
       # Get first element from matrices
       # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
-    # For LVM
+    # For LVM on RAID
     elif lvs --noheadings|while read -r lvname vgname perms size; do
-      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev"; then
-      disk_name=$(lsblk -ndo pkname $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}') | sort -u)
-      echo -e "Pentru LVM sunt utilizate discurile:\n${bold}$disk_name${reset}" >>"$LOG"
+      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev" &&
+      lvdisplay -m "$dev" 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q md; then
+        md=$(
+          for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
+            dm=$(basename "$(readlink -f "$pv")")
+            for s in /sys/class/block/"$dm"/slaves/*; do
+              echo "/dev/${s##*/}"
+            done
+          done
+        )
+        disk_name=$(for s in $md; do
+                      parent=$(lsblk -ndo pkname "$s")
+                        if [ -n "$parent" ]; then
+                          echo "$parent"
+                        fi
+                   done)
+      echo -e "Pentru LVM+RAID sunt utilizate discurile:\n${bold}$disk_name${reset}" >>"$LOG"
       # Read every line from disk_name into matrices
       mapfile -t _map <<< "$disk_name"
       echo "Determin tipul de disc utilizat (SSD/HDD) pentru ${bold}${_map[0]}${reset}" >>"$LOG"
       # Get first element from matrices
       # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
-    # For LUKS
-    elif ls -d /dev/mapper/crypt_* 2>/dev/null|grep '[0-9]'| grep -q "$dev"; then
-      disk_name=$(lsblk -ndo pkname "$(
-        for s in /sys/class/block/"$(basename "$(readlink -f "$dev")")"/slaves/*; do
-          echo "/dev/${s##*/}"
-        done
-      )")
-      echo "Pentru LUKS, determin tipul de disc utilizat (SSD/HDD) pentru ${bold}$disk_name${reset}" >>"$LOG"
-      disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
     # For RAID on LUKS
     elif [ "$(cat /proc/mdstat | grep "$(basename "$dev")" | awk '{print $1}')" = "$(basename "$dev")" ] &&
       ls -d /dev/mapper/crypt_* 2>/dev/null|grep '[0-9]'| grep -q crypt; then
@@ -2423,25 +2428,31 @@ create_filesystems() {
       # Get element from matrices
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
       echo "Determin tipul de disc utilizat (SSD/HDD) pentru ${bold}${_map[0]}${reset}" >>"$LOG"
-    # For LVM
+    # For LVM on RAID
     elif lvs --noheadings|while read -r lvname vgname perms size; do
-      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev"; then
-      disk_name=$(lsblk -ndo pkname $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}') | sort -u)
-      echo "Pentru LVM este utilizat ${bold}$disk_name${reset}" >>"$LOG"
+      echo "/dev/mapper/${vgname}-${lvname}"; done | grep -q "$dev" &&
+      lvdisplay -m "$dev" 2>/dev/null| awk '/^    Physical volume/ {print $3}'| grep -q md; then
+        md=$(
+          for pv in $(lvdisplay -m "$dev" | awk '/^    Physical volume/ {print $3}' | sort -u); do
+            dm=$(basename "$(readlink -f "$pv")")
+            for s in /sys/class/block/"$dm"/slaves/*; do
+              echo "/dev/${s##*/}"
+            done
+          done
+        )
+        disk_name=$(for s in $md; do
+                      parent=$(lsblk -ndo pkname "$s")
+                        if [ -n "$parent" ]; then
+                          echo "$parent"
+                        fi
+                   done)
+      echo -e "Pentru LVM+RAID sunt utilizate discurile:\n${bold}$disk_name${reset}" >>"$LOG"
       # Read every line from disk_name into matrices
       mapfile -t _map <<< "$disk_name"
       echo "Determin tipul de disc utilizat (SSD/HDD) pentru ${bold}${_map[0]}${reset}" >>"$LOG"
-      # Get element from matrices
+      # Get first element from matrices
+      # I take in consideration only first disk (consider all disk are the same type HDD or SSD)
       disk_type=$(cat /sys/block/"${_map[0]}"/queue/rotational)
-    # For LUKS
-    elif ls -d /dev/mapper/crypt_* 2>/dev/null|grep '[0-9]'| grep -q "$dev"; then
-      disk_name=$(lsblk -ndo pkname "$(
-        for s in /sys/class/block/"$(basename "$(readlink -f "$dev")")"/slaves/*; do
-          echo "/dev/${s##*/}"
-        done
-      )")
-      echo -e "Pentru LUKS, determin tipul de disc utilizat (SSD/HDD) pentru:\n${bold}$disk_name${reset}" >>"$LOG"
-      disk_type=$(cat /sys/block/"$disk_name"/queue/rotational)
     # For RAID on LUKS
     elif [ "$(cat /proc/mdstat | grep "$(basename "$dev")" | awk '{print $1}')" = "$(basename "$dev")" ] &&
       ls -d /dev/mapper/crypt_* 2>/dev/null|grep '[0-9]'| grep -q crypt; then
