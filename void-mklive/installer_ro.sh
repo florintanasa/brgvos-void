@@ -2089,6 +2089,7 @@ create_filesystems() {
       ext3) MKFS="mke2fs -F -j"; modprobe ext3 >>"$LOG" 2>&1;;
       ext4) MKFS="mke2fs -F -t ext4"; modprobe ext4 >>"$LOG" 2>&1;;
       f2fs) MKFS="mkfs.f2fs -f"; modprobe f2fs >>"$LOG" 2>&1;;
+      f2fs_c) MKFS="mkfs.f2fs -f -i -O extra_attr,inode_checksum,sb_checksum,compression"; modprobe f2fs >>"$LOG" 2>&1;;
       vfat) MKFS="mkfs.vfat -F32"; modprobe vfat >>"$LOG" 2>&1;;
       xfs) MKFS="mkfs.xfs -f -i sparse=0"; modprobe xfs >>"$LOG" 2>&1;;
       esac
