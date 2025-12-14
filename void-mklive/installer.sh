@@ -2089,6 +2089,7 @@ create_filesystems() {
       ext3) MKFS="mke2fs -F -j"; modprobe ext3 >>"$LOG" 2>&1;;
       ext4) MKFS="mke2fs -F -t ext4"; modprobe ext4 >>"$LOG" 2>&1;;
       f2fs) MKFS="mkfs.f2fs -f"; modprobe f2fs >>"$LOG" 2>&1;;
+      f2fs_c) MKFS="mkfs.f2fs -f -i -O extra_attr,inode_checksum,sb_checksum,compression"; modprobe f2fs >>"$LOG" 2>&1;;
       vfat) MKFS="mkfs.vfat -F32"; modprobe vfat >>"$LOG" 2>&1;;
       xfs) MKFS="mkfs.xfs -f -i sparse=0"; modprobe xfs >>"$LOG" 2>&1;;
       esac
@@ -2106,14 +2107,20 @@ create_filesystems() {
     [ "$mntpt" != "/" ] && continue
     mkdir -p "$TARGETDIR"
       echo "Mounting ${bold}$dev${reset} on ${bold}$mntpt${reset} (${bold}$fstype${reset})..." >>"$LOG"
-      mount -t "$fstype" "$dev" "$TARGETDIR" >>"$LOG" 2>&1
+    if [ "$fstype" != "f2fs_c" ]; then
+        mount -t "$fstype" "$dev" "$TARGETDIR" >>"$LOG" 2>&1
+      else
+        mount -t f2fs -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$dev" "$TARGETDIR" >>"$LOG" 2>&1
+        echo "Run ${bold}chattr -R -V +c $TARGETDIR${reset}" >>"$LOG"
+        chattr -R -V +c "$TARGETDIR"  >>"$LOG" 2>&1
+    fi
     _devcrypt=$(echo "$_devcrypt"|awk '{$1=$1;print}') # delete last space
       if [ -n "${_devcrypt}" ]; then
           ROOTFS="${_devcrypt}"
           echo "For rootfs is used next encrypted device(s) ${bold}${ROOTFS}${reset}" >>"$LOG"
         else
           ROOTFS=$dev
-          echo "For rootfs is used next encrypted device ${bold}$ROOTFS${reset}" >>"$LOG"
+          echo "For rootfs is used next device ${bold}$ROOTFS${reset}" >>"$LOG"
       fi
       rv=$?
       if [ "$rv" -ne 0 ]; then
@@ -2412,9 +2419,15 @@ failed to mount ${BOLD}$dev${RESET} on ${BOLD}${mntpt}${RESET}! check $LOG for e
     dev=$2; fstype=$3; mntpt="$5"
     shift 6
     [ "$mntpt" = "/" ] || [ "$fstype" = "swap" ] && continue
-    mkdir -p ${TARGETDIR}${mntpt}
+    mkdir -p ${TARGETDIR}${mntpt} >>"$LOG" 2>&1
     echo "Mounting ${bold}$dev${reset} on ${bold}$mntpt${reset} ($fstype)..." >>"$LOG"
-    mount -t "$fstype" "$dev" ${TARGETDIR}${mntpt} >>"$LOG" 2>&1
+    if [ "$fstype" != "f2fs_c" ]; then
+         mount -t "$fstype" "$dev" ${TARGETDIR}${mntpt} >>"$LOG" 2>&1
+      else
+        mount -t f2fs -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$dev" ${TARGETDIR}${mntpt} >>"$LOG" 2>&1
+        echo "Run ${bold}chattr -R -V +c $TARGETDIR${reset}" >>"$LOG"
+        chattr -R -V +c ${TARGETDIR}${mntpt}  >>"$LOG" 2>&1
+    fi
     rv=$?
     if [ "$rv" -ne 0 ]; then
       DIALOG --msgbox "${BOLD}${RED}ERROR:${RESET} \
