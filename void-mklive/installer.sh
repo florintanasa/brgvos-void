@@ -672,6 +672,7 @@ menu_filesystems() {
       "ext3" "Linux ext3 (journal)" \
       "ext4" "Linux ext4 (journal)" \
       "f2fs" "Flash-Friendly Filesystem" \
+      "f2fs_c" "Flash-Friendly Filesystem with compression, lazytime" \
       "swap" "Linux swap" \
       "vfat" "FAT32" \
       "xfs" "SGI's XFS"
