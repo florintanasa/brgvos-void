@@ -2107,7 +2107,13 @@ create_filesystems() {
     [ "$mntpt" != "/" ] && continue
     mkdir -p "$TARGETDIR"
       echo "Montez ${bold}$dev${reset} în ${bold}$mntpt${reset} (${bold}$fstype${reset})..." >>"$LOG"
-      mount -t "$fstype" "$dev" "$TARGETDIR" >>"$LOG" 2>&1
+    if [ "$fstype" != "f2fs_c" ]; then
+        mount -t "$fstype" "$dev" "$TARGETDIR" >>"$LOG" 2>&1
+      else
+        mount -t f2fs -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$dev" "$TARGETDIR" >>"$LOG" 2>&1
+        echo "Rulez ${bold}chattr -R -V +c $TARGETDIR${reset}" >>"$LOG"
+        chattr -R -V +c "$TARGETDIR"  >>"$LOG" 2>&1
+    fi
     _devcrypt=$(echo "$_devcrypt"|awk '{$1=$1;print}') # delete last space
       if [ -n "${_devcrypt}" ]; then
           ROOTFS="${_devcrypt}"
@@ -2415,7 +2421,13 @@ create_filesystems() {
     [ "$mntpt" = "/" ] || [ "$fstype" = "swap" ] && continue
     mkdir -p ${TARGETDIR}${mntpt}
     echo "Montez ${bold}$dev${reset} on ${bold}$mntpt${reset} ($fstype)..." >>"$LOG"
-    mount -t "$fstype" "$dev" ${TARGETDIR}${mntpt} >>"$LOG" 2>&1
+    if [ "$fstype" != "f2fs_c" ]; then
+         mount -t "$fstype" "$dev" ${TARGETDIR}${mntpt} >>"$LOG" 2>&1
+      else
+        mount -t f2fs -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$dev" ${TARGETDIR}${mntpt} >>"$LOG" 2>&1
+        echo "Rulez ${bold}chattr -R -V +c $TARGETDIR${reset}" >>"$LOG"
+        chattr -R -V +c ${TARGETDIR}${mntpt}  >>"$LOG" 2>&1
+    fi
     rv=$?
     if [ "$rv" -ne 0 ]; then
       DIALOG --msgbox "${BOLD}${RED}EROARE:${RESET} \
