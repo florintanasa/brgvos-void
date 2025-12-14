@@ -2352,6 +2352,9 @@ create_filesystems() {
         options="defaults,noatime,nodiratime,user_xattr"
       elif [ "$fstype" = "f2fs" ]; then
         options="defaults"
+      elif [ "$fstype" = "f2fs_c" ]; then
+        options="compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime"
+        fstype="f2fs" # to be used on fstab
       fi
       echo "Opțiunile pentru rootfs ${bold}$fstype${reset}, utilizate la montare și în fstab sunt
        ${bold}$options${reset} pentru ${bold}HDD${reset}" >>"$LOG"
@@ -2364,6 +2367,9 @@ create_filesystems() {
         options="defaults,noatime,nodiratime,discard,ssd,user_xattr"
       elif [ "$fstype" = "f2fs" ]; then
         options="defaults"
+      elif [ "$fstype" = "f2fs_c" ]; then
+        options="compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime"
+        fstype="f2fs" # to be used on fstab
       fi
       echo "Opțiunile pentru rootfs ${bold}$fstype${reset}, utilizate la montare și în fstab sunt
        ${bold}$options${reset} pentru ${bold}SSD${reset}" >>"$LOG"
@@ -2391,7 +2397,7 @@ create_filesystems() {
     fi
     # Add entry to target on fstab for /
     uuid=$(blkid -o value -s UUID "$dev")
-    if [ "$fstype" = "f2fs" ] || [ "$fstype" = "btrfs" ] || [ "$fstype" = "xfs" ]; then
+    if [ "$fstype" = "f2fs" ] || [ "$fstype" = "f2fs_c" ] || [ "$fstype" = "btrfs" ] || [ "$fstype" = "xfs" ]; then
       # Not fsck at boot for f2fs, btrfs and xfs these have their check utility
       fspassno=0
     else
@@ -2649,7 +2655,7 @@ create_filesystems() {
     fi
     # Add entry to target fstab
     uuid=$(blkid -o value -s UUID "$dev")
-    if [ "$fstype" = "f2fs" ] || [ "$fstype" = "btrfs" ] || [ "$fstype" = "xfs" ]; then
+    if [ "$fstype" = "f2fs" ] || [ "$fstype" = "f2fs_c" ] || [ "$fstype" = "btrfs" ] || [ "$fstype" = "xfs" ]; then
       fspassno=0 # Not use fsck at boot for f2fs, btrfs and xfs these have their check utility
     elif [ "$mntpt" = "/boot/efi" ]; then
       fspassno=1 # Set to check fsck at boot this device first (to be mounted /boot/efi)
@@ -2666,6 +2672,9 @@ create_filesystems() {
         options="defaults,noatime,nodiratime,user_xattr"
       elif [ "$fstype" = "f2fs" ]; then
         options="defaults"
+      elif [ "$fstype" = "f2fs_c" ]; then
+        options="compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime"
+        fstype="f2fs" # to be used on fstab
       elif [ "$fstype" = "vfat" ]; then
         if [ -n "$_raid" ] && [ "$mntpt" = "/boot/efi" ]; then # Check if was selected RAID and set noauto for /boot/efi for RAID
           options="defaults,noauto"
@@ -2685,6 +2694,9 @@ create_filesystems() {
         options="defaults,noatime,nodiratime,discard,ssd,user_xattr"
       elif [ "$fstype" = "f2fs" ]; then
         options="defaults"
+      elif [ "$fstype" = "f2fs_c" ]; then
+        options="compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime"
+        fstype="f2fs" # to be used on fstab
       elif [ "$fstype" = "vfat" ]; then
         if [ -n "$_raid" ] && [ "$mntpt" = "/boot/efi" ]; then # Check if was selected RAID and set noauto for /boot/efi for RAID
           options="defaults,noauto"
