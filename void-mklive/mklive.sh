@@ -864,65 +864,67 @@ if [ "$VARIANT" = gnome ]; then
     
     # extract MacTahoe icons and MacTahoe cursors
     info_msg "Extract MacTahoe icons and MacTahoe cursors"
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue-light.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/01-MacTahoe.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-cursors.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-dark-cursors.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe.tar.xz -C /usr/share/icons
 
     # extract WhiteSur icons
     info_msg "Extract WhiteSur icons"
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green-light.tar.xz -C /usr/share/icons
+    chroot "$ROOTFS" tar -Jxf /tmp/icons/01-WhiteSur.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow-dark.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow-light.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow-dark.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow-light.tar.xz -C /usr/share/icons
     chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur.tar.xz -C /usr/share/icons
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur.tar.xz -C /usr/share/icons
 
     # extract Fluent themes
     info_msg "Extract Fluent themes"
