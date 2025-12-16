@@ -938,15 +938,15 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-yellow.tar.xz -C /usr/share/themes
     chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round.tar.xz -C /usr/share/themes
 
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-teal.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-green.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-grey.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-orange.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-pink.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-purple.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-red.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-teal.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-yellow.tar.xz -C /usr/share/themes
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent.tar.xz -C /usr/share/themes
 
     # extract MacTahoe themes
     info_msg "Extract MacTahoe themes"
