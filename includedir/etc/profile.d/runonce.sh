@@ -22,4 +22,9 @@ then
     ############################################################
 
 EOF
+    # add install.desktop for user brgos only because after install I delete file install.desktop
+    if [ -e /usr/local/share/applications/install.desktop ]; then
+	mkdir -p $HOME/Desktop
+	cp /usr/local/share/applications/install.desktop $HOME/Desktop
+    fi
 fi
