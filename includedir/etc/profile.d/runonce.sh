@@ -2,12 +2,12 @@
 
 # This file is executed at log in
 
-if [ ! -e $HOME/.runoance ]
+if [ ! -e $HOME/.runonce ]
 then
     flatpak override --user --filesystem=xdg-config/gtk-3.0
     flatpak override --user --filesystem=xdg-config/gtk-4.0
-    touch $HOME/.runoance
-    cat << 'EOF' > $HOME/.runoance
+    touch $HOME/.runonce
+    cat << 'EOF' > $HOME/.runonce
     ############################################################
     ###                                                      ###
     ### This file was created by /etc/profile.d/runoance.sh  ###
