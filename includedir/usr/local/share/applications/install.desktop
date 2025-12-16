@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Install\nBRGV-OS
+Comment=Install BRGV-OS on disk
+Name[ro]=Instalare\nBRGV-OS
+Comment[ro]=Instalare BRGV-OS pe disc
+Icon=brgvos-logo
+Exec=kgx --command='sudo brgvos-installer && kill $PPID'
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;
+StartupNotify=true
+X-LXQt-Need-Tray=false
