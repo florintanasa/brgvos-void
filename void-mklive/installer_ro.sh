@@ -2945,6 +2945,7 @@ menu_install() {
     rm -f $TARGETDIR/etc/motd
     rm -f $TARGETDIR/etc/issue
     rm -f $TARGETDIR/usr/sbin/brgvos-installer
+    rm -f $TARGETDIR/usr/local/share/applications/install.desktop
     # Remove modified sddm.conf to let sddm use the defaults.
     rm -f $TARGETDIR/etc/sddm.conf
     # Remove live user.
