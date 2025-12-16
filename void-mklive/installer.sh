@@ -3208,12 +3208,14 @@ ${BOLD}${MAGENTA}'Void'${RESET}, made from scratch and built from the source pac
 alternative binary package system.\n
 \n
 The installation should be pretty straightforward. If you are in trouble please ask at \
-${BOLD}${YELLOW}https://github.com/florintanasa/brgvos-void/discussions${RESET} or join to ${BOLD}${YELLOW}#voidlinux${RESET} \
-on ${BOLD}${YELLOW}irc.libera.chat${RESET}.\n
+${BOLD}${YELLOW}https://github.com/florintanasa/brgvos-void/discussions${RESET} or join to:\n
+- ${BOLD}${YELLOW}https://voidforums.com${RESET} \n
+- ${BOLD}${YELLOW}#voidlinux${RESET} on ${BOLD}${YELLOW}irc.libera.chat${RESET} \n
+because BRGV-OS is Void spin and technically are not differences.\n
 \n
 More info at:\n
 ${BOLD}${YELLOW}https://github.com/florintanasa/brgvos-void${RESET}\n
-${BOLD}${YELLOW}https://www.voidlinux.org${RESET}\n" 18 80
+${BOLD}${YELLOW}https://www.voidlinux.org${RESET}\n" 20 80
 
 while true; do
   menu
