@@ -1045,7 +1045,8 @@ if [ "$VARIANT" = gnome ]; then
     # set plymouth theme for BRGV-OS
     info_msg "Set plymouth theme for BRGV-OS"
     chroot "$ROOTFS" plymouth-set-default-theme -R brgvos
-
+    
+    # wait 10 seconds to can read
     sleep 10
 fi
 
