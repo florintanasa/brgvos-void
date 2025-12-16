@@ -3206,12 +3206,14 @@ ${BOLD}${MAGENTA}'Void'${RESET}, creată de la zero şi construită din arborele
 sistem alternativ de pachete binare.\n
 \n
 Instalarea ar trebui să fie destul de simplă. Dacă întâmpinaţi probleme, vă rog să întrebaţi la \
-${BOLD}${YELLOW}https://github.com/florintanasa/brgvos-void/discussions${RESET} sau alăturaţi-vă ${BOLD}${YELLOW}#voidlinux${RESET} \
-pe ${BOLD}${YELLOW}irc.libera.chat${RESET}.\n
+${BOLD}${YELLOW}https://github.com/florintanasa/brgvos-void/discussions${RESET} sau alăturaţi-vă la:\n
+- ${BOLD}${YELLOW}https://voidforums.com${RESET} \n
+- ${BOLD}${YELLOW}#voidlinux${RESET} pe ${BOLD}${YELLOW}irc.libera.chat${RESET} \n
+deoarece BRGV-OS este bazată pe Void și tehnic nu există diferențe.\n
 \n
 Mai multe informaţii la:\n
 ${BOLD}${YELLOW}https://github.com/florintanasa/brgvos-void${RESET}\n
-${BOLD}${YELLOW}https://www.voidlinux.org${RESET}\n" 18 80
+${BOLD}${YELLOW}https://www.voidlinux.org${RESET}\n" 20 80
 
 while true; do
   menu
