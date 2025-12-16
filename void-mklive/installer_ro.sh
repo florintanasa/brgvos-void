@@ -672,6 +672,7 @@ menu_filesystems() {
       "ext3" "Linux ext3 (cu jurnalizare)" \
       "ext4" "Linux ext4 (cu jurnalizare)" \
       "f2fs" "Flash-Friendly Filesystem" \
+      "f2fs_c" "Flash-Friendly Filesystem cu opțiuni compression, lazytime" \
       "swap" "Linux swap" \
       "vfat" "FAT32" \
       "xfs" "SGI's XFS"
