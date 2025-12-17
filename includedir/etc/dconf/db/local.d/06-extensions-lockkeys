@@ -1,3 +1,7 @@
 [org/gnome/shell/extensions/lockkeys]
+capslock-indicator='when-active'
+capslock-notification='compact'
 notification-preferences='off'
+numlock-indicator='never'
+numlock-notification='compact'
 style='show-hide-capslock'

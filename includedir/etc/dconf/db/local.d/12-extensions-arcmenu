@@ -12,7 +12,8 @@ force-menu-location='BottomCentered'
 hide-overview-on-startup=true
 left-panel-width=375
 menu-button-appearance='Icon'
-menu-button-icon='Custom_Icon'
+menu-button-icon='/usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/icons/hicolor/16x16/actions/distro-brgv-os-symbolic.svg'
+menu-button-icon-size=42
 menu-button-position-offset=0
 menu-height=650
 menu-layout='Eleven'
@@ -25,7 +26,7 @@ right-panel-width=200
 search-entry-border-radius=(true, 25)
 show-activities-button=false
 update-notifier-enabled=false
-update-notifier-project-version=69
+update-notifier-project-version=70
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/1a14933d-d178-4274-b974-71ba008d07a9]
 pinned-apps=[{'id': 'org.gnome.FileRoller.desktop'}, {'id': 'org.gnome.Calculator.desktop'}, {'id': 'org.gnome.Weather.desktop'}, {'id': 'org.gnome.Snapshot.desktop'}, {'id': 'org.gnome.clocks.desktop'}, {'id': 'org.gnome.Maps.desktop'}]
