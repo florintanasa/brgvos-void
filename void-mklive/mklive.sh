@@ -735,24 +735,24 @@ if [ "$VARIANT" = gnome ]; then
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/accent-icons-themebrgvos.v4.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/accent-user-themebrgvos.v3.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/appindicatorsupportrgcjonas.gmail.com.v61.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/arcmenuarcmenu.com.v69.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/arcmenuarcmenu.com.v70.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/blur-my-shellaunetx.v70.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/caffeinepatapon.info.v58.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/caffeinepatapon.info.v59.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/clipboard-indicatortudmotu.com.v69.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/customize-ibushollowman.ml.v92.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dash-to-dockmicxgx.gmail.com.v102.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dash-to-paneljderose9.github.com.v72.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dingrastersoft.com.v80.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/light-dark-cursor-themebrgvos.v2.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/lockkeysvaina.lt.v63.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/lockkeysvaina.lt.v67.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/logomenuaryan_k.v38.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/mediacontrolscliffniff.github.com.v40.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/mediacontrolscliffniff.github.com.v43.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/radiokayradokaton.com.v7.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/set-notification-positionbrgvos.v3.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/simple-weatherromanlefler.com.v4.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/simple-weatherromanlefler.com.v5.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/space-barluchrioh.v34.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tiling-assistantleleat-on-github.v53.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tilingshellferrarodomenico.com.v59.shell-extension.zip
+    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tilingshellferrarodomenico.com.v61.shell-extension.zip
     chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
 
     # install extensions this was second version but is intercative - I leave as example
