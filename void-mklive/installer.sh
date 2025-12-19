@@ -628,6 +628,7 @@ show_partitions() {
       fstype=$(lsblk -nfr /dev/"$part"|awk '{print $2}')
       [ "$fstype" = "crypto_LUKS" ] && continue
       [ "$fstype" = "LVM2_member" ] && continue
+      echo "$fstype" | grep -q "crypto_LUKS" && echo "$fstype" | grep -q "LVM2_member" && continue # for LVM on RAID on LUKS
       fssize=$(lsblk -nr /dev/"$part"|awk '{print $4}')
       echo "$p"
       echo "size:${fssize:-unknown};fstype:$(get_partfs "$p")"
