@@ -88,7 +88,7 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 >Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
   
 
->Next videos are demos with the last BRGV-OS release:
+>Next videos are demos with the last BRGV-OS release (brgvos-installer v.0.30):
 >
 >|<sub>BRGV-OS on f2fs for /boot<br> and f2fs with compression for /</sub>|<sub>BRGV-OS on ext4 partition</sub>|<sub>BRGV-OS on LUKS<br> full encrypted</sub>|
 >|:-----:|:-----:|:-----:|
