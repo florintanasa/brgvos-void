@@ -60,13 +60,13 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 >The installer has reached version 0.30.  
 > The major change is that, installations can now be performed on partitions encrypted with LUKS and/or organized by LVM or/and into RAID array.  
 >**BRGV-OS** can now be installed on:
-> * Clasical, on partions;
+> * Clasical, on partitions;
 > * LUKS - Full Encrypt mode, where all partitions are encrypted;
 > * LUKS - Not Full Encrypt mode, where the /boot partition is not encrypted;
-> * LVM, where partitions is organizated on volumes group and logical volumes;
-> * RAID, where partitions is organizated on a array RAID 0, 1, 5, 6 or 10;
-> * multi RAID, where partitions is organizated on a arrays multi RAID ( expl. RAID 1 for / and RAID 0 for /home);
-> * nested RAID, where partitions is organizated on a RAID 50 or RAID 60 (expl 2xRAID 5 with RAID 0);
+> * LVM, where partitions is organized on volumes group and logical volumes;
+> * RAID, where partitions is organized on a array RAID 0, 1, 5, 6 or 10;
+> * multi RAID, where partitions is organized on a arrays multi RAID ( expl. RAID 1 for / and RAID 0 for /home);
+> * nested RAID, where partitions is organized on a RAID 50 or RAID 60 (expl 2xRAID 5 with RAID 0);
 > * LVM on RAID;
 > * LVM on LUKS - Full Encrypt mode;
 > * LVM on LUKS - Not Full Encrypt mode;
@@ -79,9 +79,9 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > * RAID on LUKS - Full Encrypt mode;
 > * RAID on LUKS - Not Full Encrypt mode;
 >   
->Linux partitions can be formatted as btrfs with compress option and careated automatically subvolume (@, @home, @var_log, @var_lib and @snapshots), ext4/3/2, xfs, f2fs or f2fs with compress and lazytime options (f2fs is usefully for NAND memory devices like SSD, eMMC, USB etc.)
+>Linux partitions can be formatted as btrfs with compression option and careated automatically subvolume (@, @home, @var_log, @var_lib and @snapshots), ext4/3/2, xfs, f2fs or f2fs with compress and lazytime options (f2fs is usefully for NAND memory devices like SSD, eMMC, USB etc.)
 >  
->Also brgvos-installer detect the disks used for partions are SSD or HDD and prepare options for fstab.
+>Also brgvos-installer detect the disks used for partitions are SSD or HDD and prepare options for fstab.
 >
 >Space need to install BRGV-OS on disk depend by file systems used if is compressed or not, less need btrfs because is used compression option and more needs f2fs with compression, approximate 32GB (Compress in f2fs file system is not the same compression we are know from btrfs, for example, read more on the [article_1](https://wiki.archlinux.org/title/F2FS), [article_2](https://docs.kernel.org/filesystems/f2fs.html#compression-implementation)) 
 >
