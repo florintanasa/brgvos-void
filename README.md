@@ -47,32 +47,75 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > In this moment the build is for ro_RO (Romanian language) and en_US (English USA language) , but with few modifications can be buildid for anothers.  
 > Exist iso images files for: ro_RO.UTF-8 and en_US.UTF-8.  
 > ISO files can be downloaded from:  
-> here [![Download BRGV-OS iso ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08112025_101946.iso/download) for **ro_RO** versions   
+> here [![Download BRGV-OS iso ro_RO version](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_20122025_110755.iso/download) for **ro_RO** versions   
 > or  
-> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08112025_112401.iso/download) for **en_US** version   
+> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_20122025_112057.iso/download) for **en_US** version   
 > and  
 > SHA256 files can be downloaded from:  
-> here [![Download BRGV-OS sha256 ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08112025_101946.sha256/download) for **ro_RO** versions  
+> here [![Download BRGV-OS sha256 ro_RO version](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_20122025_110755.sha256/download) for **ro_RO** versions  
 > or  
-> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08112025_112401.sha256/download) for **en_US** version 
+> here [![Download BRGV-OS sha256 en_US version](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_20122025_112057.sha256/download) for **en_US** version 
     
 > [!NOTE]  
->The installer has reached version 0.29.  
-> The major change is that, installations can now be performed on partitions encrypted with LUKS and/or organized by LVM.  
+>The installer has reached version 0.30.  
+> The major change is that, installations can now be performed on partitions encrypted with LUKS and/or organized by LVM or/and into RAID array.  
 >**BRGV-OS** can now be installed on:
+> * Clasical, on partions;
 > * LUKS - Full Encrypt mode, where all partitions are encrypted;
 > * LUKS - Not Full Encrypt mode, where the /boot partition is not encrypted;
 > * LVM, where partitions is organizated on volumes group and logical volumes;
-> * LVM + LUKS - Full Encrypt mode;
-> * LVM + LUKS - Not Full Encrypt mode;
-> * Clasical, on partions;
-> * Or combinations (Not Full Encrypt is one).   
->
->Partitions can be formatted as btrfs, ext4/3/2, xfs, or f2fs.
+> * RAID, where partitions is organizated on a array RAID 0, 1, 5, 6 or 10;
+> * multi RAID, where partitions is organizated on a arrays multi RAID ( expl. RAID 1 for / and RAID 0 for /home);
+> * nested RAID, where partitions is organizated on a RAID 50 or RAID 60 (expl 2xRAID 5 with RAID 0);
+> * LVM on RAID;
+> * LVM on LUKS - Full Encrypt mode;
+> * LVM on LUKS - Not Full Encrypt mode;
+> * LVM on LUKS on RAID - Full Encrypt mode;
+> * LVM on LUKS on RAID - Not Full Encrypt mode;
+> * LVM on RAID on LUKS - Full Encrypt mode;
+> * LVM on RAID on LUKS - Not Full Encrypt mode;
+> * LUKS on RAID - Full Encrypt mode;
+> * LUKS on RAID - Not Full Encrypt mode;
+> * RAID on LUKS - Full Encrypt mode;
+> * RAID on LUKS - Not Full Encrypt mode;
+>   
+>Linux partitions can be formatted as btrfs with compress option and careated automatically subvolume (@, @home, @var_log, @var_lib and @snapshots), ext4/3/2, xfs, f2fs or f2fs with compress and lazytime options (f2fs is usefully for NAND memory devices like SSD, eMMC, USB etc.)
 >  
->Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
+>Also brgvos-installer detect the disks used for partions are SSD or HDD and prepare options for fstab.
 >
->Next videos are a demo with last BRGV-OS release:
+>Space need to install BRGV-OS on disk depend by file systems used if is compressed or not, less need btrfs because is used compression option and more needs f2fs with compression, approximate 32GB (Compress in f2fs file system is not the same compression we are know from btrfs, for example, read more on the [article_1](https://wiki.archlinux.org/title/F2FS), [article_2](https://docs.kernel.org/filesystems/f2fs.html#compression-implementation)) 
+>
+>Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
+  
+
+>Next videos are demos with old BRGV-OS release:
+>
+>|<sub>BRGV-OS on f2fs for /boot<br> and f2fs with compression for /</sub>|<sub>BRGV-OS on ext4 partition</sub>|<sub>BRGV-OS on LUKS<br> full encrypted</sub>|
+>|:-----:|:-----:|:-----:|
+>|[<img src="https://img.youtube.com/vi/MVFGRUu0l4U/default.jpg" width="250" height="150"/>](https://youtu.be/MVFGRUu0l4U?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/lqNkJYiVOdg/default.jpg" width="250" height="150"/>](https://youtu.be/lqNkJYiVOdg?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/eGeGn1PlMaE/default.jpg" width="250" height="150"/>](https://youtu.be/eGeGn1PlMaE?autoplay=1&mute=1)|
+>
+>|<sub>BRGV-OS on LVM</sub>|<sub>BRGV-OS on LUKS<br>not full encrypted</sub>|<sub>BRGV-OS on multi RAID<br> (1 for / and 0 for /home)</sub>|
+>|:-----:|:-----:|:-----:|
+>|[<img src="https://img.youtube.com/vi/BxnWNKCkgm4/default.jpg" width="250" height="150"/>](https://youtu.be/BxnWNKCkgm4?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/t75vSd_-8rU/default.jpg" width="250" height="150"/>](https://youtu.be/t75vSd_-8rU?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/Ij_Wz8dlawI/default.jpg" width="250" height="150"/>](https://youtu.be/Ij_Wz8dlawI?autoplay=1&mute=1)|
+>  
+>|<sub>BRGV-OS on LVM on LUKS<br>full encrypted mode</sub>|<sub>BRGV-OS on LVM on LUKS<br>not full encrypt</sub>|<sub>BRGV-OS on RAID 10</sub>|
+>|:-----:|:-----:|:-----:|
+>|[<img src="https://img.youtube.com/vi/6r3plQUnhfI/default.jpg" width="250" height="150"/>](https://youtu.be/6r3plQUnhfI?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/d5X1L_dO-LY/default.jpg" width="250" height="150"/>](https://youtu.be/d5X1L_dO-LY?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/D9DJDQDAAEc/default.jpg" width="250" height="150"/>](https://youtu.be/D9DJDQDAAEc?autoplay=1&mute=1)|
+>
+>|<sub>BRGV-OS on nested RAID 50 on LUKS<br>full encrypt mode</sub>|<sub>BRGV-OS on nested RAID 60 on LUKS<br>not full encrypt mode</sub>|<sub>BRGV-OS on LVM on RAID 10 on LUKS<br>not full encrypt</sub>|
+>|:-----:|:-----:|:-----:|
+>|[<img src="https://img.youtube.com/vi/_qtYV_B-U98/default.jpg" width="250" height="150"/>](https://youtu.be/_qtYV_B-U98?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/Be90tRTai8U/default.jpg" width="250" height="150"/>](https://youtu.be/Be90tRTai8U?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/iWlfl5GbRr0/default.jpg" width="250" height="150"/>](https://youtu.be/iWlfl5GbRr0?autoplay=1&mute=1)|
+>
+>|<sub>BRGV-OS on LVM on LUKS on RAID 10<br>not full encrypt mode</sub>|<sub>BRGV-OS on LVM  on RAID 10 on LUKS<br>full encrypt mode</sub>|<sub>BRGV-OS on LVM on LUKS on RAID 10<br>full encrypt mode</sub>|
+>|:-----:|:-----:|:-----:|
+>|[<img src="https://img.youtube.com/vi/xmN5mtRYpws/default.jpg" width="250" height="150"/>](https://youtu.be/xmN5mtRYpws?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/b3wHBfKkYb4/default.jpg" width="250" height="150"/>](https://youtu.be/b3wHBfKkYb4?autoplay=1&mute=1)|[<img src="https://img.youtube.com/vi/x6ykRLSbM9I/default.jpg" width="250" height="150"/>](https://youtu.be/x6ykRLSbM9I?autoplay=1&mute=1)|
+>
+>|<sub>BRGV-OS on LUKS on RAID 10<br>not full encrypt mode</sub>|
+>|:-----:|
+>|[<img src="https://img.youtube.com/vi/8YguTnGS8J8/default.jpg" width="250" height="150"/>](https://youtu.be/8YguTnGS8J8?autoplay=1&mute=1)|
+  
+
+>Next videos are demos for the old BRGV-OS release, but are usefully:
 >|<sub>vg0</br>`sda3`+`sdb1`</syb>|<sub>vg1</br>`sdc1`</sub>|<sub>BRGV-OS installed on</br>not full encrypted mode with LVM</sub>|
 >|:---:|:---:|:---:|
 >|<sub>LVM&LUKS: `LVM`+`LUKS`</br>LVSWAP (GB): `8`</br>LVROTFS (%): `20`</br>LVHOME (%): `60`</br>LVEXTRA-1 (%): `0`</br>LVEXTRA-2 (%): `20`</sub>|<sub>LVM&LUKS: `LVM`+`LUKS`</br>LVSWAP (GB): `0`</br>LVROTFS (%): `0`</br>LVHOME (%): `0`</br>LVEXTRA-1 (%): `100`</br>LVEXTRA-2 (%): `0`</sub>|[<img src="https://img.youtube.com/vi/i-pM3y-Hem0/maxresdefault.jpg" width="250" height="150"/>](https://www.youtube.com/embed/i-pM3y-Hem0?autoplay=1&mute=1)|
