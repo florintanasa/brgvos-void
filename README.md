@@ -57,14 +57,14 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_20122025_112057.sha256/download) for **en_US** version 
     
 > [!NOTE]  
->The installer has reached version 0.30.  
+> The installer has reached version 0.30.  
 > The major change is that, installations can now be performed on partitions encrypted with LUKS and/or organized by LVM or/and into RAID array.  
 >**BRGV-OS** can now be installed on:
 > * Clasical, on partitions;
 > * LUKS - Full Encrypt mode, where all partitions are encrypted;
 > * LUKS - Not Full Encrypt mode, where the /boot partition is not encrypted;
 > * LVM, where partitions is organized on volumes group and logical volumes;
-> * RAID, where partitions is organized on a array RAID 0, 1, 5, 6 or 10;
+> * RAID, where partitions is organized on a array RAID 0, 1, 4, 5, 6 or 10;
 > * multi RAID, where partitions is organized on a arrays multi RAID ( expl. RAID 1 for / and RAID 0 for /home);
 > * nested RAID, where partitions is organized on a RAID 50 or RAID 60 (expl 2xRAID 5 with RAID 0);
 > * LVM on RAID;
