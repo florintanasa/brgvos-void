@@ -1,4 +1,4 @@
-# $\textcolor{cyan}{\textbf {BRGV-OS}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/) ![Rank on https://distrowatch.com](https://img.shields.io/badge/404-0?style=flat&label=Distrowatch)
+# $\textcolor{cyan}{\textbf {BRGV-OS}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/) ![Rank on https://distrowatch.com](https://img.shields.io/badge/Rank_45_Last_7_days-0?style=flat&label=Distrowatch)
 
 
 
