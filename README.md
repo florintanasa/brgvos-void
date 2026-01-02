@@ -85,7 +85,7 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 >  
 >Also brgvos-installer detect the disks used for partitions are SSD or HDD and prepare options for fstab.
 >
->Space need to install BRGV-OS on disk depend by file systems used if is compressed or not, less need btrfs because is used compression option and more needs f2fs with compression, approximate 32GB (Compress in f2fs file system is not the same compression we are know from btrfs, for example, read more on the [article_1](https://wiki.archlinux.org/title/F2FS), [article_2](https://docs.kernel.org/filesystems/f2fs.html#compression-implementation)) 
+>Space need to install BRGV-OS on disk depend by file systems used if is compressed or not, less need btrfs because is used compress option and more needs f2fs with compression, approximate 32GB (Compress in f2fs file system is not the same compression we are know from btrfs, for example, read more on the [article_1](https://wiki.archlinux.org/title/F2FS), [article_2](https://docs.kernel.org/filesystems/f2fs.html#compression-implementation)) 
 >
 >Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
   
