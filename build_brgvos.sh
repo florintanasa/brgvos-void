@@ -57,7 +57,8 @@ if [ "$locale" = en_US.UTF-8 ]; then
     sed -i "s/'name': 'Setări teme'/'name': 'Themes settings'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
     # Change the default keyboard in Gnome from 'ro' to 'us' 
     info_msg "Change the default keyboard in Gnome from 'ro' to 'us'"
-    sed -i "s/sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/sources=[('xkb', 'us'), ('xkb', 'ro')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources
+    sed -i "s/sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/sources=[('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources
+    sed -i "s/mru-sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/mru-sources=[('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources 
     # Prepare variables for English USA language
     info_msg "Prepare variables for English USA language"
     other_pkg=$(cat ../other_pkg)
@@ -114,7 +115,8 @@ if [ "$locale" = en_US.UTF-8 ]; then
     sed -i "s/'name': 'Graphics'/'name': 'Grafică'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
     sed -i "s/'name': 'Accessories'/'name': 'Accesorii'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
     sed -i "s/'name': 'Themes settings'/'name': 'Setări teme'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-    sed -i "s/sources=\[('xkb', 'us'), ('xkb', 'ro')]\s*/sources=[('xkb', 'ro'), ('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources
+    sed -i "s/sources=\[('xkb', 'us')]\s*/sources=[('xkb', 'ro'), ('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources
+    sed -i "s/mru-sources=[('xkb', 'us')]\s*/mru-sources=\[('xkb', 'ro'), ('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources 
 fi
 
 # Change back the owner for includedir and iso directories
