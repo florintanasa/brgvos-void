@@ -1,7 +1,7 @@
 [org/gnome/desktop/input-sources]
 sources=[('xkb', 'ro'), ('xkb', 'us')]
 xkb-options=@as []
-mru-sources=[('xkb', 'us')]
+mru-sources=[('xkb', 'ro'), ('xkb', 'us')]
 
 [org/gnome/desktop/peripherals/keyboard]
 numlock-state=true
