@@ -362,7 +362,9 @@ set_system_language_EN_RO() {
   printf "Set system language for Romanian language\n\n"
   sed -i "s/#ro_RO.UTF-8 UTF-8/ro_RO.UTF-8 UTF-8/g" /etc/default/libc-locales
   sed -i "s/LANG=en_US.UTF-8/LANG=ro_RO.UTF-8/g" /etc/locale.conf
+  sed -i "s/KEYMAP=us/KEYMAP=ro/g" /etc/rc.conf
   xbps-reconfigure --force glibc-locales
+  update-grub # for loading message in Romanian language
 }
 
 # Modify to English language the system
@@ -371,11 +373,13 @@ set_system_language_RO_EN() {
   # I not change back to '#ro_RO.UTF-8 UTF-8' in '/etc/default/libc-locales',
   # because can exist in system over users what use Romanian language
   sed -i "s/LANG=ro_RO.UTF-8/LANG=en_US.UTF-8/g" /etc/locale.conf
+  sed -i "s/KEYMAP=ro/KEYMAP=us/g" /etc/rc.conf
   xbps-reconfigure --force glibc-locales
+  update-grub # for loading message in English language
 }
 
 # Add Romanian language in the system
-add_system_language_RO() {
+add_system_language_ro_RO() {
   printf "Add Romanian language in the system (glibc)\n\n"
   sed -i "s/#ro_RO.UTF-8 UTF-8/ro_RO.UTF-8 UTF-8/g" /etc/default/libc-locales
   xbps-reconfigure --force glibc-locales
