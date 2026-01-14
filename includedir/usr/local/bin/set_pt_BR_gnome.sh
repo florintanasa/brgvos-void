@@ -452,7 +452,7 @@ if [ $# -eq 0 ]; then
   echo "${blue}Please select an option from menu:${reset}"
 
   select opt in "EN->BR for the all new users" "EN->BR for the current user" \
-    "EN->BR for all new users and the current user" "Add RO in libc-locales and install additional packages" \
+    "EN->BR for all new users and the current user" "Add pt_BR in libc-locales and install additional packages" \
     "BR->EN for the all new users" "BR->EN for the current user" "BR->EN for all new users and the current user" \
     "Exit"; do
     case $opt in
