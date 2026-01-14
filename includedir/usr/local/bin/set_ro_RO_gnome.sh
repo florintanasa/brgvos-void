@@ -129,7 +129,7 @@ in the '/root/backup' directory, if they do not already exist.\n"
   sed -i "s/'name': 'Graphics'/'name': 'Grafică'/g" "$extensions_arcmenu"
   sed -i "s/'name': 'Accessories'/'name': 'Accesorii'/g" "$extensions_arcmenu"
   sed -i "s/'name': 'Themes settings'/'name': 'Setări teme'/g" "$extensions_arcmenu"
-  sed -i "s/sources=\[('xkb', 'us')\s*/sources=[('xkb', 'ro'), ('xkb', 'us')]/g" "$input_sources"
+  sed -i "s/sources=\[('xkb', 'us')]\s*/sources=[('xkb', 'ro'), ('xkb', 'us')]/g" "$input_sources"
   sed -i "s/mru-sources=\[('xkb', 'us')]\s*/mru-sources=[('xkb', 'ro'), ('xkb', 'us')]/g" "$input_sources"
 
   # Update dconf database
@@ -342,7 +342,7 @@ set_for_current_user_RO_EN() {
     sed -i "s/'name': 'Grafică'/'name': 'Graphics'/g" "$dconf_file"
     sed -i "s/'name': 'Accesorii'/'name': 'Accessories'/g" "$dconf_file"
     sed -i "s/'name': 'Setări teme'/'name': 'Themes settings'/g" "$dconf_file"
-    sed -i "s/sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/sources=[('xkb', 'us'), ('xkb', 'ro')]/g" "$dconf_file"
+    sed -i "s/sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/sources=[('xkb', 'us')]/g" "$dconf_file"
     sed -i "s/mru-sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/mru-sources=[('xkb', 'us')]/g" "$dconf_file"
 
     # Load modified configs from dconf.ini file
