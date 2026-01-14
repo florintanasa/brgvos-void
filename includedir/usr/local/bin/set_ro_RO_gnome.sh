@@ -452,7 +452,7 @@ if [ $# -eq 0 ]; then
   echo "${blue}Please select an option from menu:${reset}"
 
   select opt in "EN->RO for the all new users" "EN->RO for the current user" \
-    "EN->RO for all new users and the current user" "Add RO in libc-locales and install additional packages" \
+    "EN->RO for all new users and the current user" "Add ro_RO in libc-locales and install additional packages" \
     "RO->EN for the all new users" "RO->EN for the current user" "RO->EN for all new users and the current user" \
     "Exit"; do
     case $opt in
@@ -480,9 +480,9 @@ if [ $# -eq 0 ]; then
       final_message_3
       break
       ;;
-    "Add RO in libc-locales and install additional packages")
+    "Add ro_RO in libc-locales and install additional packages")
       echo "${blue}You choose - Enable Romanian language in libc-locales and install additional packages for localized language.${reset}"
-      add_system_language_RO
+      add_system_language_ro_RO
       set_localize_packages
       break
       ;;
