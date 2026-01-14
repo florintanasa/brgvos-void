@@ -526,10 +526,12 @@ else
     set_for_all_users_EN_RO
     set_for_current_user_EN_RO
     set_localize_packages
+    set_system_language_EN_RO
   elif [ "$1" == "1" ]; then
     echo "${blue}You choose - Modify for Romanian language in dconf for all new users.${reset}"
     set_for_all_users_EN_RO
     set_localize_packages
+    set_system_language_EN_RO
   elif [ "$1" == "2" ]; then
     echo "${blue}You choose - Modify for Romanian language in dconf for the current user.${reset}"
     set_for_current_user_EN_RO
@@ -542,18 +544,20 @@ else
     echo "${blue}You choose - Modify for English language in dconf for all new users and the current user.${reset}"
     set_for_all_users_RO_EN
     set_for_current_user_RO_EN
-    # localized packages remain because can exist other users what need these
+    # localized packages remain because can exist another user what need these
+    set_system_language_RO_EN
   elif [ "$1" == "3" ]; then
     echo "${blue}You choose - Modify for English language in dconf for all new users.${reset}"
     set_for_all_users_RO_EN
-    # localized packages remain because can exist other users what need these
+    # localized packages remain because can exist another user what need these
+    set_system_language_RO_EN
   elif [ "$1" == "4" ]; then
     echo "${blue}You choose - Modify for English language in dconf for the current user.${reset}"
     set_for_current_user_RO_EN
     # localized packages remain because can exist other users what need these
   elif [ "$1" == "5" ]; then
     echo "${blue}You choose - Enable Romanian language in libc-locales and install additional packages for localized language.${reset}"
-    add_system_language_RO
+    add_system_language_ro_RO
     set_localize_packages
   else
     echo -e "${red}Invalid parameter. Please use for parameters numbers:\n
