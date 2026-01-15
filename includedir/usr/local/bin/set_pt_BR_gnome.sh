@@ -387,6 +387,7 @@ set_system_language_EN_BR() {
   sed -i "s/#pt_BR.UTF-8 UTF-8/pt_BR.UTF-8 UTF-8/g" /etc/default/libc-locales
   sed -i "s/LANG=en_US.UTF-8/LANG=pt_BR.UTF-8/g" /etc/locale.conf
   sed -i "s/KEYMAP=us/KEYMAP=br-abnt2/g" /etc/rc.conf
+  LANG=pt_BR.UTF-8
   xbps-reconfigure --force glibc-locales
   update-grub # for loading message in Portuguese (Brazilian) language
 }
@@ -398,6 +399,7 @@ set_system_language_BR_EN() {
   # because can exist in system over users what use Portuguese (Brazilian) language
   sed -i "s/LANG=pt_BR.UTF-8/LANG=en_US.UTF-8/g" /etc/locale.conf
   sed -i "s/KEYMAP=br-abnt2/KEYMAP=us/g" /etc/rc.conf
+  LANG=en_US.UTF-8
   xbps-reconfigure --force glibc-locales
   update-grub # for loading message in English language
 }
