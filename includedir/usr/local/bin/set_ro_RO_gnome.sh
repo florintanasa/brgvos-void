@@ -178,8 +178,8 @@ set_for_current_user_EN_RO() {
     # Change the language for current user to Romanian 
     if [ -f /var/lib/AccountsService/users/"$username" ]; then
       printf "Change the language, for current user, to Romanian at next Logon\n"
-      if cat /var/lib/AccountsService/users/"$username" | grep -q "Languages=en_US.UTF-8;"; then # Check if allready set the language to English
-        sed -i "s/Languages=en_US.UTF-8;/Languages=ro_RO.UTF-8;/g" /var/lib/AccountsService/users/"$username" # If yes, ghange the line and set to Romanian language
+      if cat /var/lib/AccountsService/users/"$username" | grep -q "Languages=en_US.UTF-8;"; then # Check if already set the language to English
+        sed -i "s/Languages=en_US.UTF-8;/Languages=ro_RO.UTF-8;/g" /var/lib/AccountsService/users/"$username" # If yes, change the line and set to Romanian language
       else
         sed -i "2i Languages=ro_RO.UTF-8;" /var/lib/AccountsService/users/"$username" # If not, add the line what set to Romanian language before to the second line 
       fi
@@ -304,10 +304,10 @@ set_for_current_user_RO_EN() {
     # Change the language for current user to English 
     if [ -f /var/lib/AccountsService/users/"$username" ]; then
       printf "Change the language, for current user, to English at next Logon\n"
-      if cat /var/lib/AccountsService/users/"$username" | grep -q "Languages=ro_RO.UTF-8;"; then # Check if allready set the language to Romanian
-        sed -i "s/Languages=ro_RO.UTF-8;/Languages=en_US.UTF-8;/g" /var/lib/AccountsService/users/"$username" # If yes, ghange the line and set to English language
+      if cat /var/lib/AccountsService/users/"$username" | grep -q "Languages=ro_RO.UTF-8;"; then # Check if already set the language to Romanian
+        sed -i "s/Languages=ro_RO.UTF-8;/Languages=en_US.UTF-8;/g" /var/lib/AccountsService/users/"$username" # If yes, change the line and set to English language
       else
-        sed -i "2i Languages=ro_RO.UTF-8;" /var/lib/AccountsService/users/"$username" # If not, add the line what set to English language before to the second line 
+        sed -i "2i Languages=en_US.UTF-8;" /var/lib/AccountsService/users/"$username" # If not, add the line what set to English language before to the second line
       fi
       # Close the session (Logout)
       sudo -u "$username" bash -c "pid=\$(pgrep -u \$USER -n gnome-shell);
