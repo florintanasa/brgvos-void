@@ -387,6 +387,7 @@ set_system_language_EN_TW() {
   sed -i "s/#zh_TW.UTF-8 UTF-8/zh_TW.UTF-8 UTF-8/g" /etc/default/libc-locales
   sed -i "s/LANG=en_US.UTF-8/LANG=zh_TW.UTF-8 UTF-8/g" /etc/locale.conf
   sed -i "s/KEYMAP=us/KEYMAP=us/g" /etc/rc.conf
+  LANG=zh_TW.UTF-8
   xbps-reconfigure --force glibc-locales
   update-grub # for loading message in Chinese (Taiwan) language
 }
@@ -398,6 +399,7 @@ set_system_language_TW_EN() {
   # because can exist in system over users what use Chinese (Taiwan) language
   sed -i "s/LANG=zh_TW.UTF-8/LANG=en_US.UTF-8/g" /etc/locale.conf
   sed -i "s/KEYMAP=us/KEYMAP=us/g" /etc/rc.conf
+  LANG=en_US.UTF-8
   xbps-reconfigure --force glibc-locales
   update-grub # for loading message in English language
 }
