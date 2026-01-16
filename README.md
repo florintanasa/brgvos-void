@@ -144,6 +144,21 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 >
 > ### $\textcolor{orange}{For\ how\ to\ install,\ configure\ and\ use\ the\ \textbf {BRGV-OS}\ read\ on}$ [Wiki](https://github.com/florintanasa/brgvos-void/wiki) 
   
+>[!NOTE]  
+> Is not in plan to create an iso for each language, because, in my opinion, it is a waste of energy, human and physical (bandwidth consumption, electricity, etc.), to manage a multitude of iso images.  
+> The next approach will be to use scripts for each language and which:
+> * will add support for the respective language to the system;
+> * will modify the menu with the appropriate translation;
+> * will add the corresponding keyboard;
+> * will apply the changes to the entire system;
+> * will apply the changes to the user only;
+> * will apply the changes to the entire system and the user.
+>
+> Will ensure the transition from one language to another through English.
+>
+> If you wish to contribuite look at next [link](https://github.com/florintanasa/utils/tree/main/patch)  
+> In the following link is a [video demonstration](https://youtu.be/pN8bdZ6Hw88).
+
 ## $\textcolor{teal}{License}$
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE) file for details
