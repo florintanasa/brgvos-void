@@ -53,28 +53,28 @@ username=$(logname)
 
 function display_help() {
   echo -e "${bold}${cyan}Usage:${reset}"
-  echo -e "  ./set_zh_TW_gnome.sh [PARAMETER]"
+  echo -e "\tset_zh_TW_gnome.sh [PARAMETER]"
   echo -e "\n${bold}${cyan}Description:${reset}"
-  echo -e "  This script add modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf for all new users and/or actual user"
+  echo -e "  This script add modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf for the system and/or actual user"
   echo -e "  Also, set as keyboard 'ibus', 'chewing' and install some localized packages xbps."
   echo -e "  If a the user provide an ARGUMENT, like '1' or '2' or '1 2' this script is run directly"
   echo -e "  If a the user not provide an ARGUMENT appear a menu with some options."
   echo -e "\n${bold}${cyan}Options${reset}:"
   echo -e "     ${magenta}With PARAMETER\tModify for Chinese (Taiwan) language, for all new user or actual user.${reset}"
   echo -e "  ${yellow}Without PARAMETER\tIs open a options menu with next options:${reset}"
-  echo -e "  ${blue}Option 1 - Modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf for${reset}"
-  echo -e "             ${blue}all new users, add 'ibus', 'chewing' keyboard and add additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 2 - Modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf for${reset}"
-  echo -e "             ${blue}current user, add 'ibus', 'chewing' keyboard and add additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 3 - Modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf for${reset}"
-  echo -e "             ${blue}all new users and current user, add 'ibus', 'chewing' keyboard and add additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 4 - Modify for English language, from Chinese (Taiwan) to English, in dconf for${reset}"
-  echo -e "             ${blue}all new users, set 'us' default keyboard and 'ibus', 'chewing' secondary keyboard.${reset}"
+  echo -e "  ${blue}Option 1 - Modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf,${reset}"
+  echo -e "             ${blue}for the system, add 'ibus', 'chewing' keyboard and add additional packages for localized language.${reset}"
+  echo -e "  ${blue}Option 2 - Modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf,${reset}"
+  echo -e "             ${blue}for the current user, add 'ibus', 'chewing' keyboard and add additional packages for localized language.${reset}"
+  echo -e "  ${blue}Option 3 - Modify for Chinese (Taiwan) language, from English to Chinese (Taiwan), in dconf,${reset}"
+  echo -e "             ${blue}for the system and the current user, add 'ibus', 'chewing' keyboard and add additional packages for localized language.${reset}"
+  echo -e "  ${blue}Option 4 - Modify for English language, from Chinese (Taiwan) to English, in dconf,${reset}"
+  echo -e "             ${blue}for the system, set 'us' default keyboard and 'ibus', 'chewing' secondary keyboard.${reset}"
   echo -e "  ${blue}Option 5 - Enable Chinese (Taiwan) language in libc-locales and install additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 6 - Modify for English language, from Chinese (Taiwan) to English, in dconf for${reset}"
-  echo -e "             ${blue}current user, set 'us' default keyboard and 'ibus', 'chewing' secondary keyboard.${reset}"
-  echo -e "  ${blue}Option 7 - Modify for English language, from Chinese (Taiwan) to English, in dconf for${reset}"
-  echo -e "             ${blue}all new users and current user, set 'us' default keyboard and 'ibus', 'chewing' secondary keyboard.${reset}"
+  echo -e "  ${blue}Option 6 - Modify for English language, from Chinese (Taiwan) to English, in dconf,${reset}"
+  echo -e "             ${blue}for the current user, set 'us' default keyboard and 'ibus', 'chewing' secondary keyboard.${reset}"
+  echo -e "  ${blue}Option 7 - Modify for English language, from Chinese (Taiwan) to English, in dconf,${reset}"
+  echo -e "             ${blue}for the system and the current user, set 'us' default keyboard and 'ibus', 'chewing' secondary keyboard.${reset}"
   echo -e "  ${red}Option 8 - Exit from script.${reset}"
   echo -e "\n${bold}${cyan}Examples:${reset}"
   echo -e "  ${magenta}sudo set_zh_TW_gnome.sh 1${reset}\t\t${blue}# Option 1${reset}"
@@ -120,16 +120,16 @@ in the '/root/backup' directory, if they do not already exist.\n"
   # Modify for Chinese (Taiwan) language in central/system dconf (for new user)
   sed -i "s/name='Themes settings'/name='主題設定'/g"  "$app_folders"
   sed -i "s/name='Office'/name='辦公室'/g" "$app_folders"
-  sed -i "s/name='Graphics'/name='圖形'/g" "$app_folders"
+  sed -i "s/name='Graphics'/name='看圖軟體'/g" "$app_folders"
   sed -i "s/name='Programming'/name='程式設計'/g"  "$app_folders"
-  sed -i "s/name='Accessories'/name='附件'/g" "$app_folders"
+  sed -i "s/name='Accessories'/name='附屬應用程式'/g" "$app_folders"
   sed -i "s/name='Internet'/name='網際網路'/g" "$app_folders"
   sed -i "s/name='Multimedia'/name='多媒體'/g" "$app_folders"
   sed -i "s/'name': 'Programming'/'name': '程式設計'/g"  "$extensions_arcmenu"
   sed -i "s/'name': 'System'/'name': '系統'/g" "$extensions_arcmenu"
   sed -i "s/'name': 'Office'/'name': '辦公室'/g" "$extensions_arcmenu"
-  sed -i "s/'name': 'Graphics'/'name': '圖形'/g" "$extensions_arcmenu"
-  sed -i "s/'name': 'Accessories'/'name': '附件'/g" "$extensions_arcmenu"
+  sed -i "s/'name': 'Graphics'/'name': '看圖軟體'/g" "$extensions_arcmenu"
+  sed -i "s/'name': 'Accessories'/'name': '附屬應用程式'/g" "$extensions_arcmenu"
   sed -i "s/'name': 'Themes settings'/'name': '主題設定'/g" "$extensions_arcmenu"
   sed -i "s/'name': 'Internet'/'name': '網際網路'/g" "$extensions_arcmenu"
   sed -i "s/'name': 'Multimedia'/'name': '多媒體'/g" "$extensions_arcmenu"
@@ -160,16 +160,16 @@ set_for_current_user_EN_TW() {
     printf "Now modify the group names for app in dconf.ini file for Chinese (Taiwan) language\n"
     sudo -u "$username" sed -i "s/name='Themes settings'/name='主題設定'/g"  "$dconf_file"
     sudo -u "$username" sed -i "s/name='Office'/name='辦公室'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/name='Graphics'/name='圖形'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/name='Graphics'/name='看圖軟體'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/name='Programming'/name='程式設計'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/name='Accessories'/name='附件'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/name='Accessories'/name='附屬應用程式'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/name='Internet'/name='網際網路'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/name='Multimedia'/name='多媒體'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': 'Programming'/'name': '程式設計'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': 'System'/'name': '系統'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': 'Office'/'name': '辦公室'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/'name': 'Graphics'/'name': '圖形'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/'name': 'Accessories'/'name': '附件'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/'name': 'Graphics'/'name': '看圖軟體'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/'name': 'Accessories'/'name': '附屬應用程式'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': 'Themes settings'/'name': '主題設定'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': 'Internet'/'name': '網際網路'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': 'Multimedia'/'name': '多媒體'/g" "$dconf_file"
@@ -215,16 +215,16 @@ set_for_current_user_EN_TW() {
     printf "Now modify the group names for app in dconf.ini file for Chinese (Taiwan) language\n"
     sed -i "s/name='Themes settings'/name='主題設定'/g"  "$dconf_file"
     sed -i "s/name='Office'/name='辦公室'/g" "$dconf_file"
-    sed -i "s/name='Graphics'/name='圖形'/g" "$dconf_file"
+    sed -i "s/name='Graphics'/name='看圖軟體'/g" "$dconf_file"
     sed -i "s/name='Programming'/name='程式設計'/g" "$dconf_file"
-    sed -i "s/name='Accessories'/name='附件'/g" "$dconf_file"
+    sed -i "s/name='Accessories'/name='附屬應用程式'/g" "$dconf_file"
     sed -i "s/name='Internet'/name='網際網路'/g" "$dconf_file"
     sed -i "s/name='Multimedia'/name='多媒體'/g" "$dconf_file"
     sed -i "s/'name': 'Programming'/'name': '程式設計'/g" "$dconf_file"
     sed -i "s/'name': 'System'/'name': '系統'/g" "$dconf_file"
     sed -i "s/'name': 'Office'/'name': '辦公室'/g" "$dconf_file"
-    sed -i "s/'name': 'Graphics'/'name': '圖形'/g" "$dconf_file"
-    sed -i "s/'name': 'Accessories'/'name': '附件'/g" "$dconf_file"
+    sed -i "s/'name': 'Graphics'/'name': '看圖軟體'/g" "$dconf_file"
+    sed -i "s/'name': 'Accessories'/'name': '附屬應用程式'/g" "$dconf_file"
     sed -i "s/'name': 'Themes settings'/'name': '主題設定'/g" "$dconf_file"
     sed -i "s/'name': 'Internet'/'name': '網際網路'/g" "$dconf_file"
     sed -i "s/'name': 'Multimedia'/'name': '多媒體'/g" "$dconf_file"
@@ -256,19 +256,19 @@ in the '/root/backup' directory, if they do not already exist.\n"
     cp "$input_sources" /root/backup
   fi
 
-  # Modify for English language in dconf for all new users
+  # Modify for English language in dconf for the system
   sed -i "s/name='主題設定'/name='Themes settings'/g" "$app_folders"
   sed -i "s/name='辦公室'/name='Office'/g" "$app_folders"
-  sed -i "s/name='圖形'/name='Graphics'/g" "$app_folders"
+  sed -i "s/name='看圖軟體'/name='Graphics'/g" "$app_folders"
   sed -i "s/name='程式設計'/name='Programming'/g" "$app_folders"
-  sed -i "s/name='附件'/name='Accessories'/g" "$app_folders"
+  sed -i "s/name='附屬應用程式'/name='Accessories'/g" "$app_folders"
   sed -i "s/name='網際網路'/name='Internet'/g" "$app_folders"
   sed -i "s/name='多媒體'/name='Multimedia'/g" "$app_folders"
   sed -i "s/'name': '程式設計'/'name': 'Programming'/g" "$extensions_arcmenu"
   sed -i "s/'name': '系統'/'name': 'System'/g" "$extensions_arcmenu"
   sed -i "s/'name': '辦公室'/'name': 'Office'/g" "$extensions_arcmenu"
-  sed -i "s/'name': '圖形'/'name': 'Graphics'/g" "$extensions_arcmenu"
-  sed -i "s/'name': '附件'/'name': 'Accessories'/g" "$extensions_arcmenu"
+  sed -i "s/'name': '看圖軟體'/'name': 'Graphics'/g" "$extensions_arcmenu"
+  sed -i "s/'name': '附屬應用程式'/'name': 'Accessories'/g" "$extensions_arcmenu"
   sed -i "s/'name': '主題設定'/'name': 'Themes settings'/g"  "$extensions_arcmenu"
   sed -i "s/'name': '網際網路'/'name': 'Internet'/g" "$extensions_arcmenu"
   sed -i "s/'name': '多媒體'/'name': 'Multimedia'/g"  "$extensions_arcmenu"
@@ -299,16 +299,16 @@ set_for_current_user_TW_EN() {
     printf "Now modify the group names for app in dconf.ini file for English language\n"
     sudo -u "$username" sed -i "s/name='主題設定'/name='Themes settings'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/name='辦公室'/name='Office'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/name='圖形'/name='Graphics'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/name='看圖軟體'/name='Graphics'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/name='程式設計'/name='Programming'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/name='附件'/name='Accessories'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/name='附屬應用程式'/name='Accessories'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/name='網際網路'/name='Internet'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/name='多媒體'/name='Multimedia'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': '程式設計'/'name': 'Programming'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': '系統'/'name': 'System'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': '辦公室'/'name': 'Office'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/'name': '圖形'/'name': 'Graphics'/g" "$dconf_file"
-    sudo -u "$username" sed -i "s/'name': '附件'/'name': 'Accessories'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/'name': '看圖軟體'/'name': 'Graphics'/g" "$dconf_file"
+    sudo -u "$username" sed -i "s/'name': '附屬應用程式'/'name': 'Accessories'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': '主題設定'/'name': 'Themes settings'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': '網際網路'/'name': 'Internet'/g" "$dconf_file"
     sudo -u "$username" sed -i "s/'name': '多媒體'/'name': 'Multimedia'/g" "$dconf_file"
@@ -353,16 +353,16 @@ set_for_current_user_TW_EN() {
     printf "Now modify the group names for app in dconf.ini file for English language\n"
     sed -i "s/name='主題設定'/name='Themes settings'/g" "$dconf_file"
     sed -i "s/name='辦公室'/name='Office'/g" "$dconf_file"
-    sed -i "s/name='圖形'/name='Graphics'/g" "$dconf_file"
+    sed -i "s/name='看圖軟體'/name='Graphics'/g" "$dconf_file"
     sed -i "s/name='程式設計'/name='Programming'/g" "$dconf_file"
-    sed -i "s/name='附件'/name='Accessories'/g" "$dconf_file"
+    sed -i "s/name='附屬應用程式'/name='Accessories'/g" "$dconf_file"
     sed -i "s/name='網際網路'/name='Internet'/g" "$dconf_file"
     sed -i "s/name='多媒體'/name='Multimedia'/g" "$dconf_file"
     sed -i "s/'name': '程式設計'/'name': 'Programming'/g" "$dconf_file"
     sed -i "s/'name': '系統'/'name': 'System'/g" "$dconf_file"
     sed -i "s/'name': '辦公室'/'name': 'Office'/g" "$dconf_file"
-    sed -i "s/'name': '圖形'/'name': 'Graphics'/g" "$dconf_file"
-    sed -i "s/'name': '附件'/'name': 'Accessories'/g" "$dconf_file"
+    sed -i "s/'name': '看圖軟體'/'name': 'Graphics'/g" "$dconf_file"
+    sed -i "s/'name': '附屬應用程式'/'name': 'Accessories'/g" "$dconf_file"
     sed -i "s/'name': '主題設定'/'name': 'Themes settings'/g" "$dconf_file"
     sed -i "s/'name': '網際網路'/'name': 'Internet'/g" "$dconf_file"
     sed -i "s/'name': '多媒體'/'name': 'Multimedia'/g" "$dconf_file"
@@ -385,7 +385,7 @@ set_localize_packages() {
 set_system_language_EN_TW() {
   printf "Set system language for Chinese (Taiwan) language\n\n"
   sed -i "s/#zh_TW.UTF-8 UTF-8/zh_TW.UTF-8 UTF-8/g" /etc/default/libc-locales
-  sed -i "s/LANG=en_US.UTF-8/LANG=zh_TW.UTF-8 UTF-8/g" /etc/locale.conf
+  sed -i "s/LANG=en_US.UTF-8/LANG=zh_TW.UTF-8/g" /etc/locale.conf
   sed -i "s/KEYMAP=us/KEYMAP=us/g" /etc/rc.conf
   LANG=zh_TW.UTF-8
   xbps-reconfigure --force glibc-locales
@@ -477,13 +477,13 @@ Also, is a good idea to archive the files from '/root/backup' or/and to put it i
 if [ $# -eq 0 ]; then
   echo "${blue}Please select an option from menu:${reset}"
 
-  select opt in "EN->TW for the all new users" "EN->TW for the current user" \
-    "EN->TW for all new users and the current user" "Add zh_TW in libc-locales and install additional packages" \
-    "TW->EN for the all new users" "TW->EN for the current user" "TW->EN for all new users and the current user" \
+  select opt in "EN->TW for the system" "EN->TW for the current user" \
+    "EN->TW for the system and the current user" "Add zh_TW in libc-locales and install additional packages" \
+    "TW->EN for the system" "TW->EN for the current user" "TW->EN for the system and the current user" \
     "Exit"; do
     case $opt in
-    "EN->TW for the all new users")
-      echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for all new users.${reset}"
+    "EN->TW for the system")
+      echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for the system.${reset}"
       set_for_all_users_EN_TW
       set_localize_packages
       set_system_language_EN_TW
@@ -497,8 +497,8 @@ if [ $# -eq 0 ]; then
       final_message_2
       break
       ;;
-    "EN->TW for all new users and the current user")
-      echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for all new users and the current user.${reset}"
+    "EN->TW for the system and the current user")
+      echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for the system and the current user.${reset}"
       set_for_all_users_EN_TW
       set_for_current_user_EN_TW
       set_localize_packages
@@ -512,8 +512,8 @@ if [ $# -eq 0 ]; then
       set_localize_packages
       break
       ;;
-    "TW->EN for the all new users")
-      echo "${blue}You choose - Modify for English language in dconf for all new users.${reset}"
+    "TW->EN for the system")
+      echo "${blue}You choose - Modify for English language in dconf for the system.${reset}"
       set_for_all_users_TW_EN
       # localized packages remain because can exist another user what need these
       set_system_language_TW_EN
@@ -527,8 +527,8 @@ if [ $# -eq 0 ]; then
       final_message_5
       break
       ;;
-    "TW->EN for all new users and the current user")
-      echo "${blue}You choose - Modify for English language in dconf for all new users and the current user.${reset}"
+    "TW->EN for the system and the current user")
+      echo "${blue}You choose - Modify for English language in dconf for the system and the current user.${reset}"
       set_for_all_users_TW_EN
       set_for_current_user_TW_EN
       # localized packages remain because can exist another user what need these
@@ -548,13 +548,13 @@ if [ $# -eq 0 ]; then
 else
   # If a parameter was send is executed directly
   if [[ "$1" == "1" && "$2" == "2" ]] || [[ "$1" == "2" && "$2" == "1" ]]; then
-    echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for all new users and the current user.${reset}"
+    echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for the system and the current user.${reset}"
     set_for_all_users_EN_TW
     set_for_current_user_EN_TW
     set_localize_packages
     set_system_language_EN_TW
   elif [ "$1" == "1" ]; then
-    echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for all new users.${reset}"
+    echo "${blue}You choose - Modify for Chinese (Taiwan) language in dconf for the system.${reset}"
     set_for_all_users_EN_TW
     set_localize_packages
     set_system_language_EN_TW
@@ -567,13 +567,13 @@ else
       echo "${red}You run without 'root' rights, so you can't install the packages${reset}"
     fi
   elif [[ "$1" == "3" && "$2" == "4" ]] || [[ "$1" == "4" && "$2" == "3" ]]; then
-    echo "${blue}You choose - Modify for English language in dconf for all new users and the current user.${reset}"
+    echo "${blue}You choose - Modify for English language in dconf for the system and the current user.${reset}"
     set_for_all_users_TW_EN
     set_for_current_user_TW_EN
     # localized packages remain because can exist another user what need these
     set_system_language_TW_EN
   elif [ "$1" == "3" ]; then
-    echo "${blue}You choose - Modify for English language in dconf for all new users.${reset}"
+    echo "${blue}You choose - Modify for English language in dconf for the system.${reset}"
     set_for_all_users_TW_EN
     # localized packages remain because can exist another user what need these
     set_system_language_TW_EN
@@ -587,12 +587,12 @@ else
     set_localize_packages
   else
     echo -e "${red}Invalid parameter. Please use for parameters numbers:\n
-    '1' to Modify for Chinese (Taiwan) language in system dconf, for all new users;
+    '1' to Modify for Chinese (Taiwan) language in system dconf, for the system;
     '2' to Modify for Chinese (Taiwan) language in dconf, for the current user;
-    '1' '2' or '2' '1' to Modify for Chinese (Taiwan) language in system dconf, for all new users and for current user;\n
-    '3' to Modify for English language in system dconf, for all new users;
+    '1' '2' or '2' '1' to Modify for Chinese (Taiwan) language in system dconf, for the system and for current user;\n
+    '3' to Modify for English language in system dconf, for the system;
     '4' to Modify for English language in dconf, for the current user;
-    '3' '4' or '2' '1' to Modify for English language in system dconf, for all new users and for current user;\n
+    '3' '4' or '2' '1' to Modify for English language in system dconf, for the system and for current user;\n
     Run './set_zh_TW_gnome.sh --help or -h for more help.'${reset}"
   fi
 fi
