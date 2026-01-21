@@ -53,28 +53,28 @@ username=$(logname)
 
 function display_help() {
   echo -e "${bold}${cyan}Usage:${reset}"
-  echo -e "  ./set_ro_RO_gnome.sh [PARAMETER]"
+  echo -e "\tset_ro_RO_gnome.sh [PARAMETER]"
   echo -e "\n${bold}${cyan}Description:${reset}"
-  echo -e "  This script add modify for Romanian language, from English to Romanian, in dconf for all new users and/or actual user"
+  echo -e "  This script add modify for Romanian language, from English to Romanian, in dconf for the system and/or actual user"
   echo -e "  Also, set as keyboard 'ro' and install some localized packages xbps."
   echo -e "  If a the user provide an ARGUMENT, like '1' or '2' or '1 2' this script is run directly"
   echo -e "  If a the user not provide an ARGUMENT appear a menu with some options."
   echo -e "\n${bold}${cyan}Options${reset}:"
   echo -e "     ${magenta}With PARAMETER\tModify for Romanian language, for all new user or actual user.${reset}"
   echo -e "  ${yellow}Without PARAMETER\tIs open a options menu with next options:${reset}"
-  echo -e "  ${blue}Option 1 - Modify for Romanian language, from English to Romanian, in dconf for${reset}"
-  echo -e "             ${blue}all new users, add 'ro' keyboard and add additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 2 - Modify for Romanian language, from English to Romanian, in dconf for${reset}"
-  echo -e "             ${blue}current user, add 'ro' keyboard and add additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 3 - Modify for Romanian language, from English to Romanian, in dconf for${reset}"
-  echo -e "             ${blue}all new users and current user, add 'ro' keyboard and add additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 4 - Modify for English language, from Romanian to English, in dconf for${reset}"
-  echo -e "             ${blue}all new users, set 'us' default keyboard and 'ro' secondary keyboard.${reset}"
+  echo -e "  ${blue}Option 1 - Modify for Romanian language, from English to Romanian, in dconf,${reset}"
+  echo -e "             ${blue}for the system, add 'ro' keyboard and add additional packages for localized language.${reset}"
+  echo -e "  ${blue}Option 2 - Modify for Romanian language, from English to Romanian, in dconf,${reset}"
+  echo -e "             ${blue}for the current user, add 'ro' keyboard and add additional packages for localized language.${reset}"
+  echo -e "  ${blue}Option 3 - Modify for Romanian language, from English to Romanian, in dconf,${reset}"
+  echo -e "             ${blue}for the system and the current user, add 'ro' keyboard and add additional packages for localized language.${reset}"
+  echo -e "  ${blue}Option 4 - Modify for English language, from Romanian to English, in dconf,${reset}"
+  echo -e "             ${blue}for the system, set 'us' default keyboard and 'ro' secondary keyboard.${reset}"
   echo -e "  ${blue}Option 5 - Enable Romanian language in libc-locales and install additional packages for localized language.${reset}"
-  echo -e "  ${blue}Option 6 - Modify for English language, from Romanian to English, in dconf for${reset}"
-  echo -e "             ${blue}current user, set 'us' default keyboard and 'ro' secondary keyboard.${reset}"
-  echo -e "  ${blue}Option 7 - Modify for English language, from Romanian to English, in dconf for${reset}"
-  echo -e "             ${blue}all new users and current user, set 'us' default keyboard and 'ro' secondary keyboard.${reset}"
+  echo -e "  ${blue}Option 6 - Modify for English language, from Romanian to English, in dconf,${reset}"
+  echo -e "             ${blue}for the current user, set 'us' default keyboard and 'ro' secondary keyboard.${reset}"
+  echo -e "  ${blue}Option 7 - Modify for English language, from Romanian to English, in dconf,${reset}"
+  echo -e "             ${blue}for the system and the current user, set 'us' default keyboard and 'ro' secondary keyboard.${reset}"
   echo -e "  ${red}Option 8 - Exit from script.${reset}"
   echo -e "\n${bold}${cyan}Examples:${reset}"
   echo -e "  ${magenta}sudo set_ro_RO_gnome.sh 1${reset}\t\t${blue}# Option 1${reset}"
@@ -256,7 +256,7 @@ in the '/root/backup' directory, if they do not already exist.\n"
     cp "$input_sources" /root/backup
   fi
 
-  # Modify for English language in dconf for all new users
+  # Modify for English language in dconf for the system
   sed -i "s/name='Setări teme'/name='Themes settings'/g" "$app_folders"
   sed -i "s/name='Birou'/name='Office'/g" "$app_folders"
   sed -i "s/name='Grafică'/name='Graphics'/g" "$app_folders"
@@ -477,13 +477,13 @@ Also, is a good idea to archive the files from '/root/backup' or/and to put it i
 if [ $# -eq 0 ]; then
   echo "${blue}Please select an option from menu:${reset}"
 
-  select opt in "EN->RO for the all new users" "EN->RO for the current user" \
-    "EN->RO for all new users and the current user" "Add ro_RO in libc-locales and install additional packages" \
-    "RO->EN for the all new users" "RO->EN for the current user" "RO->EN for all new users and the current user" \
+  select opt in "EN->RO for the system" "EN->RO for the current user" \
+    "EN->RO for the system and the current user" "Add ro_RO in libc-locales and install additional packages" \
+    "RO->EN for the system" "RO->EN for the current user" "RO->EN for the system and the current user" \
     "Exit"; do
     case $opt in
-    "EN->RO for the all new users")
-      echo "${blue}You choose - Modify for Romanian language in dconf for all new users.${reset}"
+    "EN->RO for the system")
+      echo "${blue}You choose - Modify for Romanian language in dconf for the system.${reset}"
       set_for_all_users_EN_RO
       set_localize_packages
       set_system_language_EN_RO
@@ -497,8 +497,8 @@ if [ $# -eq 0 ]; then
       final_message_2
       break
       ;;
-    "EN->RO for all new users and the current user")
-      echo "${blue}You choose - Modify for Romanian language in dconf for all new users and the current user.${reset}"
+    "EN->RO for the system and the current user")
+      echo "${blue}You choose - Modify for Romanian language in dconf for the system and the current user.${reset}"
       set_for_all_users_EN_RO
       set_for_current_user_EN_RO
       set_localize_packages
@@ -512,8 +512,8 @@ if [ $# -eq 0 ]; then
       set_localize_packages
       break
       ;;
-    "RO->EN for the all new users")
-      echo "${blue}You choose - Modify for English language in dconf for all new users.${reset}"
+    "RO->EN for the system")
+      echo "${blue}You choose - Modify for English language in dconf for the system.${reset}"
       set_for_all_users_RO_EN
       # localized packages remain because can exist another user what need these
       set_system_language_RO_EN
@@ -527,8 +527,8 @@ if [ $# -eq 0 ]; then
       final_message_5
       break
       ;;
-    "RO->EN for all new users and the current user")
-      echo "${blue}You choose - Modify for English language in dconf for all new users and the current user.${reset}"
+    "RO->EN for the system and the current user")
+      echo "${blue}You choose - Modify for English language in dconf for the system and the current user.${reset}"
       set_for_all_users_RO_EN
       set_for_current_user_RO_EN
       # localized packages remain because can exist another user what need these
@@ -548,13 +548,13 @@ if [ $# -eq 0 ]; then
 else
   # If a parameter was send is executed directly
   if [[ "$1" == "1" && "$2" == "2" ]] || [[ "$1" == "2" && "$2" == "1" ]]; then
-    echo "${blue}You choose - Modify for Romanian language in dconf for all new users and the current user.${reset}"
+    echo "${blue}You choose - Modify for Romanian language in dconf for the system and the current user.${reset}"
     set_for_all_users_EN_RO
     set_for_current_user_EN_RO
     set_localize_packages
     set_system_language_EN_RO
   elif [ "$1" == "1" ]; then
-    echo "${blue}You choose - Modify for Romanian language in dconf for all new users.${reset}"
+    echo "${blue}You choose - Modify for Romanian language in dconf for the system.${reset}"
     set_for_all_users_EN_RO
     set_localize_packages
     set_system_language_EN_RO
@@ -567,13 +567,13 @@ else
       echo "${red}You run without 'root' rights, so you can't install the packages${reset}"
     fi
   elif [[ "$1" == "3" && "$2" == "4" ]] || [[ "$1" == "4" && "$2" == "3" ]]; then
-    echo "${blue}You choose - Modify for English language in dconf for all new users and the current user.${reset}"
+    echo "${blue}You choose - Modify for English language in dconf for the system and the current user.${reset}"
     set_for_all_users_RO_EN
     set_for_current_user_RO_EN
     # localized packages remain because can exist another user what need these
     set_system_language_RO_EN
   elif [ "$1" == "3" ]; then
-    echo "${blue}You choose - Modify for English language in dconf for all new users.${reset}"
+    echo "${blue}You choose - Modify for English language in dconf for the system.${reset}"
     set_for_all_users_RO_EN
     # localized packages remain because can exist another user what need these
     set_system_language_RO_EN
@@ -587,12 +587,12 @@ else
     set_localize_packages
   else
     echo -e "${red}Invalid parameter. Please use for parameters numbers:\n
-    '1' to Modify for Romanian language in system dconf, for all new users;
+    '1' to Modify for Romanian language in system dconf, for the system;
     '2' to Modify for Romanian language in dconf, for the current user;
-    '1' '2' or '2' '1' to Modify for Romanian language in system dconf, for all new users and for current user;\n
-    '3' to Modify for English language in system dconf, for all new users;
+    '1' '2' or '2' '1' to Modify for Romanian language in system dconf, for the system and for current user;\n
+    '3' to Modify for English language in system dconf, for the system;
     '4' to Modify for English language in dconf, for the current user;
-    '3' '4' or '2' '1' to Modify for English language in system dconf, for all new users and for current user;\n
+    '3' '4' or '2' '1' to Modify for English language in system dconf, for the system and for current user;\n
     Run './set_ro_RO_gnome.sh --help or -h for more help.'${reset}"
   fi
 fi
