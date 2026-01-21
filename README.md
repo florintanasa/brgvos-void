@@ -1,4 +1,4 @@
-# $\textcolor{cyan}{\textbf {BRGV-OS}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/) ![Rank on https://distrowatch.com](https://img.shields.io/badge/Rank_110_1_month-0?style=flat&label=Distrowatch)
+# $\textcolor{cyan}{\texttt{ {BRGV-OS}}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/) ![Rank on https://distrowatch.com](https://img.shields.io/badge/Rank_383_Last_6_months-0?style=flat&label=Distrowatch)
 
 
 
@@ -29,7 +29,7 @@ For theme management I wrote the following extensions, scripts and menus:
   
 Also **BRGV-OS** have another extension [Set Notification Banner Position](https://extensions.gnome.org/extension/8495/set-notification-banner-position/), it is a `Gnome™` extension that changes the position of the banner notification on the sreen, source code [here](https://github.com/florintanasa/set-notification-position).
 
-## $\textcolor{teal}{How\ to\ build}$
+## $\textcolor{teal}{\texttt{How to build}}$
 
 It is suggested to use **Void Linux** or an others based on this distribution, also **BRGV-OS** work :)  
 Default start the build for Romanian language, if you wish to build for international English USA language edit file `locale` and change from `ro_RO.UTF-8` to `en_US.UTF-8` and also edit file `keymap` and change from `ro` to `us`.  
@@ -139,10 +139,10 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 >|<sub>LVM&LUKS: `-`</br>sda2->`swap`</br>sda3->/</br>sdb1->/home</br>sdc1->/var/lib/libvirt</br>FS: ext4</sub>|[<img src="https://img.youtube.com/vi/tp_MaYa66VQ/default.jpg" width="250" height="150"/>](https://www.youtube.com/embed/tp_MaYa66VQ?autoplay=1&mute=1)|
 >
 >
-> ### $\textcolor{green}{For\ passphrase\ is\ used\ user\ password}$  
+> ### $\textcolor{green}{\texttt{For passphrase is used user password}}$  
 >
 >
-> ### $\textcolor{orange}{For\ how\ to\ install,\ configure\ and\ use\ the\ \textbf {BRGV-OS}\ read\ on}$ [Wiki](https://github.com/florintanasa/brgvos-void/wiki) 
+> ### $\textcolor{orange}{\texttt{For how to install, configure and use the BRGV-OS read on}}$ [Wiki](https://github.com/florintanasa/brgvos-void/wiki) 
   
 >[!NOTE]  
 > Is not in plan to create an iso for each language, because, in my opinion, it is a waste of energy, human and physical (bandwidth consumption, electricity, etc.), to manage a multitude of iso images.  
@@ -159,15 +159,15 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > If you wish to contribuite look at next [link](https://github.com/florintanasa/utils/tree/main/patch)  
 > In the following link is a [video demonstration](https://youtu.be/pN8bdZ6Hw88).
 
-## $\textcolor{teal}{License}$
+## $\textcolor{teal}{\texttt{License}}$
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE) file for details
 
-## $\textcolor{red}{Warning}$ 
+## $\textcolor{red}{\texttt{Warning}}$ 
 
 The open-source software included in **BRGV-OS** is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**.
 
-## $\textcolor{teal}{The\ following\ "ingredients"\ are\ also\ included\ in\ \textbf{BRGV-OS} }$
+## $\textcolor{teal}{\texttt{The following "ingredients" are also included in BRGV-OS}}$
   
 https://github.com/vinceliuice/Fluent-gtk-theme  
 https://github.com/vinceliuice/Fluent-icon-theme  
