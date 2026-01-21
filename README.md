@@ -165,8 +165,8 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE
 
 ## $\textcolor{red}{\texttt{Warning}}$ 
 
-The open-source software included in **BRGV-OS** is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**.
-
+The open-source software included in **BRGV-OS** is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**.  
+  
 ## $\textcolor{teal}{\texttt{The following "ingredients" are also included in BRGV-OS}}$
   
 https://github.com/vinceliuice/Fluent-gtk-theme  
