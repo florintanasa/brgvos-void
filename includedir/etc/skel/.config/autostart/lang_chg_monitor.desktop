@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Icon=face-wink
+Exec=bash -c "sleep 3 && $HOME/.local/bin/language_change_monitor.sh"
+Terminal=false
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Categories=GNOME;GTK;System;
+Name=Monitor Language Change
+Comment=Script to monitor GNOME language changes
