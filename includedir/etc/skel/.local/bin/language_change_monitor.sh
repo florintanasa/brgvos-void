@@ -40,7 +40,11 @@ if [ ! -e $HOME/.set_locale_gnome ]
         else
             # Call funtion with parameter to be sure the language is set for the user,
             # in case was not set when the user was created,
-            # in this case the language in Gnome is set with system language. 
+            # in this case the language in Gnome is set with system language.
+            gdbus call --system \
+            --dest org.freedesktop.Accounts \
+            --object-path /org/freedesktop/Accounts/User$(id -u) \
+            --method org.freedesktop.Accounts.User.SetLanguage "$CURRENT_LANGUAGE" 
             on_language_change "$CURRENT_LANGUAGE"
         fi
         # Create the file .set_locale_gnome
