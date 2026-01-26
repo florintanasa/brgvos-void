@@ -35,13 +35,15 @@ if [ $TERM = linux ] && [ ! $CURRENT_LANGUAGE = "zh_TW.UTF-8" ] && [ ! $(tty) = 
     setfont ter-v20b
     OSH_THEME="font"
 elif [ $TERM = linux ] && [ $CURRENT_LANGUAGE = "zh_TW.UTF-8" ]; then # Check if is run in console tty and with locale zh_TW
-    OSH_THEME="font" # Used on TERM=linux when exit from fbterm
-    fbterm -- bash -c "TERM=fbterm tmux"
-elif [ $TERM = linux ] && [ $(tty) = "/dev/tty6" ]; then # Check is run in console tty6 then switch to framebuffer with tmux
-    OSH_THEME="font" # Used on TERM=linux when exit from fbterm
-    fbterm -- bash -c "TERM=fbterm tmux"
+    OSH_THEME="font"
+    fbterm -- bash -c 'export TERM=fbterm; exec "$SHELL"'
+elif [ $TERM = linux ] && [ $(tty) = "/dev/tty6" ]; then # Check is run in console tty6
+    setfont ter-v20b
+    OSH_THEME="font" # Used on TERM=linux
+    #fbterm -- bash -c "TERM=fbterm tmux"
+    fbterm -- bash -c 'export TERM=fbterm; exec "$SHELL"' # Set frame buffer
 else
-    OSH_THEME="powerline-light" # Used on X and TERM=fbterm
+    OSH_THEME="powerline-light" # Used on X and tmux
 fi
 
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
