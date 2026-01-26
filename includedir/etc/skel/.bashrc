@@ -28,13 +28,22 @@ export OSH="$HOME/.oh-my-bash"
 # it'll load a random theme each time that oh-my-bash is loaded.
 # set console font because when we start kernel with guiet splash
 # not load the font from rc.conf
-if [ $TERM = linux ]
-then
+
+CURRENT_LANGUAGE=$(locale | grep LANG | awk -F "=" '{print $2}') # Get locale
+
+if [ $TERM = linux ] && [ ! $CURRENT_LANGUAGE = "zh_TW.UTF-8" ] && [ ! $(tty) = "/dev/tty6" ]; then # Check if is run in console tty and not locale zh_TW
     setfont ter-v20b
     OSH_THEME="font"
+elif [ $TERM = linux ] && [ $CURRENT_LANGUAGE = "zh_TW.UTF-8" ]; then # Check if is run in console tty and with locale zh_TW
+    OSH_THEME="font" # Used on TERM=linux when exit from fbterm
+    fbterm -- bash -c "TERM=fbterm tmux"
+elif [ $TERM = linux ] && [ $(tty) = "/dev/tty6" ]; then # Check is run in console tty6 then switch to framebuffer with tmux
+    OSH_THEME="font" # Used on TERM=linux when exit from fbterm
+    fbterm -- bash -c "TERM=fbterm tmux"
 else
-     OSH_THEME="powerline-light"
+    OSH_THEME="powerline-light" # Used on X and TERM=fbterm
 fi
+
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
 # OMB_THEME_RANDOM_IGNORED=("powerbash10k" "wanelo")
 # You can also specify the list from which a theme is randomly selected:
