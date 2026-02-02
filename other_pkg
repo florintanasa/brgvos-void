@@ -96,3 +96,5 @@ fbgrab
 fbv 
 fbpdf 
 tmux 
+apparmor 
+audit
