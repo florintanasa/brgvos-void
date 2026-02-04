@@ -191,6 +191,7 @@ USERPASSWORD_DONE=
 USERNAME_DONE=
 USERGROUPS_DONE=
 USERACCOUNT_DONE=
+HARDENING_DONE=
 BOOTLOADER_DONE=
 PARTITIONS_DONE=
 RAID_DONE=
@@ -319,6 +320,9 @@ DIE() {
   set_option RAID "" # clear RAID value
   set_option RAIDPV "" # clear RAIDPV value
   set_option INDEXRAID "" # clear INDEXRAID value
+  set_option APPARMOR "" # clear APPARMOR value
+  set_option HARDENING "" # clear HARDENING value
+  set_option AUDIT "" # clear AUDIT value
   rm -f "$ANSWER" "$TARGET_FSTAB" "$TARGET_SERVICES"
   # re-enable printk
   if [ -w /proc/sys/kernel/printk ]; then
@@ -3128,6 +3132,7 @@ menu() {
       "Timezone" "Set system time zone" \
       "RootPassword" "Set system root password" \
       "UserAccount" "Set primary user name and password" \
+      "Hardening" "Hardening settings" \
       "BootLoader" "Set disk to install bootloader" \
       "Partition" "Partition disk(s)" \
       "LVM&LUKS" "Set LVM and crypto LUKS" \
@@ -3150,6 +3155,7 @@ menu() {
       "Timezone" "Set system time zone" \
       "RootPassword" "Set system root password" \
       "UserAccount" "Set primary user name and password" \
+      "Hardening" "Hardening settings" \
       "BootLoader" "Set disk to install bootloader" \
       "Partition" "Partition disk(s)" \
       "LVM&LUKS" "Set LVM and crypto LUKS" \
@@ -3178,8 +3184,8 @@ menu() {
   "Locale") menu_locale && [ -n "$LOCALE_DONE" ] && DEFITEM="Timezone";;
   "Timezone") menu_timezone && [ -n "$TIMEZONE_DONE" ] && DEFITEM="RootPassword";;
   "RootPassword") menu_rootpassword && [ -n "$ROOTPASSWORD_DONE" ] && DEFITEM="UserAccount";;
-  "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] \
-    && DEFITEM="BootLoader";;
+  "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] && DEFITEM="Hardening";;
+  "Hardening") menu_hardening && [ -n "$HARDENING_DONE" ] && DEFITEM="BootLoader";;
   "BootLoader") menu_bootloader && [ -n "$BOOTLOADER_DONE" ] && DEFITEM="Partition";;
   "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="LVM&LUKS";;
   "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Raid";;
