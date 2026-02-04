@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=AppArmor Notify
+Icon=face-smile
+Comment=Receive on-screen notifications of AppArmor denials
+TryExec=aa-notify
+Exec=bash -c "sleep 3 && $HOME/.local/bin/run-aa-notify.sh"
+Terminal=false
+Hidden=false
+StartupNotify=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
