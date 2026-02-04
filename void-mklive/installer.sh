@@ -762,6 +762,94 @@ show_partitions_filtered() {
   echo "$filtered_list"
 }
 
+# Function for menu Hardening
+menu_hardening() {
+  # Define some local variables
+  local _desc _checklist _answers rv _apparmor _hardening _state_armor _state_hardening _audit _state_audit
+  # Loading local variable from config file
+  _apparmor=$(get_option APPARMOR)
+  if [ "$_apparmor" -eq 1 ]; then
+    _state_armor="on"
+  else
+    _state_armor="off"
+  fi
+  _hardening=$(get_option HARDENING)
+  if [ "$_hardening" -eq 1 ]; then
+    _state_hardening="on"
+  else
+    _state_hardening="off"
+  fi
+  _audit=$(get_option AUDIT)
+  if [ "$_audit" -eq 1 ]; then
+    _state_audit="on"
+  else
+    _state_audit="off"
+  fi
+  # Description for checklist box
+  _desc="Select if you wish to setting AppArmor and hardening"
+  # Description for checklist box
+  _checklist="
+  apparmor AppArmor $_state_armor \
+  audit Audit $_state_audit \
+  hardening Hardening $_state_hardening"
+  # Create dialog
+  DIALOG --no-tags --checklist "$_desc" 20 60 2 ${_checklist}
+  # Verify if the user accept the dialog
+  rv=$?
+  if [ "$rv" -eq 0 ]; then
+    _answers=$(cat "$ANSWER")
+    if echo "$_answers" | grep -q "apparmor"; then
+      set_option APPARMOR "1"
+    else
+      set_option APPARMOR "0"
+    fi
+    if echo "$_answers" | grep -q "audit"; then\
+      set_option AUDIT "1"
+    else
+      set_option AUDIT "0"
+    fi
+    if echo "$_answers" | grep -q "hardening"; then
+      set_option HARDENING "1"
+    else
+      set_option HARDENING "0"
+    fi
+  elif [ "$rv" -eq 1 ]; then # Verify is user not accept the dialog
+    return
+  fi
+
+  # Check if user select AppArmor, Audit, Hardening
+  if [ "$_apparmor" -eq 1 ]; then
+    echo "User select AppArmor" >> "$LOG"
+  fi
+  if [ "$_audit" -eq 1 ]; then
+    echo "User select Audit" >> "$LOG"
+  fi
+  if [ "$_hardening" -eq 1 ]; then
+    echo "User select Hardening" >> "$LOG"
+  fi
+
+  # set hardening done
+  HARDENING_DONE=1
+}
+
+# Function for setting audit
+set_audit() {
+  # Define some local variables
+  local _user
+  # Get username
+  _user=$(get_option USERLOGIN)
+  {
+    # Create group audit
+    chroot $TARGETDIR groupadd -r audit
+    # Add user to audit group
+    chroot $TARGETDIR gpasswd -a "$_user" audit
+    # Change log_group to audit
+    chroot $TARGETDIR sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
+    # Change file mode and group for directory /var/log/audit
+    chroot $TARGETDIR sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
+  } >>$LOG 2>&1
+}
+
 # Function for menu LVM&LUKS
 menu_lvm_luks() {
   # Define some local variables
