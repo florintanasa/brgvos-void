@@ -1788,11 +1788,13 @@ menu_bootloader() {
 # Function to set bootloader from loaded saved configure file
 set_bootloader() {
   # Declare some local variables
-  local dev _encrypt _rootfs _bool bool index _boot _rd_luks_uuid _crypts
+  local dev _encrypt _rootfs _bool bool index _boot _rd_luks_uuid _crypts _apparmor _audit
   local -a luks_devices # Declare matrices
   # Initialise variables
   dev=$(get_option BOOTLOADER)
   _crypts=$(get_option CRYPTS)
+  _apparmor=$(get_option APPARMOR)
+  _audit=$(get_option AUDIT)
   grub_args=
   bool=0
   _bool=0
@@ -1878,7 +1880,7 @@ set_bootloader() {
     DIE 1
   fi
   echo "Preparing the Logo and name in the grub menu ${bold}$TARGETDIR/etc/default/grub${reset}..." >>$LOG
-  # Copy file splash.png on /boot/grub/baackground to can see by the grub when we install on encrypted rootfs
+  # Copy file splash.png on /boot/grub/background to can see by the grub when we install on encrypted rootfs
   chroot $TARGETDIR mkdir -p /boot/grub/background >> $LOG 2>&1
   chroot $TARGETDIR cp /usr/share/brgvos-artwork/splash.png /boot/grub/background/ >> $LOG 2>&1
   chroot $TARGETDIR sed -i 's+#GRUB_BACKGROUND=/usr/share/void-artwork/splash.png+GRUB_BACKGROUND=/boot/grub/background/splash.png+g' /etc/default/grub >>$LOG 2>&1
@@ -1891,6 +1893,21 @@ set_bootloader() {
     chroot $TARGETDIR sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=4\"/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=4 ${RD_MD_UUID} ${_rd_luks_uuid} quiet splash\"/g" /etc/default/grub >>$LOG 2>&1
   fi
   chroot $TARGETDIR sed -i '$aGRUB_DISABLE_OS_PROBER=false' /etc/default/grub >>$LOG 2>&1
+  # Check if the user set to use AppArmor
+  if [ "$_apparmor" -eq 1 ]; then # If yes, enable AppArmor in kernel parameters to be loaded in Enforce mode
+    echo "Security AppArmor was set to be loaded by kernel in Enforce mode" >>$LOG
+    {
+      chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor"/' /etc/default/grub
+      chroot $TARGETDIR sed -i 's/APPARMOR=complain/APPARMOR=enforce/g' /etc/default/apparmor
+    } >>$LOG 2>&1
+  fi
+  # Check if the user set to use Audit
+  if [ "$_audit" -eq 1 ]; then
+    echo "Create group audit, add the user to this group and change owner group to audit" >>$LOG
+    set_audit
+    echo "Set audit=1 as parameters to be loaded by kernel at boot" >>$LOG
+    chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 audit=1"/' /etc/default/grub >>$LOG 2>&1
+  fi
   echo "Running grub-mkconfig on ${bold}$TARGETDIR${reset}..." >>"$LOG"
   chroot $TARGETDIR grub-mkconfig -o /boot/grub/grub.cfg >>$LOG 2>&1
   # Build the Grub configure file and if not have success inform the user with a message dialog and exit from installer
