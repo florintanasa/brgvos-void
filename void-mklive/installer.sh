@@ -3472,7 +3472,7 @@ menu() {
   "Timezone") menu_timezone && [ -n "$TIMEZONE_DONE" ] && DEFITEM="RootPassword";;
   "RootPassword") menu_rootpassword && [ -n "$ROOTPASSWORD_DONE" ] && DEFITEM="UserAccount";;
   "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] && DEFITEM="Hardening";;
-  "Hardening") menu_hardening && [ -n "$HARDENING_DONE" ] && DEFITEM="BootLoader";;
+  "Hardening") menu_hardening "$@" && [ -n "$HARDENING_DONE" ] && DEFITEM="BootLoader";;
   "BootLoader") menu_bootloader && [ -n "$BOOTLOADER_DONE" ] && DEFITEM="Partition";;
   "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="LVM&LUKS";;
   "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Raid";;
@@ -3513,7 +3513,7 @@ ${BOLD}${YELLOW}https://github.com/florintanasa/brgvos-void${RESET}\n
 ${BOLD}${YELLOW}https://www.voidlinux.org${RESET}\n" 20 80
 
 while true; do
-  menu
+  menu "$@" # Argument can be a file for menu_hardening function, but work also without argument
 done
 
 exit 0
