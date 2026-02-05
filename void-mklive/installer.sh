@@ -765,22 +765,23 @@ show_partitions_filtered() {
 # Function for menu Hardening
 menu_hardening() {
   # Define some local variables
-  local _desc _checklist _answers rv _apparmor _hardening _state_armor _state_hardening _audit _state_audit
+  local _desc _checklist _answers rv _apparmor _hardening _state_armor _state_hardening _audit _state_audit _options \
+    _tag _label _label_for _raw _selected_tags _file _status _line
   # Loading local variable from config file
   _apparmor=$(get_option APPARMOR)
-  if [ "$_apparmor" -eq 1 ]; then
+  if  [ -n "$_apparmor" ] && [ "$_apparmor" -eq 1 ]; then
     _state_armor="on"
   else
     _state_armor="off"
   fi
   _hardening=$(get_option HARDENING)
-  if [ "$_hardening" -eq 1 ]; then
+  if [ -n "$_hardening" ] && [ "$_hardening" -eq 1 ]; then
     _state_hardening="on"
   else
     _state_hardening="off"
   fi
   _audit=$(get_option AUDIT)
-  if [ "$_audit" -eq 1 ]; then
+  if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then
     _state_audit="on"
   else
     _state_audit="off"
@@ -791,7 +792,7 @@ menu_hardening() {
   _checklist="
   apparmor AppArmor $_state_armor \
   audit Audit $_state_audit \
-  hardening Hardening $_state_hardening"
+  hardening Hardening(sysctl) $_state_hardening"
   # Create dialog
   DIALOG --no-tags --checklist "$_desc" 20 60 2 ${_checklist}
   # Verify if the user accept the dialog
@@ -816,18 +817,179 @@ menu_hardening() {
   elif [ "$rv" -eq 1 ]; then # Verify is user not accept the dialog
     return
   fi
-
-  # Check if user select AppArmor, Audit, Hardening
-  if [ "$_apparmor" -eq 1 ]; then
-    echo "User select AppArmor" >> "$LOG"
-  fi
-  if [ "$_audit" -eq 1 ]; then
-    echo "User select Audit" >> "$LOG"
-  fi
+  _hardening=$(get_option HARDENING)
   if [ "$_hardening" -eq 1 ]; then
-    echo "User select Hardening" >> "$LOG"
-  fi
+    # Build the list with options for hardening
+    _file="${1:-}" # Default to empty, file can be passed as an argument
+    if [ -n "$_file" ] && [ -f "$_file" ]; then
+      # Empty the array
+      _options=()
+      # Read every line from file
+      while IFS= read -r _line; do
+        # Ignore empty lines
+        [[ -z "$_line" ]] && continue
 
+        # Line have the form: <tag> "<label>" <status>
+        # Use eval to evaluated correctly ""
+        eval "set -- $_line"
+        _tag=$1
+        _label=$2
+        _status=$3
+        # Add elements in _options array
+        _options+=( "$_tag" "$_label" "$_status" )
+      done < "$_file" # Open file send as argument
+    else
+    _options=(
+      1 "# Desktop — compatibility, privacy, security" off
+      2 "kernel.yama.ptrace_scope = 1" off
+      3 "kernel.kptr_restrict = 2" off
+      4 "kernel.dmesg_restrict = 1" off
+      5 "kernel.sysrq = 0" off
+      6 "fs.protected_symlinks = 1" off
+      7 "fs.protected_hardlinks = 1" off
+      8 "fs.protected_fifos = 2" off
+      9 "fs.protected_regular = 2" off
+      10 "# Permit user namespaces for containerized desktop apps" off
+      11 "kernel.unprivileged_userns_clone = 1" off
+      12 "# Allow unprivileged eBPF for desktop tooling" off
+      13 "kernel.unprivileged_bpf_disabled = 0" off
+      14 "net.core.bpf_jit_harden = 2" off
+      15 "# ICMP and networking — enable IPv6 and ping for usability" off
+      16 "net.ipv4.icmp_echo_ignore_all = 0" off
+      17 "net.ipv6.conf.all.disable_ipv6 = 0" off
+      18 "net.ipv6.conf.default.disable_ipv6 = 0" off
+      19 "# TCP behaviour: keep timestamps (better perf), conservative swappiness" off
+      20 "net.ipv4.tcp_timestamps = 1" off
+      21 "vm.swappiness = 10" off
+      22 "# Reasonable defaults for local workloads" off
+      23 "net.core.somaxconn = 128" off
+      24 "net.core.netdev_max_backlog = 4096" off
+      25 "# Moderate socket buffers" off
+      26 "net.core.rmem_default = 262144" off
+      27 "net.core.rmem_max = 4194304" off
+      28 "net.core.wmem_default = 262144" off
+      29 "net.core.wmem_max = 4194304" off
+      30 "net.core.optmem_max = 65536" off
+      31 "# TCP memory (min, default, max)" off
+      32 "net.ipv4.tcp_rmem = 4096 131072 2097152" off
+      33 "net.ipv4.tcp_wmem = 4096 131072 2097152" off
+      34 "# UDP minimum buffers" off
+      35 "net.ipv4.udp_rmem_min = 8192" off
+      36 "net.ipv4.udp_wmem_min = 8192" off
+      37 "# Other desktop-friendly defaults" off
+      38 "kernel.perf_event_paranoid = 2" off
+      98 "############################################################" off
+      99 "############################################################" off
+      101 "# Server — hardening + network tuning for throughput and resilience" off
+      102 "kernel.yama.ptrace_scope = 3" off
+      103 "kernel.kexec_load_disabled = 1" off
+      104 "kernel.kptr_restrict = 2" off
+      105 "kernel.dmesg_restrict = 1" off
+      106 "kernel.sysrq = 0" off
+      107 "dev.tty.ldisc_autoload = 0" off
+      108 "kernel.unprivileged_userns_clone = 0" off
+      109 "kernel.unprivileged_bpf_disabled = 1" off
+      110 "net.core.bpf_jit_harden = 2" off
+      111 "kernel.perf_event_paranoid = 3" off
+      112 "# SYN flood / TCP protections" off
+      113 "net.ipv4.tcp_syncookies = 1" off
+      114 "net.ipv4.tcp_rfc1337 = 1" off
+      115 "# ASLR / entropy for mmap" off
+      116 "vm.mmap_rnd_bits = 32" off
+      117 "vm.mmap_rnd_compat_bits = 16" off
+      118 "# Spoofing / ICMP redirects" off
+      119 "net.ipv4.conf.all.rp_filter = 1" off
+      120 "net.ipv4.conf.default.rp_filter = 1" off
+      121 "net.ipv4.conf.all.accept_redirects = 0" off
+      122 "net.ipv4.conf.default.accept_redirects = 0" off
+      123 "net.ipv4.conf.all.secure_redirects = 0" off
+      124 "net.ipv4.conf.default.secure_redirects = 0" off
+      125 "net.ipv4.conf.all.send_redirects = 0" off
+      126 "net.ipv4.conf.default.send_redirects = 0" off
+      127 "# ICMP echo: disable to reduce surface (set 1 to block)" off
+      128 "net.ipv4.icmp_echo_ignore_all = 1" off
+      129 "# Protect filesystems" off
+      130 "fs.protected_fifos = 2" off
+      131 "fs.protected_regular = 2" off
+      132 "fs.protected_symlinks = 1" off
+      133 "fs.protected_hardlinks = 1" off
+      134 "# Source route / redirects" off
+      135 "net.ipv4.conf.all.accept_source_route = 0" off
+      136 "net.ipv4.conf.default.accept_source_route = 0" off
+      137 "# TCP SACK: disable only if kernel is vulnerable; otherwise consider enabling" off
+      138 "net.ipv4.tcp_sack = 0" off
+      139 "net.ipv4.tcp_dsack = 0" off
+      140 "net.ipv4.tcp_fack = 0" off
+      141 "# IPv6: disable if not used; enable/configure if required" off
+      142 "net.ipv6.conf.all.disable_ipv6 = 1" off
+      143 "net.ipv6.conf.default.disable_ipv6 = 1" off
+      144 "net.ipv6.conf.lo.disable_ipv6 = 1" off
+      145 "net.ipv6.conf.default.router_solicitations = 0" off
+      146 "net.ipv6.conf.default.accept_ra_rtr_pref = 0" off
+      147 "net.ipv6.conf.default.accept_ra_pinfo = 0" off
+      148 "net.ipv6.conf.default.accept_ra_defrtr = 0" off
+      149 "net.ipv6.conf.all.accept_ra = 0" off
+      150 "net.ipv6.conf.default.accept_ra = 0" off
+      151 "net.ipv6.conf.default.autoconf = 0" off
+      152 "net.ipv6.conf.default.dad_transmits = 0" off
+      153 "net.ipv6.conf.default.max_addresses = 1" off
+      154 "# Privacy for IPv6 addresses (temporary addresses)" off
+      155 "net.ipv6.conf.all.use_tempaddr = 2" off
+      156 "net.ipv6.conf.default.use_tempaddr = 2" off
+      157 "# Prevent time leakage" off
+      158 "net.ipv4.tcp_timestamps = 0" off
+      159 "# Networking performance tuning" off
+      160 "net.core.netdev_max_backlog = 16384" off
+      161 "net.core.somaxconn = 8192" off
+      162 "net.core.rmem_default = 1048576" off
+      163 "net.core.rmem_max = 16777216" off
+      164 "net.core.wmem_default = 1048576" off
+      165 "net.core.wmem_max = 16777216" off
+      166 "net.core.optmem_max = 65536" off
+      167 "net.ipv4.tcp_rmem = 4096 1048576 2097152" off
+      168 "net.ipv4.tcp_wmem = 4096 65536 16777216" off
+      169 "net.ipv4.udp_rmem_min = 8192" off
+      170 "net.ipv4.udp_wmem_min = 8192" off
+      171 "net.ipv4.tcp_fastopen = 3" off
+      172 "net.ipv4.tcp_max_syn_backlog = 8192" off
+      173 "net.ipv4.tcp_max_tw_buckets = 2000000" off
+      174 "net.ipv4.tcp_tw_reuse = 1" off
+      175 "net.ipv4.tcp_fin_timeout = 10" off
+      176 "net.ipv4.tcp_slow_start_after_idle = 0" off
+      177 "net.ipv4.tcp_mtu_probing = 1" off
+      178 "# Swappiness tuned for servers - use more from 99% RAM and then from swap" off
+      179 "vm.swappiness = 1" off
+    )
+    fi
+    # Empty variable used before
+    _label=
+    _tag=
+    # Create a tag → label map (associative array)
+    declare -A label_for
+    for ((i=0; i<${#_options[@]}; i+=3)); do
+      _tag=${_options[i]}
+      _label=${_options[i+1]}
+      _label_for[$_tag]="$_label"
+    done
+    # Open form dialog
+    exec 3>&1
+    # Show the build list dialog
+    _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Edit Options" \
+      --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+      --buildlist "Select (using space key) the options you want. To select the window use '^', for left, or '$', for right:" 30 130 2 \
+      "${_options[@]}" 3>&1 1>&2 2>&3)
+    # Close form dialog
+    exec 3>&-
+    # Translate the returned tags back to their labels
+   _selected_tags=($_raw)               # split on whitespace
+    {
+      for _tag in "${_selected_tags[@]}"; do
+        # If the user removed an entry, the tag may no longer exist
+        # in the map – skip empty results.
+        [[ -n ${_label_for[$_tag]} ]] && printf '%s\n' "${_label_for[$_tag]}"
+      done
+    } > /tmp/99-myconfig.conf
+  fi
   # set hardening done
   HARDENING_DONE=1
 }
