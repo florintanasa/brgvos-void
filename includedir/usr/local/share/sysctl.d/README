@@ -1,0 +1,6 @@
+In this directory exist some examples for sysctl:
+99-desktop.conf
+99-server.conf
+, and the next can be used together brgvos-installer:
+99-desktop-installer.conf
+99-server-installer.conf
