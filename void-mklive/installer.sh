@@ -1012,6 +1012,20 @@ set_audit() {
   } >>$LOG 2>&1
 }
 
+# Function for setting hardening
+set_hardening() {
+  # Define some local variables
+  local _hardening
+  # Load variable with value saved in config file
+  _hardening=$(get_option HARDENING)
+  # Copy config file from /tmp to $TARGET/tmp, then create directory sysctl.d in $TARGET and copy here the config file
+    {
+      cp /tmp/99-myconfig.conf $TARGETDIR/tmp
+      chroot $TARGETDIR mkdir -p /etc/sysctl.d
+      chroot $TARGETDIR cp /tmp/99-myconfig.conf /etc/sysctl.d/
+    } >>$LOG 2>&1
+}
+
 # Function for menu LVM&LUKS
 menu_lvm_luks() {
   # Define some local variables
