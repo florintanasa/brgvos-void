@@ -22,9 +22,11 @@ then
     ############################################################
 
 EOF
-    # add install.desktop for user brgos only because after install I delete file install.desktop
+    # add install.desktop for user brgos only because after install I delete file install.desktop from system
     if [ -e /usr/local/share/applications/install.desktop ]; then
 	mkdir -p $HOME/Desktop
 	cp /usr/local/share/applications/install.desktop $HOME/Desktop
+    # do not autostart for brgvos user apparmor-notify.desktop
+    sed -i 's/X-GNOME-Autostart-enabled=true/X-GNOME-Autostart-enabled=false/g' $HOME/.config/autostart/apparmor-notify.desktop
     fi
 fi
