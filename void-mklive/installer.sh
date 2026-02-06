@@ -1904,9 +1904,9 @@ menu_useraccount() {
   SOURCE_DONE="$(get_option SOURCE)"
   # If source not set use defaults.
   if [ "$(get_option SOURCE)" = "local" ] || [ -z "$SOURCE_DONE" ]; then
-    _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder"
+    _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder,audit"
   else
-    _groups="wheel,audio,video,floppy,cdrom,optical,kvm,users,xbuilder"
+    _groups="wheel,audio,video,floppy,cdrom,optical,kvm,users,xbuilder,audit"
   fi
   while true; do
     _desc="Select group membership for login '$(get_option USERLOGIN)':"
