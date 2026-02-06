@@ -1001,14 +1001,29 @@ set_audit() {
   # Get username
   _user=$(get_option USERLOGIN)
   {
-    # Create group audit
-    chroot $TARGETDIR groupadd -r audit
+    if cat $TARGETDIR/etc/group | grep -q "audit"; then
+      echo "Group 'audit' exist, so is not created..."
+    else
+      echo "Create group 'audit'..."
+      # Create group audit
+      chroot $TARGETDIR groupadd -r audit
+    fi
     # Add user to audit group
     chroot $TARGETDIR gpasswd -a "$_user" audit
-    # Change log_group to audit
-    chroot $TARGETDIR sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
-    # Change file mode and group for directory /var/log/audit
-    chroot $TARGETDIR sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
+    if cat $TARGETDIR/etc/audit/auditd.conf | grep -q "log_group = root"; then
+      echo "Change log_group to audit..."
+      # Change log_group to audit
+      chroot $TARGETDIR sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
+    fi
+    if cat $TARGETDIR/usr/lib/tmpfiles.d/audit.conf | grep -q "d /var/log/audit 0700 root root - -"; then
+      echo "Change file mode and group for directory /var/log/audit..."
+      # Change file mode and group for directory /var/log/audit
+      chroot $TARGETDIR sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
+    fi
+    #echo "Enable service auditctl to start at boot..."
+    #chroot $TARGETDIR ln -s /etc/sv/auditctl /var/service/
+    #echo "Enable service auditd to start at boot..."
+    #chroot $TARGETDIR ln -s /etc/sv/auditd /var/service/
   } >>$LOG 2>&1
 }
 
