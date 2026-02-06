@@ -1020,10 +1020,10 @@ set_audit() {
       # Change file mode and group for directory /var/log/audit
       chroot $TARGETDIR sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
     fi
-    #echo "Enable service auditctl to start at boot..."
-    #chroot $TARGETDIR ln -s /etc/sv/auditctl /var/service/
-    #echo "Enable service auditd to start at boot..."
-    #chroot $TARGETDIR ln -s /etc/sv/auditd /var/service/
+    echo "Enable service auditctl to start at boot..."
+    chroot $TARGETDIR ln -s /etc/sv/auditctl /etc/runit/runsvdir/default/
+    echo "Enable service auditd to start at boot..."
+    chroot $TARGETDIR ln -s /etc/sv/auditd /etc/runit/runsvdir/default/
   } >>$LOG 2>&1
 }
 
