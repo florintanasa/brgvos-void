@@ -1046,6 +1046,18 @@ if [ "$VARIANT" = gnome ]; then
     info_msg "Set plymouth theme for BRGV-OS"
     chroot "$ROOTFS" plymouth-set-default-theme -R brgvos
     
+    # create group audit
+    info_msg "Create group 'audit'"
+    chroot "$ROOTFS" groupadd -r audit
+
+    # Change log_group to audit
+    info_msg "Change log_group to audit"
+    chroot $ROOTFS sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
+
+    # Change file mode and group for directory /var/log/audit
+    info_msg "Change file mode and group for directory /var/log/audit"
+    chroot $ROOTFS sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
+
     # wait 10 seconds to can read
     sleep 10
 fi
