@@ -1044,6 +1044,7 @@ and performance options." 30 80
     # Empty variable used before
     _label=
     _tag=
+    _raw=
     # Create a tag → label map (associative array)
     declare -A label_for
     for ((i=0; i<${#_options[@]}; i+=3)); do
@@ -1054,7 +1055,7 @@ and performance options." 30 80
     # Open form dialog
     exec 3>&1
     # Show the build list dialog
-    _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Edit Options" \
+    _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Hardening(sysctl) Options" \
       --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
       --buildlist "Select (using space key) the options you want. To select the window use '^', for left, or '$', for right:" 30 130 2 \
       "${_options[@]}" 3>&1 1>&2 2>&3)
@@ -1119,11 +1120,13 @@ set_hardening() {
   # Load variable with value saved in config file
   _hardening=$(get_option HARDENING)
   # Copy config file from /tmp to $TARGET/tmp, then create directory sysctl.d in $TARGET and copy here the config file
+  if [ -f /tmp/99-myconfig.conf ]; then
     {
-      cp /tmp/99-myconfig.conf $TARGETDIR/tmp
-      chroot $TARGETDIR mkdir -p /etc/sysctl.d
-      chroot $TARGETDIR cp /tmp/99-myconfig.conf /etc/sysctl.d/
+      cp /tmp/99-myconfig.conf "$TARGETDIR"/tmp
+      chroot "$TARGETDIR" mkdir -p /etc/sysctl.d
+      chroot "$TARGETDIR" cp /tmp/99-myconfig.conf /etc/sysctl.d/
     } >>$LOG 2>&1
+  fi
 }
 
 # Function for menu LVM&LUKS
