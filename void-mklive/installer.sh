@@ -3113,7 +3113,16 @@ copy_rootfs() {
 
 # Function for install packages
 install_packages() {
-  local _grub= _syspkg= _extrapkg= _kernel= _dracut=
+  # Define some local variables
+  local _grub _syspkg _extrapkg _kernel _dracut _apparmor _audit
+  # Initialise variables
+  _grub=
+  _syspkg=
+  _extrapkg=
+  _kernel=
+  _dracut=
+  _apparmor=$(get_option APPARMOR)
+  _audit=$(get_option AUDIT)
 
   if [ "$(get_option BOOTLOADER)" != none ]; then
     if [ -n "$EFI_SYSTEM" ]; then
@@ -3131,6 +3140,15 @@ install_packages() {
   _extrapkg="lvm2 cryptsetup nano"
   _kernel="linux6.12"
   _dracut="dracut"
+
+  # Add the package 'apparmor' if the user select this option
+  if [ "$_apparmor" -eq 1 ]; then
+    _extrapkg+=" apparmor"
+  fi
+  # Add the package 'audit' if the user select this option
+  if [ "$_audit" -eq 1 ]; then
+    _extrapkg+=" audit"
+  fi
 
   mkdir -p $TARGETDIR/var/db/xbps/keys $TARGETDIR/usr/share
   cp -a /usr/share/xbps.d $TARGETDIR/usr/share/
