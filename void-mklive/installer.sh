@@ -786,6 +786,20 @@ menu_hardening() {
   else
     _state_audit="off"
   fi
+  # Messagebox with some info
+  DIALOG --title "Hardening" --msgbox "\n
+  ${BOLD}${RED}WARNING: If you're beginner, try these options on a test machine first!${RESET}\n\n
+  In the next window you can choose to configure to load at boot:\n\n
+${BOLD}${YELLOW}AppArmor${RESET} – a Linux security module that confines programs to a set of defined permissions (profiles). \
+It enforces access control by restricting file, network, and capability usage, helping prevent exploits even if an \
+application is compromised.\n\n
+${BOLD}${YELLOW}Audit${RESET} – the Linux auditing subsystem (auditd) that records security‑relevant events such as \
+system calls, file accesses, and user actions. Administrators configure rules to log specific activities, then review \
+the logs for compliance or incident investigation. User is necessary to be part from ${BLUE}'audit'${RESET} group.\n\n
+${BOLD}${YELLOW}sysctl${RESET} – a kernel interface for viewing and modifying runtime parameters. Settings are stored on \
+${BLUE}'/etc/sysctl.d/99-myconfig.conf'${RESET}, after install. You have some examples for a Desktop or Server machine, \
+and finally these setting can be edited, before to install, on ${BLUE}'/tmp/99-myconfig.conf'${RESET}. It controls networking, security, \
+and performance options." 30 80
   # Description for checklist box
   _desc="Select if you wish to setting AppArmor and hardening"
   # Description for checklist box
