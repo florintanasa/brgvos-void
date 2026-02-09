@@ -1943,10 +1943,15 @@ menu_useraccount() {
 # Function to set user account from loaded saved configure file
 set_useraccount() {
   [ -z "$USERACCOUNT_DONE" ] && return
-  chroot $TARGETDIR useradd -m -G "$(get_option USERGROUPS)" \
+  if [ "$(get_option SOURCE)" = "net" ] && [ "$(get_option AUDIT)" -eq 1 ]; then
+    chroot "$TARGETDIR" groupadd -r audit
+    chroot "$TARGETDIR" sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
+    chroot "$TARGETDIR" sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
+  fi
+  chroot "$TARGETDIR" useradd -m -G "$(get_option USERGROUPS)" \
     -c "$(get_option USERNAME)" "$(get_option USERLOGIN)"
   echo "$(get_option USERLOGIN):$(get_option USERPASSWORD)" | \
-    chroot $TARGETDIR chpasswd -c SHA512
+    chroot "$TARGETDIR" chpasswd -c SHA512
 }
 
 # Function to choose bootloader
