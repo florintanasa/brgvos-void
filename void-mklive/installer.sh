@@ -823,6 +823,72 @@ and performance options." 30 80
     else
       set_option AUDIT "0"
     fi
+    _audit=$(get_option AUDIT)
+    if [ "$_audit" -eq 1 ]; then
+      _options=(
+        1 "# Audit rules for BRGV-OS" off
+        2 "# User access monitoring" off
+        3 "# This rule watches the secure logs for user access" off
+        4 "-w /var/log/secure -p wa -k user_access" off
+        5 "-w /var/log/auth.log -p wa -k user_access" off
+        6 "# Monitoring modifications to critical files" off
+        7 "# This will log any changes to user account files" off
+        8 "-w /etc/passwd -p wa -k passwd_changes" off
+        9 "-w /etc/shadow -p wa -k shadow_changes" off
+        10 "-w /etc/sudoers -p wa -k sudoers_changes" off
+        11 "# Monitoring package installation" off
+        12 "# This logs changes in the package management logs" off
+        13 "-w /var/log/dpkg.log -p wa -k package_installation" off
+        14 "-w /var/log/yum.log -p wa -k package_installation" off
+        15 "# Network activity auditing" off
+        16 "# This tracks outgoing and incoming network connections" off
+        17 "-a always,exit -F arch=b64 -S connect -S accept -k network_activity" off
+        19 "-a always,exit -F arch=b32 -S connect -S accept -k network_activity" off
+        20 "# Application usage monitoring" off
+        21 "# This watches the binaries for application executions" off
+        22 "-w /usr/bin/ -p x -k app_usage" off
+        23 " # Monitoring access to personal data" off
+        24 "# This logs access to the home directory, where personal files are stored" off
+        25 "-w /home/ -p wa -k personal_data_access" off
+        26 "# Monitoring external device usage" off
+        27 "# This tracks usage of USB devices, replace /dev/sdX with the corresponding USB device and then uncomment" off
+        28 "#-a always,exit -F arch=b64 -S mknod,open,write,close -F path=/dev/sdX -k usb_device_usage" off
+        29 "# Changes in system settings monitoring" off
+        30 "# This logs any modifications within the /etc directory, which contains configuration files" off
+        31 "-w /etc/ -p wa -k system_settings" off
+        32 "# This logs any inserting module" off
+        33 "-w /sbin/insmod -p x -k module_insertion" off
+      )
+      # Empty variable used before
+      _label=
+      _tag=
+      _raw=
+      # Create a tag → label map (associative array)
+      declare -A label_for
+      for ((i=0; i<${#_options[@]}; i+=3)); do
+        _tag=${_options[i]}
+        _label=${_options[i+1]}
+        _label_for[$_tag]="$_label"
+      done
+      # Open form dialog
+      exec 3>&1
+      # Show the build list dialog
+      _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Audit Options" \
+        --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+        --buildlist "Select (using space key) the options you want. To select the window use '^', for left, or '$', for right:" 30 130 2 \
+        "${_options[@]}" 3>&1 1>&2 2>&3)
+      # Close form dialog
+      exec 3>&-
+      # Translate the returned tags back to their labels
+      _selected_tags=($_raw)               # split on whitespace
+      {
+        for _tag in "${_selected_tags[@]}"; do
+          # If the user removed an entry, the tag may no longer exist
+          # in the map – skip empty results.
+          [[ -n ${_label_for[$_tag]} ]] && printf '%s\n' "${_label_for[$_tag]}"
+        done
+      } > /tmp/99-myconfig.rules
+    fi
     if echo "$_answers" | grep -q "hardening"; then
       set_option HARDENING "1"
     else
