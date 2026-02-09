@@ -1081,29 +1081,34 @@ set_audit() {
   # Get username
   _user=$(get_option USERLOGIN)
   {
-    if cat $TARGETDIR/etc/group | grep -q "audit"; then
+    if cat "$TARGETDIR"/etc/group | grep -q "audit"; then
       echo "Group 'audit' exist, so is not created..."
     else
       echo "Create group 'audit'..."
       # Create group audit
-      chroot $TARGETDIR groupadd -r audit
+      chroot "$TARGETDIR" groupadd -r audit
     fi
     # Add user to audit group
-    chroot $TARGETDIR gpasswd -a "$_user" audit
-    if cat $TARGETDIR/etc/audit/auditd.conf | grep -q "log_group = root"; then
+    chroot "$TARGETDIR" gpasswd -a "$_user" audit
+    if cat "$TARGETDIR"/etc/audit/auditd.conf | grep -q "log_group = root"; then
       echo "Change log_group to audit..."
       # Change log_group to audit
-      chroot $TARGETDIR sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
+      chroot "$TARGETDIR" sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
     fi
-    if cat $TARGETDIR/usr/lib/tmpfiles.d/audit.conf | grep -q "d /var/log/audit 0700 root root - -"; then
+    if cat "$TARGETDIR"/usr/lib/tmpfiles.d/audit.conf | grep -q "d /var/log/audit 0700 root root - -"; then
       echo "Change file mode and group for directory /var/log/audit..."
       # Change file mode and group for directory /var/log/audit
-      chroot $TARGETDIR sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
+      chroot "$TARGETDIR" sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
     fi
     echo "Enable service auditctl to start at boot..."
-    chroot $TARGETDIR ln -s /etc/sv/auditctl /etc/runit/runsvdir/default/
+    chroot "$TARGETDIR" ln -s /etc/sv/auditctl /etc/runit/runsvdir/default/
     echo "Enable service auditd to start at boot..."
-    chroot $TARGETDIR ln -s /etc/sv/auditd /etc/runit/runsvdir/default/
+    chroot "$TARGETDIR" ln -s /etc/sv/auditd /etc/runit/runsvdir/default/
+    # Copy rules file from /tmp to $TARGET/tmp, then copy rules file to /etc/audit/rules.d
+    if [ -f /tmp/99-myconfig.rules ]; then
+      cp /tmp/99-myconfig.rules "$TARGETDIR"/tmp
+      chroot "$TARGETDIR" cp /tmp/99-myconfig.rules /etc/audit/rules.d/
+    fi
   } >>$LOG 2>&1
 }
 
