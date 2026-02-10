@@ -837,16 +837,17 @@ and performance options." 30 80
         9 "-w /etc/shadow -p wa -k shadow_changes" off
         10 "-w /etc/sudoers -p wa -k sudoers_changes" off
         11 "# Monitoring package installation" off
-        12 "# This logs changes in the package management logs" off
-        13 "-w /var/log/dpkg.log -p wa -k package_installation" off
-        14 "-w /var/log/yum.log -p wa -k package_installation" off
-        15 "# Network activity auditing" off
-        16 "# This tracks outgoing and incoming network connections" off
-        17 "-a always,exit -F arch=b64 -S connect -S accept -k network_activity" off
-        19 "-a always,exit -F arch=b32 -S connect -S accept -k network_activity" off
-        20 "# Application usage monitoring" off
-        21 "# This watches the binaries for application executions" off
-        22 "-w /usr/bin/ -p x -k app_usage" off
+        12 "# This logs changes to the xbps package management database" off
+        13 "-w /var/db/xbps/ -p wa -k package_installation" off
+        14 "# Network activity auditing" off
+        15 "# This tracks outgoing and incoming network connections" off
+        16 "-a always,exit -F arch=b64 -S connect -S accept -k network_activity" off
+        17 "-a always,exit -F arch=b32 -S connect -S accept -k network_activity" off
+        18 "# Application usage monitoring" off
+        19 "# This watches for sudo executions" off
+        20 "-w /usr/bin/sudo -p x -k sudo_usage" off
+        21 "# Application usage by specific user" off
+        22 "-a always,exit -F arch=b64 -S execve -F uid=1000 -k programs" off
         23 " # Monitoring access to personal data" off
         24 "# This logs access to the home directory, where personal files are stored" off
         25 "-w /home/ -p wa -k personal_data_access" off
