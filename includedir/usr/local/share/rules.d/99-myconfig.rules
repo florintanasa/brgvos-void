@@ -1,0 +1,33 @@
+        # Audit rules for BRGV-OS
+        # User access monitoring
+        # This rule watches the secure logs for user access
+        -w /var/log/secure -p wa -k user_access
+        -w /var/log/auth.log -p wa -k user_access
+        # Monitoring modifications to critical files
+        # This will log any changes to user account files
+        -w /etc/passwd -p wa -k passwd_changes
+        -w /etc/shadow -p wa -k shadow_changes
+        -w /etc/sudoers -p wa -k sudoers_changes
+        # Monitoring package installation
+        # This logs changes to the xbps package management database
+        -w /var/db/xbps/ -p wa -k package_installation
+        # Network activity auditing
+        # This tracks outgoing and incoming network connections
+        -a always,exit -F arch=b64 -S connect -S accept -k network_activity
+        -a always,exit -F arch=b32 -S connect -S accept -k network_activity
+        # Application usage monitoring
+        # This watches for sudo executions
+        -w /usr/bin/sudo -p x -k sudo_usage
+        # Application usage by specific user (can be www-data)
+        -a always,exit -F arch=b64 -S execve -F uid=1000 -k programs
+        # Monitoring access to personal data
+        # This logs access to the home directory, where personal files are stored
+        -w /home/ -p wa -k personal_data_access
+        # Monitoring external device usage
+        # This tracks usage of USB devices, replace /dev/sdX with the corresponding USB device and then uncomment
+        #-a always,exit -F arch=b64 -S mknod,open,write,close -F path=/dev/sdX -k usb_device_usage
+        # Changes in system settings monitoring
+        # This logs any modifications within the /etc directory, which contains configuration files
+        -w /etc/ -p wa -k system_settings
+        # This logs any inserting module
+        -w /sbin/insmod -p x -k module_insertion
