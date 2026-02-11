@@ -66,7 +66,7 @@ dialog_color = (CYAN,BLACK,ON)
 title_color = (WHITE,BLACK,ON)
 
 # Dialog box border color
-border_color = (CYAN,BLACK,ON)
+border_color = screen_color
 
 # Active button color
 button_active_color = (BLACK,CYAN,OFF)
