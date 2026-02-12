@@ -1227,17 +1227,17 @@ menu_lvm_luks() {
         --title " Completați datele necesare " \
         --form "Introduceți numele pentru grupul de volume, volumul logic pentru swap și rootfs, precum și dimensiunea acestora." \
         20 62 0 \
-        "Numele grupului de volume     (VG):"  1 1  "$_vgname" 	     1 34 20 0 \
-        "Numele volumului logic pentru swap:"  2 1  "$_lvswap" 	     2 34 20 0 \
-        "Numele volumului logic pt.  rootfs:"  3 1  "$_lvrootfs"     3 34 20 0 \
-        "Numele volumului logic pentru home:"  4 1  "$_lvhome" 	     4 34 20 0 \
-        "Numele volumului logic pt. extra-1:"  5 1  "$_lvextra_1"    5 34 20 0 \
-        "Numele volumului logic pt. extra-2:"  6 1  "$_lvextra_2"    6 34 20 0 \
-        "Mărime LVSWAP    (GB):"               7 1  "$_slvswap"      7 34  4 0 \
-        "Mărime LVROOTFS   (%):"               8 1  "$_slvrootfs"    8 34  3 0 \
-        "Mărime LVHOME     (%):"               9 1  "$_slvhome"      9 34  3 0 \
-        "Mărime LVEXTRA-1  (%):"              10 1  "$_slvextra_1"  10 34  3 0 \
-        "Mărime LVEXTRA-2  (%):"              11 1  "$_slvextra_2"  11 34  3 0 \
+        "Numele grupului de volume     (VG):"  1 1  "$_vgname" 	     1 36 20 0 \
+        "Numele volumului logic pentru swap:"  2 1  "$_lvswap" 	     2 36 20 0 \
+        "Numele volumului logic pt.  rootfs:"  3 1  "$_lvrootfs"     3 36 20 0 \
+        "Numele volumului logic pentru home:"  4 1  "$_lvhome" 	     4 36 20 0 \
+        "Numele volumului logic pt. extra-1:"  5 1  "$_lvextra_1"    5 36 20 0 \
+        "Numele volumului logic pt. extra-2:"  6 1  "$_lvextra_2"    6 36 20 0 \
+        "Mărime LVSWAP    (GB):"               7 1  "$_slvswap"      7 36  4 0 \
+        "Mărime LVROOTFS   (%):"               8 1  "$_slvrootfs"    8 36  3 0 \
+        "Mărime LVHOME     (%):"               9 1  "$_slvhome"      9 36  3 0 \
+        "Mărime LVEXTRA-1  (%):"              10 1  "$_slvextra_1"  10 36  3 0 \
+        "Mărime LVEXTRA-2  (%):"              11 1  "$_slvextra_2"  11 36  3 0 \
       2>&1 1>&3)
       rv=$?
       # Check if the user press Save button
