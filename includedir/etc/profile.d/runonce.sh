@@ -14,7 +14,8 @@ then
     ### Look on the file what commands is run. If you        ###
     ### delete this file at next logon commands is run       ###
     ### again at next log in                                 ###
-    ### If you need do stop this delte or move file.         ###
+    ### If you need do stop this delete or move the file     ###
+    ### /etc/profile.d/runonce.sh                           ###
     ###                                                      ###
     ### If you wish to reset flatpak commands run next       ###
     ### flatpak override --user --reset                      ###
