@@ -3580,8 +3580,8 @@ menu() {
       "Hostname" "Setați numele sistemului" \
       "Timezone" "Setați fusul orar al sistemului" \
       "RootPassword" "Setați parola utilizatorului root" \
-      "UserAccount" "Setați numele de utilizator și parola" \
       "Hardening" "Setări Hardening" \
+      "UserAccount" "Setați numele de utilizator și parola" \
       "BootLoader" "Setați discul pentru instalarea bootloader-ului" \
       "Partition" "Partiționați discul(-rile)" \
       "LVM&LUKS" "Configurați LVM și/sau criptarea cu LUKS" \
@@ -3603,8 +3603,8 @@ menu() {
       "Locale" "Setați localizarea sistemului" \
       "Timezone" "Setați fusul orar al sistemului" \
       "RootPassword" "Setați parola utilizatorului root" \
-      "UserAccount" "Setați numele de utilizator și parola" \
       "Hardening" "Setări Hardening" \
+      "UserAccount" "Setați numele de utilizator și parola" \
       "BootLoader" "Setați discul pentru instalarea bootloader-ului" \
       "Partition" "Partiționați discul(-rile)" \
       "LVM&LUKS" "Configurați LVM și/sau criptarea cu LUKS" \
@@ -3629,12 +3629,12 @@ menu() {
   "Network") menu_network && [ -n "$NETWORK_DONE" ] && DEFITEM="Source";;
   "Source") menu_source && [ -n "$SOURCE_DONE" ] && DEFITEM="Mirror";;
   "Mirror") menu_mirror && [ -n "$MIRROR_DONE" ] && DEFITEM="Hostname";;
-  "Hostname") menu_hostname && [ -n "$HOSTNAME_DONE" ] && DEFITEM="$AFTER_HOSTNAME";;
+  "Hostname") menu_hostname && [ -n "$HOSTNAME_DONE" ] && DEFITEM="Locale";;
   "Locale") menu_locale && [ -n "$LOCALE_DONE" ] && DEFITEM="Timezone";;
   "Timezone") menu_timezone && [ -n "$TIMEZONE_DONE" ] && DEFITEM="RootPassword";;
-  "RootPassword") menu_rootpassword && [ -n "$ROOTPASSWORD_DONE" ] && DEFITEM="UserAccount";;
-  "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] && DEFITEM="Hardening";;
-  "Hardening") menu_hardening "$@" && [ -n "$HARDENING_DONE" ] && DEFITEM="BootLoader";;
+  "RootPassword") menu_rootpassword && [ -n "$ROOTPASSWORD_DONE" ] && DEFITEM="Hardening";;
+  "Hardening") menu_hardening "$@" && [ -n "$HARDENING_DONE" ] && DEFITEM="UserAccount";;
+  "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] && DEFITEM="BootLoader";;
   "BootLoader") menu_bootloader && [ -n "$BOOTLOADER_DONE" ] && DEFITEM="Partition";;
   "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="LVM&LUKS";;
   "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Raid";;
