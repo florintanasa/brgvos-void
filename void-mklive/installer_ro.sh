@@ -2193,7 +2193,7 @@ set_bootloader() {
   fi
   chroot $TARGETDIR sed -i '$aGRUB_DISABLE_OS_PROBER=false' /etc/default/grub >>$LOG 2>&1
   # Check if the user set to use AppArmor
-  if [ "$_apparmor" -eq 1 ]; then # If yes, enable AppArmor in kernel parameters to be loaded in Enforce mode
+  if [ -n "$_apparmor" ] && [ "$_apparmor" -eq 1 ]; then # If yes, enable AppArmor in kernel parameters to be loaded in Enforce mode
     echo "AppArmour a fost setat ca parametru la încârcarea kernelului și a fost setat modul Enforce..." >>$LOG
     {
       chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor"/' /etc/default/grub
@@ -2201,14 +2201,14 @@ set_bootloader() {
     } >>$LOG 2>&1
   fi
   # Check if the user set to use Audit
-  if [ "$_audit" -eq 1 ]; then
+  if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then
     echo "Creez grupul audit, adaug utilizatorul în acest grup și schimb grupul din care face parte fișierul audit.log..." >>$LOG
     set_audit
     echo "Setez audit=1 ca parametru pentru kernel la bootare" >>$LOG
     chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 audit=1"/' /etc/default/grub >>$LOG 2>&1
   fi
   # Check if the user set to use Hardening(sysctl)
-  if [ "$_hardening" -eq 1 ]; then
+  if [ -n "$_hardening" ] && [ "$_hardening" -eq 1 ]; then
     echo "Mut fișierul 99-myconfig.conf în /etc/sysctl.d ..." >>$LOG
     set_hardening
   fi
@@ -3249,11 +3249,11 @@ install_packages() {
   _dracut="dracut"
 
   # Add the package 'apparmor' if the user select this option
-  if [ "$_apparmor" -eq 1 ]; then
+  if [ -n "$_apparmor" ] && [ "$_apparmor" -eq 1 ]; then
     _extrapkg+=" apparmor"
   fi
   # Add the package 'audit' if the user select this option
-  if [ "$_audit" -eq 1 ]; then
+  if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then
     _extrapkg+=" audit"
   fi
 
