@@ -3328,6 +3328,11 @@ disable_service() {
 
 # Function for menu install
 menu_install() {
+  # Define some local variables
+  local _apparmor _audit
+  # Load variables
+  _apparmor=$(get_option APPARMOR)
+  _audit=$(get_option AUDIT)
   ROOTPASSWORD_DONE="$(get_option ROOTPASSWORD)"
   BOOTLOADER_DONE="$(get_option BOOTLOADER)"
 
@@ -3399,7 +3404,17 @@ menu_install() {
     if ! [ -e "/var/service/espeakup" ]; then
       TO_REMOVE+=" espeakup"
     fi
-    # For Gnome have dependencie Orca and this have dependencie brltty
+    # Remove apparmour package if not was selected by the user in Hardening menu
+    if [ -z "$_audit" ] || [ ! "$_apparmor" -eq 1 ]; then
+      TO_REMOVE+=" apparmor"
+      chroot $TARGETDIR rm -r -f /etc/apparmor.d/ >>$LOG 2>&1
+    fi
+    # Remove audit package and group if not was selected by user in Hardening menu
+    if [ -z "$_audit" ] || [ ! "$_audit" -eq 1 ]; then
+      TO_REMOVE+=" audit"
+      chroot $TARGETDIR groupdel audit >>$LOG 2>&1
+    fi
+    # For Gnome have dependencies Orca and this have dependencies brltty
     #if ! [ -e "/var/service/brltty" ]; then
     #    TO_REMOVE+=" python3-brlapi brltty"
     #fi
@@ -3410,6 +3425,14 @@ menu_install() {
     for pkg in $TO_REMOVE; do
       xbps-remove -r $TARGETDIR -Ry "$pkg" >>$LOG 2>&1
     done
+    # Remove /etc/apparmour.d directory if not was selected by the user in Hardening menu
+    if [ -z "$_audit" ] || [ ! "$_apparmor" -eq 1 ]; then
+      chroot $TARGETDIR rm -r -f /etc/apparmor.d/ >>$LOG 2>&1
+    fi
+    # Remove /etc/audit directory if not was selected by user in Hardening menu
+    if [ -z "$_audit" ] || [ ! "$_audit" -eq 1 ]; then
+      chroot $TARGETDIR rm -r -f /etc/audit >>$LOG 2>&1
+    fi
     rmdir $TARGETDIR/mnt/target
   else
     # mount required fs
