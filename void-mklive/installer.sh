@@ -2,7 +2,7 @@
 #-
 # Copyright (c) 2012-2015 Juan Romero Pardines <xtraeme@gmail.com>.
 #               2012 Dave Elusive <davehome@redthumb.info.tm>.
-#               2025 Florin Tanasă <florin.tanasa@gmail.com>
+#               2025-2026 Florin Tanasă <florin.tanasa@gmail.com>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
