@@ -1928,9 +1928,10 @@ set_rootpassword() {
 
 # Function to set user account
 menu_useraccount() {
+  # Define some local variables
   local _firstpass _secondpass _desc _again
   local _groups _status _group _checklist
-  local _preset _userlogin
+  local _preset _userlogin _audit
 
   while true; do
     _preset=$(get_option USERLOGIN)
@@ -1995,11 +1996,20 @@ menu_useraccount() {
     fi
   done
   SOURCE_DONE="$(get_option SOURCE)"
+  _audit=$(get_option AUDIT)
   # If source not set use defaults.
-  if [ "$(get_option SOURCE)" = "local" ] || [ -z "$SOURCE_DONE" ]; then
-    _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder,audit"
-  else
-    _groups="wheel,audio,video,floppy,cdrom,optical,kvm,users,xbuilder,audit"
+  if [ "$(get_option SOURCE)" = "local" ] || [ -z "$SOURCE_DONE" ]; then # check if user request local installation
+    if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then # check if user request to setting audit
+      _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder,audit"
+    else
+      _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder"
+    fi
+  else # if not request local installation remain network install
+    if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then # check if user request to setting audit for network install
+      _groups="wheel,audio,video,floppy,cdrom,optical,kvm,users,xbuilder,audit"
+    else
+      _groups="wheel,audio,video,floppy,cdrom,optical,kvm,users,xbuilder"
+    fi
   fi
   while true; do
     _desc="Select group membership for login '$(get_option USERLOGIN)':"
