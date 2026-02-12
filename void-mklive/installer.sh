@@ -3582,8 +3582,8 @@ menu() {
       "Hostname" "Set system hostname" \
       "Timezone" "Set system time zone" \
       "RootPassword" "Set system root password" \
-      "UserAccount" "Set primary user name and password" \
       "Hardening" "Hardening settings" \
+      "UserAccount" "Set primary user name and password" \
       "BootLoader" "Set disk to install bootloader" \
       "Partition" "Partition disk(s)" \
       "LVM&LUKS" "Set LVM and crypto LUKS" \
@@ -3605,8 +3605,8 @@ menu() {
       "Locale" "Set system locale" \
       "Timezone" "Set system time zone" \
       "RootPassword" "Set system root password" \
-      "UserAccount" "Set primary user name and password" \
       "Hardening" "Hardening settings" \
+      "UserAccount" "Set primary user name and password" \
       "BootLoader" "Set disk to install bootloader" \
       "Partition" "Partition disk(s)" \
       "LVM&LUKS" "Set LVM and crypto LUKS" \
@@ -3634,9 +3634,9 @@ menu() {
   "Hostname") menu_hostname && [ -n "$HOSTNAME_DONE" ] && DEFITEM="$AFTER_HOSTNAME";;
   "Locale") menu_locale && [ -n "$LOCALE_DONE" ] && DEFITEM="Timezone";;
   "Timezone") menu_timezone && [ -n "$TIMEZONE_DONE" ] && DEFITEM="RootPassword";;
-  "RootPassword") menu_rootpassword && [ -n "$ROOTPASSWORD_DONE" ] && DEFITEM="UserAccount";;
-  "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] && DEFITEM="Hardening";;
-  "Hardening") menu_hardening "$@" && [ -n "$HARDENING_DONE" ] && DEFITEM="BootLoader";;
+  "RootPassword") menu_rootpassword && [ -n "$ROOTPASSWORD_DONE" ] && DEFITEM="Hardening";;
+  "Hardening") menu_hardening "$@" && [ -n "$HARDENING_DONE" ] && DEFITEM="UserAccount";;
+  "UserAccount") menu_useraccount && [ -n "$USERLOGIN_DONE" ] && [ -n "$USERPASSWORD_DONE" ] && DEFITEM="BootLoader";;
   "BootLoader") menu_bootloader && [ -n "$BOOTLOADER_DONE" ] && DEFITEM="Partition";;
   "Partition") menu_partitions && [ -n "$PARTITIONS_DONE" ] && DEFITEM="LVM&LUKS";;
   "LVM&LUKS") menu_lvm_luks && [ -n "$LVMLUKS_DONE" ] && DEFITEM="Raid";;
