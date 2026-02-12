@@ -2194,7 +2194,7 @@ set_bootloader() {
   fi
   chroot $TARGETDIR sed -i '$aGRUB_DISABLE_OS_PROBER=false' /etc/default/grub >>$LOG 2>&1
   # Check if the user set to use AppArmor
-  if [ "$_apparmor" -eq 1 ]; then # If yes, enable AppArmor in kernel parameters to be loaded in Enforce mode
+  if [ -n "$_apparmor" ] && [ "$_apparmor" -eq 1 ]; then # If yes, enable AppArmor in kernel parameters to be loaded in Enforce mode
     echo "Security AppArmor was set to be loaded by kernel in Enforce mode..." >>$LOG
     {
       chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor"/' /etc/default/grub
@@ -2202,14 +2202,14 @@ set_bootloader() {
     } >>$LOG 2>&1
   fi
   # Check if the user set to use Audit
-  if [ "$_audit" -eq 1 ]; then
+  if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then
     echo "Create group audit, add the user to this group and change owner group to audit..." >>$LOG
     set_audit
     echo "Set audit=1 as parameters to be loaded by kernel at boot" >>$LOG
     chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 audit=1"/' /etc/default/grub >>$LOG 2>&1
   fi
   # Check if the user set to use Hardening(sysctl)
-  if [ "$_hardening" -eq 1 ]; then
+  if [ -n "$_hardening" ] && [ "$_hardening" -eq 1 ]; then
     echo "Move file 99-myconfig.conf in /etc/sysctl.d ..." >>$LOG
     set_hardening
   fi
@@ -3250,11 +3250,11 @@ install_packages() {
   _dracut="dracut"
 
   # Add the package 'apparmor' if the user select this option
-  if [ "$_apparmor" -eq 1 ]; then
+  if [ -n "$_apparmor" ] && [ "$_apparmor" -eq 1 ]; then
     _extrapkg+=" apparmor"
   fi
   # Add the package 'audit' if the user select this option
-  if [ "$_audit" -eq 1 ]; then
+  if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then
     _extrapkg+=" audit"
   fi
 
