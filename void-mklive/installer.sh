@@ -1115,6 +1115,9 @@ set_audit() {
       cp /tmp/99-myconfig.rules "$TARGETDIR"/tmp
       chroot "$TARGETDIR" cp /tmp/99-myconfig.rules /etc/audit/rules.d/
     fi
+    echo "Added -i (Ignore errors) in /etc/audit/rules.d/10-base-config.rules"
+    chroot "$TARGETDIR" sed -i '$a# Ignore errors' /etc/audit/rules.d/10-base-config.rules
+    chroot "$TARGETDIR" sed -i '$a-i' /etc/audit/rules.d/10-base-config.rules
   } >>$LOG 2>&1
 }
 
