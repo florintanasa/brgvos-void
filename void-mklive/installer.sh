@@ -830,39 +830,174 @@ It controls networking, security, and performance options." 30 80
     _audit=$(get_option AUDIT)
     if [ "$_audit" -eq 1 ]; then
       _options=(
-        1 "# Audit rules for BRGV-OS" off
-        2 "# User access monitoring" off
-        3 "# This rule watches the secure logs for user access" off
-        4 "-w /var/log/secure -p wa -k user_access" off
-        5 "-w /var/log/auth.log -p wa -k user_access" off
-        6 "# Monitoring modifications to critical files" off
-        7 "# This will log any changes to user account files" off
-        8 "-w /etc/passwd -p wa -k passwd_changes" off
-        9 "-w /etc/shadow -p wa -k shadow_changes" off
-        10 "-w /etc/sudoers -p wa -k sudoers_changes" off
-        11 "# Monitoring package installation" off
-        12 "# This logs changes to the xbps package management database" off
-        13 "-w /var/db/xbps/ -p wa -k package_installation" off
-        14 "# Network activity auditing" off
-        15 "# This tracks outgoing and incoming network connections" off
-        16 "-a always,exit -F arch=b64 -S connect -S accept -k network_activity" off
-        17 "#-a always,exit -F arch=b32 -S connect -S accept -k network_activity" off
-        18 "# Application usage monitoring" off
-        19 "# This watches for sudo executions" off
-        20 "-w /usr/bin/sudo -p x -k sudo_usage" off
-        21 "# Application usage by specific user" off
-        22 "-a always,exit -S execve -F uid=1000 -k programs" off
-        23 "# Monitoring access to personal data" off
-        24 "# This logs access to the home directory, where personal files are stored" off
-        25 "-w /home/ -p wa -k personal_data_access" off
-        26 "# Monitoring external device usage" off
-        27 "# This tracks usage of USB devices, replace /dev/sdX with the corresponding USB device and then uncomment" off
-        28 "#-a always,exit -F arch=b64 -S mknod,open,write,close -F path=/dev/sdX -k usb_device_usage" off
-        29 "# Changes in system settings monitoring" off
-        30 "# This logs any modifications within the /etc directory, which contains configuration files" off
-        31 "-w /etc/ -p wa -k system_settings" off
-        32 "# This logs any inserting module" off
-        33 "-w /sbin/insmod -p x -k module_insertion" off
+        1 "# Audit for BRGV-OS ###############################################################" off
+        2 "# Self Auditing ###################################################################" off
+        3 "## Audit the audit logs" off
+        4 "### Successful and unsuccessful attempts to read information from the audit records" off
+        5 "-a always,exit -F arch=b64 -F dir=/var/log/audit/ -F perm=wra -F key=auditlog" off
+        6 "## Auditd configuration" off
+        7 "### Modifications to audit configuration that occur while the audit collection functions are operating" off
+        8 "-a always,exit -F arch=b64 -F dir=/etc/audit/ -F perm=wa -F key=auditconfig" off
+        9 "-a always,exit -F arch=b64 -F path=/etc/libaudit.conf -F perm=wa -F key=auditconfig" off
+        10 "## Monitor for use of audit management tools" off
+        11 "-a always,exit -F arch=b64 -F path=/usr/sbin/auditctl -F perm=x -F key=audittools" off
+        12 "-a always,exit -F arch=b64 -F path=/usr/sbin/auditd -F perm=x -F key=audittools" off
+        13 "-a always,exit -F arch=b64 -F path=/usr/sbin/augenrules -F perm=x -F key=audittools" off
+        14 "## Access to all audit trails" off
+        15 "-a always,exit -F arch=b64 -F path=/usr/sbin/ausearch -F perm=x -F key=audittools" off
+        16 "-a always,exit -F arch=b64 -F path=/usr/sbin/aureport -F perm=x -F key=audittools" off
+        17 "-a always,exit -F arch=b64 -F path=/usr/sbin/aulast -F perm=x -F key=audittools" off
+        18 "-a always,exit -F arch=b64 -F path=/usr/sbin/aulastlog -F perm=x -F key=audittools" off
+        19 "# Filters ######################################################################" off
+        20 "### We put these early because audit is a first match wins system" off
+        21 "## Ignore current working directory records" off
+        22 "## -a always,exclude -F arch=b64 -F msgtype=CWD" off
+        23 "## Cron jobs fill the logs with stuff we normally do not want" off
+        24 "-a never,user -F arch=b64 -F subj_type=crond_t" off
+        25 "-a never,exit -F arch=b64 -F subj_type=crond_t" off
+        26 "## This prevents chrony from overwhelming the logs" off
+        27 "-a never,exit -F arch=b64 -S adjtimex -F auid=-1 -F uid=chrony -F subj_type=chronyd_t" off
+        28 "## This is not very interesting and wastes a lot of space if the server is public facing" off
+        29 "-a always,exclude -F arch=b64 -F msgtype=CRYPTO_KEY_USER" off
+        30 "## High Volume Event Filter (especially on Linux Workstations)" off
+        31 "-a never,exit -F arch=b32 -F dir=/dev/shm/ -F key=sharedmemaccess" off
+        32 "-a never,exit -F arch=b64 -F dir=/dev/shm/ -F key=sharedmemaccess" off
+        33 "-a never,exit -F arch=b32 -F dir=/var/lock/lvm/ -F key=locklvm" off
+        34 "-a never,exit -F arch=b64 -F dir=/var/lock/lvm/ -F key=locklvm" off
+        35 "# Rules #######################################################################" off
+        36 "## Kernel parameters" off
+        37 "-a always,exit -F arch=b64 -F path=/etc/sysctl.conf -F perm=wa -F key=sysctl" off
+        38 "-a always,exit -F arch=b64 -F path=/etc/sysctl.d -F perm=wa -F key=sysctl" off
+        39 "## Kernel module loading and unloading" off
+        40 "-a always,exit -F arch=b64 -F perm=x -F auid!=-1 -F path=/usr/sbin/insmod -F key=modules" off
+        41 "-a always,exit -F arch=b64 -F perm=x -F auid!=-1 -F path=/usr/sbin/modprobe -F key=modules" off
+        42 "-a always,exit -F arch=b64 -F perm=x -F auid!=-1 -F path=/usr/sbin/rmmod -F key=modules" off
+        43 "-a always,exit -F arch=b64 -S finit_module -S init_module -S delete_module -F auid!=-1 -F key=modules" off
+        44 "## Modprobe configuration" off
+        45 "-a always,exit -F arch=b64 -F path=/etc/modprobe.d -F perm=wa -F key=modprobe" off
+        46 "## Special files" off
+        47 "-a always,exit -F arch=b64 -S mknod -S mknodat -F key=specialfiles" off
+        48 "## Mount operations (only attributable)" off
+        49 "-a always,exit -F arch=b64 -S mount -S umount2 -F auid!=-1 -F key=mount" off
+        50 "## Change swap (only attributable)" off
+        51 "-a always,exit -F arch=b64 -S swapon -S swapoff -F auid!=-1 -F key=swap" off
+        52 "## Time" off
+        53 "### Local time zone" off
+        54 "-a always,exit -F arch=b64 -F path=/etc/localtime -F perm=wa -F key=localtime" off
+        55 "## Cron configuration & scheduled jobs" off
+        56 "-a always,exit -F arch=b64 -F path=/etc/cron.deny -F perm=wa -F key=cron" off
+        57 "-a always,exit -F arch=b64 -F dir=/etc/cron.d/ -F perm=wa -F key=cron" off
+        58 "-a always,exit -F arch=b64 -F dir=/etc/cron.daily/ -F perm=wa -F key=cron" off
+        59 "-a always,exit -F arch=b64 -F dir=/etc/cron.hourly/ -F perm=wa -F key=cron" off
+        60 "-a always,exit -F arch=b64 -F dir=/etc/cron.monthly/ -F perm=wa -F key=cron" off
+        61 "-a always,exit -F arch=b64 -F dir=/etc/cron.weekly/ -F perm=wa -F key=cron" off
+        62 "-a always,exit -F arch=b64 -F dir=/var/spool/cron/ -F perm=wa -F key=cron" off
+        63 "## User, group, password databases" off
+        64 "-a always,exit -F arch=b64 -F path=/etc/group -F perm=wa -F key=etcgroup" off
+        65 "-a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -F key=etcpasswd" off
+        66 "-a always,exit -F arch=b64 -F path=/etc/gshadow -F perm=wa -F key=etcgroup" off
+        67 "-a always,exit -F arch=b64 -F path=/etc/shadow -F perm=wa -F key=etcpasswd" off
+        68 "## Sudoers file changes" off
+        69 "-a always,exit -F arch=b64 -F path=/etc/sudoers -F perm=wa -F key=actions" off
+        70 "-a always,exit -F arch=b64 -F dir=/etc/sudoers.d/ -F perm=wa -F key=actions" off
+        71 "## Passwd" off
+        72 "-a always,exit -F arch=b64 -F path=/usr/bin/passwd -F perm=x -F key=passwd_modification" off
+        73 "## Tools to change group identifiers" off
+        74 "-a always,exit -F arch=b64 -F path=/usr/sbin/groupadd -F perm=x -F key=group_modification" off
+        75 "-a always,exit -F arch=b64 -F path=/usr/sbin/groupmod -F perm=x -F key=group_modification" off
+        76 "-a always,exit -F arch=b64 -F path=/usr/sbin/useradd -F perm=x -F key=user_modification" off
+        77 "-a always,exit -F arch=b64 -F path=/usr/sbin/userdel -F perm=x -F key=user_modification" off
+        78 "-a always,exit -F arch=b64 -F path=/usr/sbin/usermod -F perm=x -F key=user_modification" off
+        79 "## Login configuration and information" off
+        80 "-a always,exit -F arch=b64 -F path=/etc/login.defs -F perm=wa -F key=login" off
+        81 "-a always,exit -F arch=b64 -F path=/etc/securetty -F perm=wa -F key=login" off
+        82 "-a always,exit -F arch=b64 -F path=/var/log/lastlog -F perm=wa -F key=login" off
+        83 "## Network Environment" off
+        84 "### Changes to hostname" off
+        85 "-a always,exit -F arch=b64 -S sethostname -S setdomainname -F key=network_modifications" off
+        86 "### Detect Remote Shell Use" off
+        87 "-a always,exit -F arch=b64 -F exe=/usr/bin/bash -F success=1 -S connect -F key=remote_shell" off
+        88 "### Successful IPv4 Connections" off
+        89 "-a always,exit -F arch=b64 -S connect -F a2=16 -F success=1 -F key=network_connect_4" off
+        90 "### Successful IPv6 Connections" off
+        91 "-a always,exit -F arch=b64 -S connect -F a2=28 -F success=1 -F key=network_connect_6" off
+        92 "### Changes to other files" off
+        93 "-a always,exit -F arch=b64 -F path=/etc/hosts -F perm=wa -F key=network_modifications" off
+        94 "-a always,exit -F arch=b64 -F dir=/etc/NetworkManager/ -F perm=wa -F key=network_modifications" off
+        95 "## Library search paths" off
+        96 "-a always,exit -F arch=b64 -F path=/etc/ld.so.conf -F perm=wa -F key=libpath" off
+        97 "-a always,exit -F arch=b64 -F path=/etc/ld.so.conf.d -F perm=wa -F key=libpath" off
+        98 "## Pam configuration" off
+        99 "-a always,exit -F arch=b64 -F dir=/etc/pam.d/ -F perm=wa -F key=pam" off
+        100 "-a always,exit -F arch=b64 -F path=/etc/security/limits.conf -F perm=wa  -F key=pam" off
+        101 "-a always,exit -F arch=b64 -F path=/etc/security/limits.d -F perm=wa  -F key=pam" off
+        102 "-a always,exit -F arch=b64 -F path=/etc/security/namespace.conf -F perm=wa -F key=pam" off
+        103 "-a always,exit -F arch=b64 -F path=/etc/security/namespace.d -F perm=wa -F key=pam" off
+        104 "-a always,exit -F arch=b64 -F path=/etc/security/namespace.init -F perm=wa -F key=pam" off
+        105 "## SSH configuration" off
+        106 "-a always,exit -F arch=b64 -F path=/etc/ssh/sshd_config -F key=sshd" off
+        107 "-a always,exit -F arch=b64 -F path=/etc/ssh/sshd_config.d -F key=sshd" off
+        108 "## AppArmor events that modify the system's Mandatory Access Controls (MAC)" off
+        109 "-a always,exit -F arch=b64 -F dir=/etc/apparmor.d/ -F perm=wa -F key=mac_policy" off
+        110 "## Critical elements access failures" off
+        111 "-a always,exit -F arch=b64 -S open -F dir=/etc -F success=0 -F key=unauthedfileaccess" off
+        112 "-a always,exit -F arch=b64 -S open -F dir=/bin -F success=0 -F key=unauthedfileaccess" off
+        113 "-a always,exit -F arch=b64 -S open -F dir=/sbin -F success=0 -F key=unauthedfileaccess" off
+        114 "-a always,exit -F arch=b64 -S open -F dir=/usr/bin -F success=0 -F key=unauthedfileaccess" off
+        115 "-a always,exit -F arch=b64 -S open -F dir=/usr/sbin -F success=0 -F key=unauthedfileaccess" off
+        116 "-a always,exit -F arch=b64 -S open -F dir=/var -F success=0 -F key=unauthedfileaccess" off
+        117 "-a always,exit -F arch=b64 -S open -F dir=/home -F success=0 -F key=unauthedfileaccess" off
+        118 "## Process ID change (switching accounts) applications" off
+        119 "-a always,exit -F arch=b64 -F path=/usr/bin/su -F perm=x -F key=priv_esc" off
+        120 "-a always,exit -F arch=b64 -F path=/usr/bin/sudo -F perm=x -F key=priv_esc" off
+        121 "## Power state" off
+        122 "-a always,exit -F arch=b64 -F path=/sbin/shutdown -F perm=x -F key=power" off
+        123 "-a always,exit -F arch=b64 -F path=/sbin/poweroff -F perm=x -F key=power" off
+        124 "-a always,exit -F arch=b64 -F path=/sbin/reboot -F perm=x -F key=power" off
+        125 "-a always,exit -F arch=b64 -F path=/sbin/halt -F perm=x -F key=power" off
+        126 "## Session initiation information" off
+        127 "-a always,exit -F arch=b64 -F path=/var/run/utmp -F perm=wa -F key=session" off
+        128 "## Discretionary Access Control (DAC) modifications" off
+        129 "-a always,exit -F arch=b64 -S chmod  -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        130 "-a always,exit -F arch=b64 -S chown -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        131 "-a always,exit -F arch=b64 -S fchmod -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        132 "-a always,exit -F arch=b64 -S fchmodat -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        133 "-a always,exit -F arch=b64 -S fchown -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        134 "-a always,exit -F arch=b64 -S fchownat -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        135 "-a always,exit -F arch=b64 -S fremovexattr -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        136 "-a always,exit -F arch=b64 -S fsetxattr -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        137 "-a always,exit -F arch=b64 -S lchown -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        138 "-a always,exit -F arch=b64 -S lremovexattr -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        139 "-a always,exit -F arch=b64 -S lsetxattr -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        140 "-a always,exit -F arch=b64 -S removexattr -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        141 "-a always,exit -F arch=b64 -S setxattr -F auid>=1000 -F auid!=-1 -F key=perm_mod" off
+        142 "# Software Management #############################################################" off
+        143 "# XBPS (Void)" off
+        144 "-a always,exit -F arch=b64 -F path=/usr/bin/xbps-install -F perm=x -F key=software_mgmt" off
+        145 "-a always,exit -F arch=b64 -F path=/usr/bin/xbps-remove -F perm=x -F key=software_mgmt" off
+        146 "-a always,exit -F arch=b64 -F dir=/var/db/xbps/ -F perm=wa -F key=software_mgmt" off
+        147 "# High Volume Events ##############################################################" off
+        148 "## Root command executions" off
+        149 "-a always,exit -F arch=b64 -F euid=0 -F auid>=1000 -F auid!=-1 -S execve -F key=rootcmd" off
+        150 "## File Deletion Events by User" off
+        151 "-a always,exit -F arch=b64 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=-1 -F key=delete" off
+        152 "## File Access" off
+        153 "### Unauthorized Access (unsuccessful)" off
+        154 "-a always,exit -F arch=b64 -S creat -S open -S openat -S open_by_handle_at -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=-1 -F key=file_access" off
+        155 "-a always,exit -F arch=b64 -S creat -S open -S openat -S open_by_handle_at -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=-1 -F key=file_access" off
+        156 "### Unsuccessful Creation" off
+        157 "-a always,exit -F arch=b64 -S mkdir,creat,link,symlink,mknod,mknodat,linkat,symlinkat -F exit=-EACCES -F key=file_creation" off
+        158 "-a always,exit -F arch=b64 -S mkdir,link,symlink,mkdirat -F exit=-EPERM -F key=file_creation" off
+        159 "### Unsuccessful Modification" off
+        160 "-a always,exit -F arch=b64 -S rename -S renameat -S truncate -S chmod -S setxattr -S lsetxattr -S removexattr -S lremovexattr -F exit=-EACCES -F key=file_modification" off
+        161 "-a always,exit -F arch=b64 -S rename -S renameat -S truncate -S chmod -S setxattr -S lsetxattr -S removexattr -S lremovexattr -F exit=-EPERM -F key=file_modification" off
+        162 "## 32bit ABI Exploitation" off
+        163 "### https://github.com/linux-audit/audit-userspace/blob/c014eec64b3a16c004f4a75e5792a4ac2fcc0df2/rules/21-no32bit.rules" off
+        164 "### If you are on a 64 bit platform, everything _should_ be running" off
+        165 "### in 64 bit mode. This rule will detect any use of the 32 bit syscalls" off
+        166 "### because this might be a sign of someone exploiting a hole in the 32" off
+        167 "### bit ABI." off
+        168 "-a always,exit -F arch=b32 -S all -F key=32bit_abi" off
       )
       # Empty variable used before
       _label=
