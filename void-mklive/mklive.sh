@@ -1041,6 +1041,10 @@ if [ "$VARIANT" = gnome ]; then
     # setup flathub
     info_msg "Setup flathub"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    info_msg "Setup flathub-beta"
+    chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+    info_msg "Setup gnome-nightly"
+    chroot "$ROOTFS" flatpak remote-add --if-not-exists gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
 
     # set plymouth theme for BRGV-OS
     info_msg "Set plymouth theme for BRGV-OS"
