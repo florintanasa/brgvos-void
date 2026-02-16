@@ -1,0 +1,120 @@
+#!/bin/bash
+#-
+# Copyright (c) 2026 Florin Tanasă <florin.tanasa@gmail.com>
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# License GPLv3
+#-
+
+# Check if terminal support underlining
+if tput smul >/dev/null 2>&1; then
+  underline=$(tput smul)
+  reset=$(tput sgr0)
+else
+  underline=""
+  reset=""
+fi
+
+# Check if terminal support colors
+if tput colors >/dev/null 2>&1; then
+  red=$(tput setaf 1)
+  green=$(tput setaf 2)
+  yellow=$(tput setaf 3)
+  cyan=$(tput setaf 6)
+  bold=$(tput bold)
+  reset=$(tput sgr0)
+else
+  red=""
+  green=""
+  yellow=""
+  cyan=""
+  reset=""
+fi
+
+# Function to display help
+function display_help() {
+  echo -e "${bold}${cyan}Usage:${reset}"
+  echo -e "  ./openconn.sh [ARGUMENT]"
+  echo -e "\nDescription:"
+  echo -e "  Lists open TCP and UDP connections."
+  echo -e "  If a username, command name, port or other column is provided as an ARGUMENT, only connections for that filter will be displayed."
+  echo -e "\nOptions:"
+  echo -e "  ARGUMENT\t\tFilter results to only show those belonging to the specified user, command name, port or other column."
+  echo -e "\nExamples:"
+  echo -e "  ./openconn.sh florin\t# List connections for user 'florin'"
+  echo -e "  ./openconn.sh cupsd\t# List connections for the 'cupsd' command"
+  echo -e "  ./openconn.sh :631\t# List connections using port 631"
+  echo -e "  ./openconn.sh\t\t# List all connections"
+  exit 0
+}
+
+# Check for help flag
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+  display_help
+fi
+
+# Check if lsof is installed
+if ! command -v lsof &>/dev/null; then
+  echo -e "${bold}${red}Error: lsof is not installed.${reset}" # Red for error
+  exit 1
+fi
+
+user_filter="${1:-}" # Default to empty, filter can be passed as an argument
+
+# Declare an array to hold the lines
+filtered_lines=()
+
+# Print header with cyan formatting and underline
+printf "${underline}${bold}${cyan}%-10s %-5s %-10s %-4s %-6s %-7s %-40s %-15s${reset}\n" "COMMAND" "PID" "USER" "FD" "TYPE" "PROTO" "ADDRESS/PORT" "STATE"
+
+# Use a temporary variable to hold lsof output
+temp_output=$(lsof -Pni{4,6}{TCP,UDP} | sed '1d')
+
+# Process each line
+while read -r line; do
+  filtered_line=$(echo "$line" | awk '{ $6=""; $7=""; print $0 }' | sed 's/  */ /g')
+
+  if [[ -n "$user_filter" && "$filtered_line" != *"$user_filter"* ]]; then
+    continue
+  fi
+
+  # Store the line in the array
+  filtered_lines+=("$filtered_line")
+done <<<"$temp_output"
+
+# Sort the array based on USER, COMMAND, and PID
+IFS=$'\n' sorted_lines=($(sort -k3,3 -k1,1 -k2,2 <<<"${filtered_lines[*]}"))
+
+# Print sorted lines
+for line in "${sorted_lines[@]}"; do
+  # Use awk to split in fields
+  formatted_line=$(echo "$line" | awk '{printf("%-10s %-5s %-10s %-4s %-6s %-7s %-40s %-15s\n", $1, $2, $3, $4, $5, $6, $7, $8)}')
+
+  if echo "$line" | grep -q "TCP"; then
+    printf "${green}$formatted_line${reset}\n" # Green for TCP
+  elif echo "$line" | grep -q "UDP"; then
+    printf "${yellow}$formatted_line${reset}\n" # Yellow for UDP
+  else
+    printf "$formatted_line\n" # Otherwise not colored
+  fi
+done
