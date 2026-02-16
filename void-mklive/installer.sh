@@ -1095,15 +1095,15 @@ It controls networking, security, and performance options." 30 80
   _hardening=$(get_option HARDENING)
   if [ "$_hardening" -eq 1 ]; then
     # Build the list with options for hardening
-    _file="${1:-}" # Default to empty, file can be passed as an argument
-    if [ -n "$_file" ] && [ -f "$_file" ]; then
+    #_file="${1:-}" # Default to empty, file can be passed as an argument
+    _file_sysctl=$SYSCTL_FILE
+    if [ -n "$_file_sysctl" ] && [ -f "$_file_sysctl" ]; then
       # Empty the array
       _options=()
       # Read every line from file
       while IFS= read -r _line; do
         # Ignore empty lines
         [[ -z "$_line" ]] && continue
-
         # Line have the form: <tag> "<label>" <status>
         # Use eval to evaluated correctly ""
         eval "set -- $_line"
@@ -1112,7 +1112,7 @@ It controls networking, security, and performance options." 30 80
         _status=$3
         # Add elements in _options array
         _options+=( "$_tag" "$_label" "$_status" )
-      done < "$_file" # Open file send as argument
+      done < "$_file_sysctl" # Open file send as argument
     else
     _options=(
       1 "# Desktop — compatibility, privacy, security" off
