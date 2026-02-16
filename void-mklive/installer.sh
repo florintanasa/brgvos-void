@@ -863,6 +863,26 @@ It controls networking, security, and performance options." 30 80
     fi
     _audit=$(get_option AUDIT)
     if [ "$_audit" -eq 1 ]; then
+      # Build the list with options for hardening
+    #_file="${1:-}" # Default to empty, file can be passed as an argument
+      _file_audit=$AUDIT_FILE
+      if [ -n "$_file_audit" ] && [ -f "$_file_audit" ]; then
+        # Empty the array
+        _options=()
+        # Read every line from file
+        while IFS= read -r _line; do
+          # Ignore empty lines
+          [[ -z "$_line" ]] && continue
+          # Line have the form: <tag> "<label>" <status>
+          # Use eval to evaluated correctly ""
+          eval "set -- $_line"
+          _tag=$1
+          _label=$2
+          _status=$3
+          # Add elements in _options array
+          _options+=( "$_tag" "$_label" "$_status" )
+        done < "$_file_audit" # Open file send as argument
+      else
       _options=(
         1 "# Audit for BRGV-OS ###############################################################" off
         2 "# Self Auditing ###################################################################" off
@@ -1033,6 +1053,7 @@ It controls networking, security, and performance options." 30 80
         167 "### bit ABI." off
         168 "-a always,exit -F arch=b32 -S all -F key=32bit_abi" off
       )
+      fi
       # Empty variable used before
       _label=
       _tag=
