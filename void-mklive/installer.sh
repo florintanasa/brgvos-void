@@ -800,7 +800,7 @@ show_partitions_filtered() {
 menu_hardening() {
   # Define some local variables
   local _desc _checklist _answers rv _apparmor _hardening _state_armor _state_hardening _audit _state_audit _options \
-    _tag _label _label_for _raw _selected_tags _file _status _line
+    _tag _label _label_for _raw _selected_tags _file_audit _file_sysctl _status _line
   # Loading local variable from config file
   _apparmor=$(get_option APPARMOR)
   if  [ -n "$_apparmor" ] && [ "$_apparmor" -eq 1 ]; then
