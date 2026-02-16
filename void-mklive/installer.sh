@@ -199,6 +199,8 @@ LVMLUKS_DONE=
 NETWORK_DONE=
 FILESYSTEMS_DONE=
 MIRROR_DONE=
+AUDIT_FILE=""
+SYSCTL_FILE=""
 
 # set the date and time
 date_time=$(date +'%d%m%Y_%H%M%S')
