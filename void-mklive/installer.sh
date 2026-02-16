@@ -276,6 +276,38 @@ REVERSE="\Zr"
 UNDERLINE="\Zu"
 RESET="\Zn"
 
+# Function to display help for usage
+display_help() {
+  echo -e "${bold}${cyan}Usage:${reset}"
+  echo -e " brgvos-installer [ARGUMENT]"
+  echo -e "\nDescription:"
+  echo -e " Installer for BRGV-OS"
+  echo -e "\nOptions:"
+  echo -e "  ARGUMENT: -a /file/path/yourfileconfig.rules # to load you prepared file with config audit rules\n
+           -s /file/path/yourfileconfig.conf # to load you prepared file with config sysctl config\n
+           Check examples files from /usr/local/share for the form accepted"
+  echo -e "\nEXAMPLES:"
+  echo -e " brgvos-installer # without any argument is used defaults config rules for audit and config sysyctl"
+  echo -e " brgvos-installer -a /usr/local/share/rules.d/99-myconfig-installer.rules"
+  echo -e " brgvos-installer -s /usr/local/share/sysctl.d/99-desktop-installer.conf"
+  echo -e " brgvos-installer -a /usr/local/share/rules.d/99-myconfig-installer.rules -s /usr/local/share/sysctl.d/99-desktop-installer.conf"
+  exit 0
+}
+
+# Check for help flag
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+  display_help
+fi
+
+# Parse args: -a audit-file, -s sysctl-file
+while getopts "a:s:" opt; do
+  case "$opt" in
+  a) AUDIT_FILE=$OPTARG ;;
+  s) SYSCTL_FILE=$OPTARG ;;
+  *) ;;
+  esac
+done
+
 # Properties shared per widget.
 MENULABEL="${BOLD}Use UP and DOWN keys to navigate \
 menus. Use TAB to switch between buttons and ENTER to select.${RESET}"
