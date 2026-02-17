@@ -838,7 +838,7 @@ Controlează opțiunile de rețea, securitate și performanță. Există exemple
 editate înainte de instalare în ${BLUE}'/tmp/99‑myconfig.conf'${RESET}. După instalare, acestea sunt stocate în ${BLUE}'/etc/sysctl.d/99‑myconfig.conf'${RESET}.
 Controlează opțiunile de rețea, securitate și performanță." 30 80
   # Description for checklist box
-  _desc="Select if you wish to setting AppArmor and hardening"
+  _desc="Selectați dacă doriți să configurați AppArmor și consolidarea securității"
   # Description for checklist box
   _checklist="
   apparmor AppArmor $_state_armor \
@@ -1067,9 +1067,10 @@ Controlează opțiunile de rețea, securitate și performanță." 30 80
       # Open form dialog
       exec 3>&1
       # Show the build list dialog
-      _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Audit Options" \
-        --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
-        --buildlist "Select (using space key) the options you want. To select the window use '^', for left, or '$', for right:" 30 130 2 \
+      _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Opțiuni Audit" \
+        --cancel-label "Anulare" \
+        --backtitle "${BOLD}${WHITE}BRGV-OS instalare Linux -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+        --buildlist "Selectați (folosind tasta spațiu) opțiunile dorite. Pentru a selecta fereastra, folosiți '^' pentru stânga sau '$' pentru dreapta:" 30 130 2 \
         "${_options[@]}" 3>&1 1>&2 2>&3)
       # Close form dialog
       exec 3>&-
@@ -1249,9 +1250,10 @@ Controlează opțiunile de rețea, securitate și performanță." 30 80
     # Open form dialog
     exec 3>&1
     # Show the build list dialog
-    _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Hardening(sysctl) Options" \
-      --backtitle "${BOLD}${WHITE}BRGV-OS Linux installation -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
-      --buildlist "Select (using space key) the options you want. To select the window use '^', for left, or '$', for right:" 30 130 2 \
+    _raw=$(dialog --colors --keep-tite --no-shadow --no-mouse --visit-items --title "Opțiuni Hardening(sysctl)" \
+      --cancel-label "Anulare" \
+      --backtitle "${BOLD}${WHITE}BRGV-OS instalare Linux -- https://github.com/florintanasa/brgvos-void (@@MKLIVE_VERSION@@)${RESET}" \
+      --buildlist "Selectați (folosind tasta spațiu) opțiunile dorite. Pentru a selecta fereastra, folosiți '^' pentru stânga sau '$' pentru dreapta:" 30 130 2 \
       "${_options[@]}" 3>&1 1>&2 2>&3)
     # Close form dialog
     exec 3>&-
