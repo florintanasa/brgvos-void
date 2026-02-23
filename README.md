@@ -1,4 +1,4 @@
-# $\textcolor{cyan}{\texttt{ {BRGV-OS}}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/) ![Rank on https://distrowatch.com](https://img.shields.io/badge/Rank_374_Last_6_months-0?style=flat&label=Distrowatch)
+# $\textcolor{cyan}{\texttt{ {BRGV-OS}}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/) ![Rank on https://distrowatch.com](https://img.shields.io/badge/Rank_370_Last_6_months-0?style=flat&label=Distrowatch)
 
 
 
@@ -66,9 +66,9 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > * LUKS - Full Encrypt mode, where all partitions are encrypted;
 > * LUKS - Not Full Encrypt mode, where the /boot partition is not encrypted;
 > * LVM, where partitions is organized on volumes group and logical volumes;
-> * RAID, where partitions is organized on a array RAID 0, 1, 4, 5, 6 or 10;
-> * multi RAID, where partitions is organized on a arrays multi RAID ( expl. RAID 1 for / and RAID 0 for /home);
-> * nested RAID, where partitions is organized on a RAID 50 or RAID 60 (expl 2xRAID 5 with RAID 0);
+> * RAID, where partitions is organized on an array RAID 0, 1, 4, 5, 6 or 10;
+> * multi-RAID, where partitions is organized on an arrays multi-RAID ( example RAID 1 for / and RAID 0 for /home);
+> * nested RAID, where partitions is organized on an RAID 50 or RAID 60 (example 2 x RAID 5 with RAID 0);
 > * LVM on RAID;
 > * LVM on LUKS - Full Encrypt mode;
 > * LVM on LUKS - Not Full Encrypt mode;
