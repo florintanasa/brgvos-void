@@ -42,7 +42,19 @@ The major change is that, installations can now be performed on partitions encry
 * LUKS on RAID - Not Full Encrypt mode;
 * RAID on LUKS - Full Encrypt mode;
 * RAID on LUKS - Not Full Encrypt mode;
-   
-Linux partitions can be formatted as btrfs with compression option and careated automatically subvolume (@, @home, @var_log, @var_lib and @snapshots), ext4/3/2, xfs, f2fs or f2fs with compress and lazytime options (f2fs is usefully for NAND memory devices like SSD, eMMC, USB etc.)  
+
+Linux partitions can be formatted as btrfs with compression option and created automatically subvolume (@, @home, @var_log, @var_lib and @snapshots), ext4/3/2, xfs, f2fs or f2fs with compress and lazytime options (f2fs is usefully for NAND memory devices like SSD, eMMC, USB etc.)  
 
 Also brgvos-installer now detect better the disks used for partitions are SSD or HDD and prepare options for fstab.
+
+## 08112025
+The installer has reached version 0.29; brgvos-installer have now new options and installations can now be performed on partitions encrypted with LUKS and/or organized by LVM.  
+Linux partitions can be formatted as btrfs with compression option and created automatically subvolume (@, @home, @var_log, @var_lib and @snapshots), ext4/3/2, xfs OR f2fs.
+
+## 28092025
+The installer has version 0.28 and brgvos-installer have new color theme.
+Linux partitions can be formatted as btrfs with compression option and was added two new options: btrfs_lvm and btrfs_lvm_luks, also for theese created automatically subvolume (@, @home, @var_log, @var_lib and @snapshots)
+
+## 08092025
+The installer has version 0.27.
+Linux partitions can be formatted as btrfs with compression option and created automatically subvolume (@, @home, @var_log, @var_lib and @snapshots)
