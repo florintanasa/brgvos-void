@@ -1,5 +1,5 @@
 # What is news?
-## xx022026
+## 26022026
 The installer has reached version 0.31 with new options for hardening:
 
 * Apparmor;
