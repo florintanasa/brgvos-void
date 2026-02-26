@@ -67,7 +67,7 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 >Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
   
 > [!TIP]  
-> ### $\textcolor{cyan}{\texttt{In \textcolor{red}{\textit{Live Medium}} exist 2 users \textcolor{red}{\textit{root}} and \textcolor{red}{\textit{brgvos}} with the same password \textcolor{red}{\textit{voidlinux}}}}$
+> ### $\textcolor{cyan}{\texttt{\textcolor{red}{\textit{Live Medium}} have 2 users \textcolor{red}{\textit{root}} and \textcolor{red}{\textit{brgvos}} with the same password \textcolor{red}{\textit{voidlinux}}}}$
 >
 >
 > ### $\textcolor{green}{\texttt{For passphrase, on encrypted partitions, is used user password}}$  
