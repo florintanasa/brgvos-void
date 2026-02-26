@@ -116,7 +116,7 @@ https://4kwallpapers.com/windows-11-stock-wallpapers/
 https://4kwallpapers.com/ios-26-carplay-wallpapers/  
 https://4kwallpapers.com/macos-tahoe-26-stock-wallpapers/  
 
-[List with packages](installed_packages_ro_RO.txt) installed on BRGV-OS version ro_RO (in English is not installed localised packages for Romanian language).
+[List with packages](installed_packages.txt) installed on BRGV-OS (english version).
 
 ---
   
