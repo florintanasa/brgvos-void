@@ -62,9 +62,9 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > News [here](NEWS.md)  
 > The installer has reached version 0.31 and in next, long tutorial, video you see what are news. 
 >
->[<img src="https://img.youtube.com/vi/97oNxKHYxr4/maxresdefault.jpg" width="960" height="510"/>](https://www.youtube.com/embed/97oNxKHYxr4?autoplay=1&mute=1)
+[<img src="https://img.youtube.com/vi/97oNxKHYxr4/maxresdefault.jpg" width="960" height="510"/>](https://www.youtube.com/embed/97oNxKHYxr4?autoplay=1&mute=1)
 > 
->Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
+Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
   
 > [!TIP]  
 > ### $\textcolor{cyan}{\texttt{\textcolor{red}{\textit{Live Medium}} have 2 users \textcolor{red}{\textit{root}} and \textcolor{red}{\textit{brgvos}} with the same password \textcolor{red}{\textit{voidlinux}}}}$
