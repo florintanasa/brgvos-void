@@ -1,12 +1,11 @@
 # What is news?
 ## 26022026
 The installer has reached version 0.31 with new options for hardening:
-
-* Apparmor;
+* AppArmor;
 * Audit;
 * Hardening(sysctl)
 
-Also, English or Romanian version have now support for the next language, in alphabetic order:  
+Also, English or Romanian version have now support for the next language, in alphabetic order:
 
 * Chinese (Taiwanese), script `set_zh_TW.UTF-8_gnome.sh`;
 * French, script `set_fr_FR.UTF-8_gnome.sh`;
@@ -18,7 +17,7 @@ Also, English or Romanian version have now support for the next language, in alp
 * Russian, script `set_ru_RU.UTF-8_gnome.sh`;
 * Spanish, script `set_es_ES.UTF-8_gnome.sh`;
   
-These scripts add support for the languager for the user or/and for the system, set translate menus, and set the keyboard. Also, can switch between languages but through Englih, for examples to switch from Russian to Frech do the next steps: firstly, swtich to English and then to French, using script `set_ru_RU.UTF-8_gnome.sh`. 
+These scripts add support for the languager for the user or/and for the system, set translate menus, and set the keyboard. Also, can switch between languages but through `English`, for example, to switch from `Russian` to `French` do the next steps: firstly, switch to `English` and then to `French`, using script `set_ru_RU.UTF-8_gnome.sh`.
 
 ## 20122025
 The installer has reached version 0.30.  
