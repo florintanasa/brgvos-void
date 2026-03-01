@@ -19,6 +19,12 @@ Also, English or Romanian version have now support for the next language, in alp
   
 These scripts add support for the languager for the user or/and for the system, set translate menus, and set the keyboard. Also, can switch between languages but through `English`, for example, to switch from `Russian` to `French` do the next steps: firstly, switch to `English` and then to `French`, using script `set_ru_RU.UTF-8_gnome.sh`.
 
+Now flatpak have 3 repos:  
+
+* flathub, https://dl.flathub.org/repo/flathub.flatpakrepo
+* flathub-beta, https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+* gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
+
 ## 20122025
 The installer has reached version 0.30.  
 The major change is that, installations can now be performed on partitions encrypted with LUKS and/or organized by LVM or/and into RAID array.  
