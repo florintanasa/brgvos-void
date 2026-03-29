@@ -100,3 +100,4 @@ apparmor
 audit 
 rkhunter 
 lsof 
+gnome-terminal 
