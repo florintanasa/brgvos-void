@@ -1,0 +1,30 @@
+[Desktop Entry]
+Type=Application
+Name=Vuurmuur Wizard
+Name[ro]=Asistent Vuurmuur
+Name[fr]=Assistant Vuurmuur
+Name[de]=Vuurmuur-Assistent
+Name[it]=Assistente Vuurmuur
+Name[es]=Asistente de Vuurmuur
+Name[pt]=Assistente do Vuurmuur
+Name[pt_BR]=Assistente do Vuurmuur
+Name[ru]=Мастер настройки Vuurmuur
+Name[ja]=Vuurmuur ウィザード
+Name[zh_CN]=Vuurmuur 向导
+Comment=Run Vuurmuur Configuration Wizard
+Comment[ro]=Rulează asistentul de configurare Vuurmuur
+Comment[fr]=Lancer l'assistant de configuration Vuurmuur
+Comment[de]=Vuurmuur-Konfigurationsassistenten ausführen
+Comment[it]=Esegui l'assistente alla configurazione di Vuurmuur
+Comment[es]=Ejecutar el asistente de configuración de Vuurmuur
+Comment[pt]=Executar o assistente de configuração do Vuurmuur
+Comment[pt_BR]=Executar o assistente de configuração do Vuurmuur
+Comment[ru]=Запустить мастер настройки брандмауэра Vuurmuur
+Comment[ja]=Vuurmuur 設定ウィザードを実行する
+Comment[zh_CN]=运行 Vuurmuur 配置向导
+Exec=gnome-terminal --geometry=120x42 --window --title="Vuurmuur Wizard" -- pkexec vuurmuur_conf -W
+Icon=tools-wizard
+Terminal=false
+Categories=Network;
+Keywords=firewall;security;vuurmuur;
+
