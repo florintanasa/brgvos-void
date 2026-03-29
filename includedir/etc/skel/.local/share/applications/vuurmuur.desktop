@@ -1,0 +1,30 @@
+[Desktop Entry]
+Type=Application
+Name=Vuurmuur Manager
+Name[ro]=Administrator Vuurmuur
+Name[fr]=Gestionnaire Vuurmuur
+Name[de]=Vuurmuur-Verwaltung
+Name[it]=Gestore Vuurmuur
+Name[es]=Gestor de Vuurmuur
+Name[pt]=Gestor do Vuurmuur
+Name[pt_BR]=Gerenciador do Vuurmuur
+Name[ru]=Диспетчер Vuurmuur
+Name[ja]=Vuurmuur マネージャー
+Name[zh_CN]=Vuurmuur 管理器
+Comment=Configure Vuurmuur Firewall
+Comment[ro]=Configurează firewall-ul Vuurmuur
+Comment[fr]=Configurer le pare-feu Vuurmuur
+Comment[de]=Vuurmuur-Firewall konfigurieren
+Comment[it]=Configura il firewall Vuurmuur
+Comment[es]=Configurar el cortafuegos Vuurmuur
+Comment[pt]=Configurar o Firewall Vuurmuur
+Comment[pt_BR]=Configurar o Firewall Vuurmuur
+Comment[ru]=Настройка брандмауэра Vuurmuur
+Comment[ja]=Vuurmuur ファイアウォールの設定
+Comment[zh_CN]=配置 Vuurmuur 防火墙
+Exec=gnome-terminal --geometry=120x42 --window --title="Vuurmuur Manager" -- pkexec vuurmuur_conf
+Icon=network-firewall
+Terminal=false
+Categories=Network;
+Keywords=firewall;security;vuurmuur;
+
