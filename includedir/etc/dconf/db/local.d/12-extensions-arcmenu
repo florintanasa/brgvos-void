@@ -29,10 +29,10 @@ update-notifier-enabled=false
 update-notifier-project-version=70
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/1a14933d-d178-4274-b974-71ba008d07a9]
-pinned-apps=[{'id': 'org.gnome.FileRoller.desktop'}, {'id': 'org.gnome.Calculator.desktop'}, {'id': 'org.gnome.Weather.desktop'}, {'id': 'org.gnome.Snapshot.desktop'}, {'id': 'org.gnome.clocks.desktop'}, {'id': 'org.gnome.Maps.desktop'}]
+pinned-apps=[{'id': 'org.gnome.Terminal.desktop'}, {'id': 'org.gnome.FileRoller.desktop'}, {'id': 'org.gnome.Calculator.desktop'}, {'id': 'org.gnome.Weather.desktop'}, {'id': 'org.gnome.Snapshot.desktop'}, {'id': 'org.gnome.clocks.desktop'}, {'id': 'org.gnome.Maps.desktop'}]
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/33ed202d-931f-4f00-9f58-9a28dd792d5c]
-pinned-apps=[{'id': 'firefox.desktop'}, {'id': 'org.gnome.Evolution.desktop'}]
+pinned-apps=[{'id': 'firefox.desktop'}, {'id': 'org.gnome.Evolution.desktop'}, {'id': 'vuurmuur.desktop'}, {'id': 'vuurmuur-wizard.desktop'}]
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/3a7edee5-c3f9-4b06-ae49-973b54c742e2]
 pinned-apps=[{'id': 'setThemeFluentLight.desktop'}, {'id': 'setThemeFluentDark.desktop'}, {'id': 'setThemeMacTahoeLight.desktop'}, {'id': 'setThemeMacTahoeDark.desktop'}, {'id': 'setThemeMacTahoeSolidLight.desktop'}, {'id': 'setThemeMacTahoeSolidDark.desktop'}, {'id': 'setThemeWhiteSurLight.desktop'}, {'id': 'setThemeWhiteSurDark.desktop'}, {'id': 'setThemeWhiteSurSolidLight.desktop'}, {'id': 'setThemeWhiteSurSolidDark.desktop'}]
