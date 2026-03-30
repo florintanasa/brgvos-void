@@ -48,7 +48,6 @@ mtools
 ntfs-3g 
 fuse-exfat 
 ffmpeg6 
-mesa-vdpau 
 mesa-vaapi 
 base-devel 
 meson 
@@ -101,3 +100,4 @@ audit
 rkhunter 
 lsof 
 gnome-terminal 
+vuurmuur 
