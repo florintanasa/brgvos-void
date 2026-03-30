@@ -31,6 +31,8 @@ root_shell=$(cat ../root_shell)
 linux_version=$(cat ../linux_version)
 title=$(cat ../title)
 service=$(cat ../services)
+main_repo=$(cat ../main-repo)
+brgvos_repo=$(cat ../brgvos-current-repo)
 
 # Prepare variables for Romanian language
 if [ "$locale" = ro_RO.UTF-8 ]; then
@@ -72,6 +74,8 @@ sudo ./mkiso.sh \
 -a $arch \
 -b $variant \
 -L $locale \
+-r $main_repo \
+-r $brgvos_repo \
 -- -k $keymap \
 -B $variant \
 -l $locale \
