@@ -1,1 +1,1 @@
-In this directory is moved the iso file after is build it.
+In this directory is moved the iso file after was build it.
