@@ -33,6 +33,7 @@ title=$(cat ../title)
 service=$(cat ../services)
 main_repo=$(cat ../main-repo)
 brgvos_repo=$(cat ../brgvos-current-repo)
+brgvos_test_repo=$(cat ../brgvos-test-repo)
 
 # Prepare variables for Romanian language
 if [ "$locale" = ro_RO.UTF-8 ]; then
@@ -76,6 +77,7 @@ sudo ./mkiso.sh \
 -L $locale \
 -r $main_repo \
 -r $brgvos_repo \
+-r $brgvos_test_repo \
 -- -k $keymap \
 -B $variant \
 -l $locale \
