@@ -378,7 +378,7 @@ set_for_current_user_TW_EN() {
 set_localize_packages() {
   # Add other packages for Chinese (Taiwan) language
   printf "Install other packages for Chinese (Taiwan) language\n\n"
-  xbps-install -Sy firefox-i18n-zh-TW libreoffice-i18n-zh-TW ibus-chewing noto-fonts-cjk
+  xbps-install -Sy firefox-i18n-zh-TW libreoffice-i18n-zh-TW ibus-chewing
 }
 
 # Modify to Chinese (Taiwan) language the system
