@@ -633,7 +633,7 @@ XBPS_ARCH=$TARGET_ARCH $XBPS_INSTALL_CMD -r "$VOIDTARGETDIR" ${XBPS_REPOSITORY} 
 # If linux version option specified use
 shopt -s extglob
 case "$LINUX_VERSION" in
-    linux+([0-9.]))
+    linux+([0-9.])|linux+([0-9.])-* )
         IGNORE_PKGS+=(linux)
         PACKAGE_LIST+=("$LINUX_VERSION" linux-base)
         ;;
@@ -662,6 +662,34 @@ KERNELVERSION=$($XBPS_UHELPER_CMD getpkgversion ${_kver})
 if [ "$LINUX_VERSION" = linux-asahi ]; then
     KERNELVERSION="${KERNELVERSION%%_*}-asahi_${KERNELVERSION##*_}"
 fi
+
+if [ "$LINUX_VERSION" = linux6.19-cachyos-bore-lto-v3 ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-cachyos-bore-lto-v3"
+fi
+
+if [ "$LINUX_VERSION" = linux6.19-cachyos-bore-v3 ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-cachyos-bore-v3"
+fi
+
+if [ "$LINUX_VERSION" = linux6.19-cachyos-bore ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-cachyos-bore"
+fi
+
+if [ "$LINUX_VERSION" = linux6.18-tkg-bore-lto-v3 ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore-lto-v3"
+fi
+
+if [ "$LINUX_VERSION" = linux6.18-tkg-bore-v3 ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore-v3"
+fi
+
+if [ "$LINUX_VERSION" = linux6.18-tkg-bore ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore"
+fi
+
+echo "LINUX_VERSION=$LINUX_VERSION"
+echo "KERNELVERSION=$KERNELVERSION"
+sleep 10
 
 if [ "$?" -ne "0" ]; then
     die "Failed to find kernel package version"
@@ -1048,7 +1076,7 @@ if [ "$VARIANT" = gnome ]; then
 
     # set plymouth theme for BRGV-OS
     info_msg "Set plymouth theme for BRGV-OS"
-    chroot "$ROOTFS" plymouth-set-default-theme -R brgvos
+    chroot "$ROOTFS" plymouth-set-default-theme brgvos
     
     # create group audit
     info_msg "Create group 'audit'"
@@ -1065,7 +1093,7 @@ if [ "$VARIANT" = gnome ]; then
     # wait 10 seconds to can read
     sleep 10
 fi
-
+echo "KERNELVERSION=$KERNELVERSION"
 print_step "Generating initramfs image ($INITRAMFS_COMPRESSION)..."
 generate_initramfs
 
