@@ -101,3 +101,6 @@ rkhunter
 lsof 
 gnome-terminal 
 vuurmuur 
+clang 
+lld 
+noto-fonts-cjk  
