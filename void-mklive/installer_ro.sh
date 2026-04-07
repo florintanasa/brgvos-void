@@ -830,19 +830,19 @@ menu_hardening() {
   # Messagebox with some info
   DIALOG --title "Hardening" --msgbox "\n
   ${BOLD}${RED}AVERTISMENT: Dacă ești începător încearcă aceste optiuni, pentru început, într-o mașină de test!${RESET}\n\n  
-  În ferestra urmatoare veți putea alege care din configurări să le utilizeze la pornire sistemul:\n
+  În ferestra urmatoare veți putea alege care din configurări să le utilizeze la pornire sistemul:\n\n
 ${YELLOW}AppArmor${RESET} – un modul de securitate pentru Linux care restricționează programele la un set \
 de permisiuni (profiluri) definite. Impune controlul accesului prin limitarea utilizării fișierelor, rețelei și \
-capabilităților, ajutând la prevenirea exploatărilor chiar și în cazul în care o aplicație este compromisă.\n
+capabilităților, ajutând la prevenirea exploatărilor chiar și în cazul în care o aplicație este compromisă.\n\n
 ${BOLD}${YELLOW}Firewall Manager(vuurmuur)${RESET} – Este un manager de firewall pentru Linux, construit pe iptables. \
 Este o interfață de nivel înalt pentru netfilter - puteți crea zone, rețele, gazde și reguli într-un mod ușor de înțeles; \
-generează reguli sau scripturi iptables. Interfața este interactivă cu Ncurses (terminal); poate fi gestionat și prin SSH.\n
+generează reguli sau scripturi iptables. Interfața este interactivă cu Ncurses (terminal); poate fi gestionat și prin SSH.\n\n
 ${YELLOW}Audit${RESET} – subsistemul de audit al Linux (auditd) care înregistrează evenimente relevante \
 din punct de vedere al securității, cum ar fi apeluri de sistem, accesuri la fișiere și acțiuni ale utilizatorilor. \
 Administratorii configurează reguli pentru a loga activități specifice, apoi revizuiesc jurnalele pentru conformitate \
 sau investigarea incidentelor. Utilizatorul trebuie să facă parte din grupul ${BLUE}'audit'${RESET} pentru a putea citi \
 jurnalul. Aveți mai multe exemple din care puteți alege, iar setările pot fi editate înainte de instalare în ${BLUE}'/tmp/99‑myconfig.rules'${RESET}. \
-După instalare setările vor fi în ${BLUE}'/etc/audit/rules.d/99‑myconfig.conf'${RESET}.\n
+După instalare setările vor fi în ${BLUE}'/etc/audit/rules.d/99‑myconfig.conf'${RESET}.\n\n
 ${YELLOW}Hardening(sysctl)${RESET} – o interfață a nucleului pentru vizualizarea și modificarea parametrilor de rulare. \
 Controlează opțiunile de rețea, securitate și performanță. Există exemple pentru mașini desktop și server, iar setările pot fi \
 editate înainte de instalare în ${BLUE}'/tmp/99‑myconfig.conf'${RESET}. După instalare, acestea sunt stocate în ${BLUE}'/etc/sysctl.d/99‑myconfig.conf'${RESET}.
