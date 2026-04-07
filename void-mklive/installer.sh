@@ -834,6 +834,9 @@ menu_hardening() {
 ${BOLD}${YELLOW}AppArmor${RESET} – a Linux security module that confines programs to a set of defined permissions (profiles). \
 It enforces access control by restricting file, network, and capability usage, helping prevent exploits even if an \
 application is compromised.\n\n
+${BOLD}${YELLOW}Firewall Manager(vuurmuur)${RESET} – Is a firewall manager for Linux, built on top of iptables. Purpose \
+a high-level interface for netfilter - you create zones, networks, hosts, and rules in an easy-to-understand way; it \
+generates iptables rules or scripts. Interface is interactive Ncurses(terminal); can be managed over SSH.\n
 ${BOLD}${YELLOW}Audit${RESET} – the Linux auditing subsystem (auditd) that records security‑relevant events such as \
 system calls, file accesses, and user actions. Administrators configure rules to log specific activities, then review \
 the logs for compliance or incident investigation.\n
@@ -2427,7 +2430,7 @@ set_bootloader() {
   if [ -n "$_apparmor" ] && [ "$_apparmor" -eq 1 ]; then # If yes, enable AppArmor in kernel parameters to be loaded in Enforce mode
     echo "Security AppArmor was set to be loaded by kernel in Enforce mode..." >>$LOG
     {
-      chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor"/' /etc/default/grub
+      chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor lsm=landlock,lockdown,yama,integrity,apparmor,bpf"/' /etc/default/grub
       chroot $TARGETDIR sed -i 's/APPARMOR=complain/APPARMOR=enforce/g' /etc/default/apparmor
     } >>$LOG 2>&1
   fi
