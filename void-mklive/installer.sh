@@ -836,7 +836,7 @@ It enforces access control by restricting file, network, and capability usage, h
 application is compromised.\n\n
 ${BOLD}${YELLOW}Firewall Manager(vuurmuur)${RESET} – Is a firewall manager for Linux, built on top of iptables. Purpose \
 a high-level interface for netfilter - you create zones, networks, hosts, and rules in an easy-to-understand way; it \
-generates iptables rules or scripts. Interface is interactive Ncurses(terminal); can be managed over SSH.\n
+generates iptables rules or scripts. Interface is interactive Ncurses(terminal); can be managed over SSH.\n\n
 ${BOLD}${YELLOW}Audit${RESET} – the Linux auditing subsystem (auditd) that records security‑relevant events such as \
 system calls, file accesses, and user actions. Administrators configure rules to log specific activities, then review \
 the logs for compliance or incident investigation.\n
