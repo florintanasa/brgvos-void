@@ -49,20 +49,27 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > In this moment the build is for ro_RO (Romanian language) and en_US (English USA language) , but with few modifications can be buildid for anothers.  
 > Exist iso images files for: ro_RO.UTF-8 and en_US.UTF-8.  
 > ISO files can be downloaded from:  
-> here [![Download BRGV-OS iso ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_26022026_100821.iso/download) for **ro_RO** versions   
+> here [![Download BRGV-OS iso ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08042026_104718.iso/download) for **ro_RO** versions   
 > or  
-> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_26022026_101815.iso/download) for **en_US** version   
+> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08042026_110503.iso/download) for **en_US** version   
 > and  
 > SHA256 files can be downloaded from:  
-> here [![Download BRGV-OS sha256 ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_26022026_100821.sha256/download) for **ro_RO** versions  
+> here [![Download BRGV-OS sha256 ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08042026_104718.sha256/download) for **ro_RO** versions  
 > or  
-> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_26022026_101815.sha256/download) for **en_US** version 
+> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08042026_110503.sha256/download) for **en_US** version 
     
 > [!NOTE]  
-> News [here](NEWS.md)  
-> The installer has reached version 0.31 and in next, long tutorial, video you see what are news. 
+> ## -> [News](NEWS.md)  <-
+> 
+> The installer has reached version 0.32 and in nexts videos you can see what are news:
 >
->[<img src="https://img.youtube.com/vi/97oNxKHYxr4/maxresdefault.jpg" width="960" height="510"/>](https://www.youtube.com/embed/97oNxKHYxr4?autoplay=1&mute=1)
+> |BRGV-OS install on UEFI machine<br>English|BRGV-OS install on BIOS machine<br>Romanian|
+> |:---:|:---:|
+> | [<img src="https://img.youtube.com/vi/RbBdtoD6H54/maxresdefault.jpg" width="480" height="250"/>](https://youtu.be/RbBdtoD6H54?autoplay=1&mute=1) | [<img src="https://img.youtube.com/vi/BdZQ6p84skg/maxresdefault.jpg" width="480" height="250"/>](https://youtu.be/BdZQ6p84skg?autoplay=1&mute=1) |
+
+> Video with the older installer version 0.31 remain for a while. 
+>
+>[<img src="https://img.youtube.com/vi/97oNxKHYxr4/maxresdefault.jpg" width="480" height="250"/>](https://www.youtube.com/embed/97oNxKHYxr4?autoplay=1&mute=1)
 > 
 ##### Since the installer is a separate project, I decided to start a new repository at https://github.com/florintanasa/brgvos-installer where you can find more information about it and the installation modes. 
   
