@@ -1,4 +1,28 @@
 # What is news?
+## 08042026
+The `brgvos-installer` has reached version `0.32` with a new option for hardening:  
+* **Firewall Manager** - vuurmuur   
+Is a firewall manager for Linux, built on top of iptables. Purpose a high-level interface for netfilter - you create zones, networks, hosts, and rules in an easy-to-understand way; it generates iptables rules or scripts. Interface is interactive Ncurses(terminal); can be managed over SSH.  
+  
+Also, English or Romanian version have now package `noto-fonts-cjk` for support asians fonts and kernel `linux6.18-tkg-bore` on live media.  
+  
+BRGV-OS have a new [repository](https://repository.brgv-os.ro/x86_64-current) where we have access:
+
+* `linux6.18-tkg-bore-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches
+* `linux6.18-tkg-bore-headers-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches - source headers for 3rd party modules
+* `linux6.18-tkg-bore-lto-v3-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches, Full LTO with optimization v3
+* `linux6.18-tkg-bore-lto-v3-headers-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches, Full LTO with optimization v3 - source headers for 3rd party modules
+* `linux6.18-tkg-bore-v2-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches optimization v2
+* `linux6.18-tkg-bore-v2-headers-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches optimization v2 - source headers for 3rd party modules
+* `linux6.18-tkg-bore-v3-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches optimization v3
+* `linux6.18-tkg-bore-v3-headers-6.18.21_1` - Linux kernel and modules (6.18 series) with TKG patches optimization v3 - source headers for 3rd party modules
+* `vuurmuur-0.8.2_5` - Powerful firewall manager built on top of iptables
+* `iptrafvol-0.3.4_1` - IP Traffic Volume monitor based on iptables
+
+Also exist an repository for [tests](https://repository.brgv-os.ro/repository-test), parts from these packages are moved on current repository when are eleigible.  
+  
+Templates for these packages are in [here](https://github.com/florintanasa/void-packages-brgvos)
+  
 ## 26022026
 The installer has reached version 0.31 with new options for hardening:
 * AppArmor;
