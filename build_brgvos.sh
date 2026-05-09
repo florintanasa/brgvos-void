@@ -13,6 +13,9 @@ data=$(date +'%d%m%Y_%H%M%S')
 # get user name
 username=$(logname)
 
+# get evo parameter
+EVO=$1
+
 # change the owner for includedir
 info_msg "Change the owner to root for 'includedir' directory"
 chown root:root -R includedir
@@ -22,25 +25,43 @@ info_msg "Change working directory to 'void-mklive'"
 cd void-mklive
 
 # Read the flags used for build the iso
-info_msg "Read the flags used for build the iso"
-arch=$(cat ../arch)
-variant=$(cat ../variant)
-keymap=$(cat ../keymap)
-locale=$(cat ../locale)
-root_shell=$(cat ../root_shell)
-linux_version=$(cat ../linux_version)
-title=$(cat ../title)
-service=$(cat ../services)
-main_repo=$(cat ../main-repo)
-brgvos_repo=$(cat ../brgvos-current-repo)
-brgvos_test_repo=$(cat ../brgvos-test-repo)
+if [ "$EVO" = evo ]; then
+    info_msg "Read the flags used for build the iso for Slimbook EVO"
+    arch=$(cat ../arch)
+    variant=$(cat ../variant)
+    keymap=$(cat ../keymap)
+    locale=$(cat ../locale)
+    root_shell=$(cat ../root_shell)
+    linux_version=$(cat ../linux_version_evo)
+    title=$(cat ../title)
+    service=$(cat ../services_evo)
+    main_repo=$(cat ../main-repo)
+    brgvos_repo=$(cat ../brgvos-current-repo)
+    brgvos_test_repo=$(cat ../brgvos-test-repo)
+    name_file="${title}_${variant}_${locale}_Slimbook_EVO_${arch}_${data}.iso"
+else 
+    info_msg "Read the flags used for build the iso"
+    arch=$(cat ../arch)
+    variant=$(cat ../variant)
+    keymap=$(cat ../keymap)
+    locale=$(cat ../locale)
+    root_shell=$(cat ../root_shell)
+    linux_version=$(cat ../linux_version)
+    title=$(cat ../title)
+    service=$(cat ../services)
+    main_repo=$(cat ../main-repo)
+    brgvos_repo=$(cat ../brgvos-current-repo)
+    brgvos_test_repo=$(cat ../brgvos-test-repo)
+    name_file="${title}_${variant}_${locale}_${arch}_${data}.iso"
+fi
 
 # Prepare variables for Romanian language
 if [ "$locale" = ro_RO.UTF-8 ]; then
     info_msg "Prepare variables for Romanian language"
     other_pkg=$(cat ../other_pkg)
     other_pkg+=$(cat ../other_pkg_ro)
-    kernel_arg=$(cat ../kernel_arg_ro)
+    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo)
+    [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
 fi
 
 # Prepare variables and change the name of menu for English USA language
@@ -66,7 +87,8 @@ if [ "$locale" = en_US.UTF-8 ]; then
     info_msg "Prepare variables for English USA language"
     other_pkg=$(cat ../other_pkg)
     other_pkg+=$(cat ../other_pkg_en_US)
-    kernel_arg=$(cat ../kernel_arg_en_US)
+    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo)
+    [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_en_US_evo) || kernel_arg=$(cat ../kernel_arg_en_US)
 fi
 
 # Run void linux script to build iso file image
@@ -87,7 +109,7 @@ sudo ./mkiso.sh \
 -C "$kernel_arg" \
 -p "$other_pkg" \
 -S "$service" \
--o $title'_'$variant'_'$locale'_'$arch'_'$data.iso \
+-o "$name_file" \
 -I ../includedir
 
 # Create hash file and move the files to iso directory
@@ -103,6 +125,18 @@ if [ -e $title'_'$variant'_'$locale'_'$arch'_'$data.iso ]
         info_msg "Move the files to '../iso_build' directory"
         mv $title'_'$variant'_'$locale'_'$arch'_'$data.iso ../iso_build
         mv $title'_'$variant'_'$locale'_'$arch'_'$data.sha256 ../iso_build
+elif [ -e ${title}_${variant}_${locale}_Slimbook_EVO_${arch}_${data}.iso ]
+    then
+        info_msg "Create hash file and move the files to '../iso_build' directory"
+        HASH=`sha256sum $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.iso`
+        echo $HASH > $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.sha256
+        # Run sync to be sure the file was finished to written
+        info_msg "Run sync to be sure the file was finished to written"
+        sync
+        # Move the files to '../iso_build' directory
+        info_msg "Move the files to '../iso_build' directory"
+        mv $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.iso ../iso_build
+        mv $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.sha256 ../iso_build
     else
         echo "File $title'_'$variant'_'$locale'_'$arch'_'$data.iso not exist, so not create the sha256 file for this"
 fi

@@ -675,6 +675,10 @@ if [ "$LINUX_VERSION" = linux6.19-cachyos-bore ]; then
     KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-cachyos-bore"
 fi
 
+if [ "$LINUX_VERSION" = linux6.18-tkg-bore-lto-zen5 ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore-lto-zen5"
+fi
+
 if [ "$LINUX_VERSION" = linux6.18-tkg-bore-lto-v3 ]; then
     KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore-lto-v3"
 fi
