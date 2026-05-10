@@ -1,1 +1,1 @@
-live.user=brgvos live.autologin live.shell=/bin/bash console=ttyS0 acpi.ec_no_wakeup=1 iomem=relaxed amdgpu.dcdebugmask=0x610 quiet splash
+live.user=brgvos live.autologin live.shell=/bin/bash console=ttyS0 acpi.ec_no_wakeup=1 amdgpu.dcdebugmask=0x610 quiet splash
