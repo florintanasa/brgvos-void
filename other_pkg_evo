@@ -1,2 +1,4 @@
 linux6.18-tkg-bore-lto-zen5-headers 
-slimbook-meta-evo 
+slimbook-meta-evo  
+ryzen-smu-dkms 
+RyzenAdj-git 
