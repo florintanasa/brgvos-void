@@ -4,6 +4,7 @@ cupsd
 cronie 
 socklog-unix 
 nanoklogd 
+power-profiles-daemon 
 spice-vdagentd 
 slimbook 
 slimbook-backlight 
