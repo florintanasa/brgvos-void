@@ -1,3 +1,0 @@
-[submodule "includedir/etc/skel/.oh-my-bash"]
-	path = includedir/etc/skel/.oh-my-bash
-	url = https://github.com/ohmybash/oh-my-bash.git
