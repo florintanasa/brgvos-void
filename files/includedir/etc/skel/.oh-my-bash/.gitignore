@@ -1,0 +1,19 @@
+# custom files
+!/custom/aliases/example.aliases.sh
+!/custom/completions/example.completion.sh
+!/custom/plugins/example/
+!/custom/themes/example/
+!/custom/example.sh
+/custom/
+
+# temp files directories
+/cache/
+/log/
+!/cache/.gitkeep
+!/log/.gitkeep
+
+# disabled files
+*.swp
+*.disabled
+.idea/
+*.tmp
