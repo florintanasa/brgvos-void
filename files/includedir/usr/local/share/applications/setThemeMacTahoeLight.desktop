@@ -2,8 +2,8 @@
 Type=Application
 Icon=daytime-sunrise-symbolic
 NoDisplay=false
-Exec=/usr/local/bin/setThemeMacTahoeLight.sh
-Path=/usr/local/bin/
+Exec=/usr/bin/setThemeMacTahoeLight.sh
+Path=/usr/bin/
 Terminal=false
 X-GNOME-UsesNotifications=false
 Categories=Settings;System;

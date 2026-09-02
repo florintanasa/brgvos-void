@@ -2,8 +2,8 @@
 Type=Application
 Icon=bottles_wine
 NoDisplay=false
-Exec=/usr/local/bin/setThemeFluentLight.sh
-Path=/usr/local/bin/
+Exec=/usr/bin/setThemeFluentLight.sh
+Path=/usr/bin/
 Terminal=false
 X-GNOME-UsesNotifications=false
 Categories=Settings;System;

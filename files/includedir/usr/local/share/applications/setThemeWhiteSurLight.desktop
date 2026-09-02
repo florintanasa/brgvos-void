@@ -2,8 +2,8 @@
 Type=Application
 Icon=stock_weather-sunny
 NoDisplay=false
-Exec=/usr/local/bin/setThemeWhiteSurLight.sh
-Path=/usr/local/bin/
+Exec=/usr/bin/setThemeWhiteSurLight.sh
+Path=/usr/bin/
 Terminal=false
 X-GNOME-UsesNotifications=false
 Categories=Settings;System;

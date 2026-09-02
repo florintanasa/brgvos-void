@@ -2,8 +2,8 @@
 Type=Application
 Icon=folder-wine-symbolic
 NoDisplay=false
-Exec=/usr/local/bin/setThemeFluentDark.sh
-Path=/usr/local/bin/
+Exec=/usr/bin/setThemeFluentDark.sh
+Path=/usr/bin/
 Terminal=false
 X-GNOME-UsesNotifications=false
 Categories=Settings;System;

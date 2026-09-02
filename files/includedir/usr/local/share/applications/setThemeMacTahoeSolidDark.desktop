@@ -2,8 +2,8 @@
 Type=Application
 Icon=daytime-sunset-symbolic
 NoDisplay=false
-Exec=/usr/local/bin/setThemeMacTahoeSolidDark.sh
-Path=/usr/local/bin/
+Exec=/usr/bin/setThemeMacTahoeSolidDark.sh
+Path=/usr/bin/
 Terminal=false
 X-GNOME-UsesNotifications=false
 Categories=Settings;System;
