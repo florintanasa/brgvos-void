@@ -60,6 +60,9 @@ if [ "$locale" = ro_RO.UTF-8 ]; then
     info_msg "Prepare variables for Romanian language"
     other_pkg=$(cat ../other_pkg)
     other_pkg+=$(cat ../other_pkg_ro)
+    other_pkg+=$(cat ../brgvos-desktop-themes-pkg)
+    other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
+    other_pkg+=$(cat ../brgvos-includedir-pkg)
     [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo)
     [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
 fi
