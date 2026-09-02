@@ -12,11 +12,11 @@ force-menu-location='BottomCentered'
 hide-overview-on-startup=true
 left-panel-width=375
 menu-button-appearance='Icon'
-menu-button-icon='/usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/icons/hicolor/16x16/actions/distro-brgv-os-symbolic.svg'
+menu-button-icon='/usr/share/brgvos-artwork/distro-brgv-os-symbolic.svg'
 menu-button-icon-size=42
 menu-button-position-offset=0
 menu-height=650
-menu-layout='Eleven'
+menu-layout='11'
 multi-monitor=true
 override-menu-theme=false
 pinned-apps=[{'id': 'org.gnome.Nautilus.desktop'}, {'id': 'org.gnome.Console.desktop'}, {'id': '1a14933d-d178-4274-b974-71ba008d07a9', 'name': 'Accesorii', 'isFolder': 'true'}, {'id': 'f8564123-204b-495c-9166-8290aa2ed7be', 'name': 'Birou', 'isFolder': 'true'}, {'id': '55199c40-27af-4a8d-9f8a-58e6cbce674c', 'name': 'Grafică', 'isFolder': 'true'}, {'id': '33ed202d-931f-4f00-9f58-9a28dd792d5c', 'name': 'Internet', 'isFolder': 'true'}, {'id': '3a9bcc77-9f13-4dad-a45a-d9a0935e404f', 'name': 'Multimedia', 'isFolder': 'true'}, {'id': '71c31087-6072-49a3-b20c-c3581bd5bab3', 'name': 'Programare', 'isFolder': 'true'}, {'id': '3a7edee5-c3f9-4b06-ae49-973b54c742e2', 'name': 'Setări teme', 'isFolder': 'true'}, {'id': '6e005829-18d8-48b4-89c8-b52cef96d3a1', 'name': 'Sistem', 'isFolder': 'true'}]
@@ -26,7 +26,7 @@ right-panel-width=200
 search-entry-border-radius=(true, 25)
 show-activities-button=false
 update-notifier-enabled=false
-update-notifier-project-version=70
+update-notifier-project-version=73
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/1a14933d-d178-4274-b974-71ba008d07a9]
 pinned-apps=[{'id': 'org.gnome.Terminal.desktop'}, {'id': 'org.gnome.FileRoller.desktop'}, {'id': 'org.gnome.Calculator.desktop'}, {'id': 'org.gnome.Weather.desktop'}, {'id': 'org.gnome.Snapshot.desktop'}, {'id': 'org.gnome.clocks.desktop'}, {'id': 'org.gnome.Maps.desktop'}]
