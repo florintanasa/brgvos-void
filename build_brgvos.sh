@@ -60,6 +60,7 @@ if [ "$locale" = ro_RO.UTF-8 ]; then
     info_msg "Prepare variables for Romanian language"
     #other_pkg=$(cat ../other_pkg)
     other_pkg=$(cat ../other_pkg_apps_media)
+    other_pkg+=$(cat ../other_pkg_branding)
     other_pkg+=$(cat ../other_pkg_compatibility)
     other_pkg+=$(cat ../other_pkg_dev_build)
     other_pkg+=$(cat ../other_pkg_networking_security)
@@ -98,6 +99,7 @@ if [ "$locale" = en_US.UTF-8 ]; then
     info_msg "Prepare variables for English USA language"
     #other_pkg=$(cat ../other_pkg)
     other_pkg=$(cat ../other_pkg_apps_media)
+    other_pkg+=$(cat ../other_pkg_branding)
     other_pkg+=$(cat ../other_pkg_compatibility)
     other_pkg+=$(cat ../other_pkg_dev_build)
     other_pkg+=$(cat ../other_pkg_networking_security)
