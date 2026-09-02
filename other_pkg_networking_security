@@ -1,0 +1,9 @@
+NetworkManager-l2tp
+NetworkManager-openconnect
+NetworkManager-openvpn
+NetworkManager-pptp
+apparmor
+audit
+rkhunter
+lsof
+vuurmuur
