@@ -5,4 +5,4 @@ lld
 git
 python3-pipx
 vscode
-gtksourceview
+gtksourceview 
