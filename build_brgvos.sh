@@ -58,11 +58,19 @@ fi
 # Prepare variables for Romanian language
 if [ "$locale" = ro_RO.UTF-8 ]; then
     info_msg "Prepare variables for Romanian language"
-    other_pkg=$(cat ../other_pkg)
-    other_pkg+=$(cat ../other_pkg_ro)
+    #other_pkg=$(cat ../other_pkg)
+    other_pkg=$(cat ../other_pkg_apps_media)
+    other_pkg+=$(cat ../other_pkg_compatibility)
+    other_pkg+=$(cat ../other_pkg_dev_build)
+    other_pkg+=$(cat ../other_pkg_networking_security)
+    other_pkg+=$(cat ../other_pkg_office)
+    other_pkg+=$(cat ../other_pkg_printing_scanning)
+    other_pkg+=$(cat ../other_pkg_sys_core)
+    other_pkg+=$(cat ../other_pkg_utils)
     other_pkg+=$(cat ../brgvos-desktop-themes-pkg)
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
+    other_pkg+=$(cat ../other_pkg_ro)
     [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo)
     [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
 fi
@@ -88,7 +96,18 @@ if [ "$locale" = en_US.UTF-8 ]; then
     sed -i "s/mru-sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/mru-sources=[('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources 
     # Prepare variables for English USA language
     info_msg "Prepare variables for English USA language"
-    other_pkg=$(cat ../other_pkg)
+    #other_pkg=$(cat ../other_pkg)
+    other_pkg=$(cat ../other_pkg_apps_media)
+    other_pkg+=$(cat ../other_pkg_compatibility)
+    other_pkg+=$(cat ../other_pkg_dev_build)
+    other_pkg+=$(cat ../other_pkg_networking_security)
+    other_pkg+=$(cat ../other_pkg_office)
+    other_pkg+=$(cat ../other_pkg_printing_scanning)
+    other_pkg+=$(cat ../other_pkg_sys_core)
+    other_pkg+=$(cat ../other_pkg_utils)
+    other_pkg+=$(cat ../brgvos-desktop-themes-pkg)
+    other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
+    other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_en_US)
     [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo)
     [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_en_US_evo) || kernel_arg=$(cat ../kernel_arg_en_US)
