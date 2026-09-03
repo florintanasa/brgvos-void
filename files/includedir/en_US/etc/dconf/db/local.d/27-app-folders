@@ -3,11 +3,11 @@ folder-children=['System', 'Utilities', 'YaST', 'Pardus', 'd7380670-600e-4906-96
 
 [org/gnome/desktop/app-folders/folders/080077e7-6772-4d43-8010-00b5e651532b]
 apps=['org.gnome.Shotwell.desktop', 'imagescan.desktop', 'org.gnome.SimpleScan.desktop']
-name='Grafică'
+name='Graphics'
 
 [org/gnome/desktop/app-folders/folders/76c91ac3-121b-4d7d-bb56-016596e0e835]
 apps=['code-oss.desktop', 'org.gnome.Meld.desktop']
-name='Programare'
+name='Programming'
 
 [org/gnome/desktop/app-folders/folders/872d8a17-c7dc-4123-9504-bdbfc471fc50]
 apps=['org.gnome.Music.desktop', 'org.gnome.Snapshot.desktop', 'org.gnome.Totem.desktop', 'org.gnome.Decibels.desktop', 'org.gnome.Rhythmbox3.desktop']
@@ -15,7 +15,7 @@ name='Multimedia'
 
 [org/gnome/desktop/app-folders/folders/92f10b13-6f7d-4eda-872f-44b9338ddf37]
 apps=['libreoffice-startcenter.desktop', 'libreoffice-base.desktop', 'libreoffice-draw.desktop', 'libreoffice-impress.desktop', 'libreoffice-math.desktop', 'org.gnome.gitlab.somas.Apostrophe.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Contacts.desktop']
-name='Birou'
+name='Office'
 
 [org/gnome/desktop/app-folders/folders/222c6e90-3fd8-467a-a338-c318a84538fa]
 apps=['firefox.desktop', 'org.gnome.Evolution.desktop', 'vuurmuur.desktop', 'vuurmuur-wizard.desktop']
@@ -44,9 +44,9 @@ translate=true
 
 [org/gnome/desktop/app-folders/folders/ba3cd12f-fc41-472f-9935-0145a4d01ae6]
 apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Extensions.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Screenshot.desktop', 'yelp.desktop', 'simple-scan.desktop', 'org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Weather.desktop', 'org.gnome.Maps.desktop']
-name='Accesorii'
+name='Accessories'
 
 [org/gnome/desktop/app-folders/folders/d7380670-600e-4906-96ec-401c6285bf4f]
 apps=['setThemeFluentLight.desktop', 'setThemeFluentDark.desktop', 'setThemeMacTahoeLight.desktop', 'setThemeMacTahoeDark.desktop', 'setThemeMacTahoeSolidLight.desktop', 'setThemeMacTahoeSolidDark.desktop', 'setThemeWhiteSurLight.desktop', 'setThemeWhiteSurDark.desktop', 'setThemeWhiteSurSolidLight.desktop', 'setThemeWhiteSurSolidDark.desktop']
-name='Setări teme'
+name='Themes settings'
 translate=false
