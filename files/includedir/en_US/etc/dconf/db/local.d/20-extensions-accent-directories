@@ -1,0 +1,10 @@
+[org/gnome/shell/extensions/accent-directories]
+blue-theme='Fluent'
+change-app-colors=false
+green-theme='Fluent-green'
+orange-theme='Fluent-orange'
+pink-theme='Fluent-pink'
+purple-theme='Fluent-purple'
+red-theme='Fluent-red'
+slate-theme='Fluent-grey'
+yellow-theme='Fluent-yellow'

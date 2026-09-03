@@ -1,0 +1,5 @@
+[org/gnome/shell/extensions/Logo-menu]
+custom-icon-path='/usr/share/brgvos-artwork/distro-brgv-os-symbolic.svg'
+hide-icon-shadow=false
+menu-button-terminal='kgx'
+use-custom-icon=true

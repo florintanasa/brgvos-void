@@ -1,0 +1,52 @@
+[org/gnome/desktop/app-folders]
+folder-children=['System', 'Utilities', 'YaST', 'Pardus', 'd7380670-600e-4906-96ec-401c6285bf4f', '92f10b13-6f7d-4eda-872f-44b9338ddf37', '76c91ac3-121b-4d7d-bb56-016596e0e835', '872d8a17-c7dc-4123-9504-bdbfc471fc50', '080077e7-6772-4d43-8010-00b5e651532b', '222c6e90-3fd8-467a-a338-c318a84538fa', 'ba3cd12f-fc41-472f-9935-0145a4d01ae6']
+
+[org/gnome/desktop/app-folders/folders/080077e7-6772-4d43-8010-00b5e651532b]
+apps=['org.gnome.Shotwell.desktop', 'imagescan.desktop', 'org.gnome.SimpleScan.desktop']
+name='Grafică'
+
+[org/gnome/desktop/app-folders/folders/76c91ac3-121b-4d7d-bb56-016596e0e835]
+apps=['code-oss.desktop', 'org.gnome.Meld.desktop']
+name='Programare'
+
+[org/gnome/desktop/app-folders/folders/872d8a17-c7dc-4123-9504-bdbfc471fc50]
+apps=['org.gnome.Music.desktop', 'org.gnome.Snapshot.desktop', 'org.gnome.Totem.desktop', 'org.gnome.Decibels.desktop', 'org.gnome.Rhythmbox3.desktop']
+name='Multimedia'
+
+[org/gnome/desktop/app-folders/folders/92f10b13-6f7d-4eda-872f-44b9338ddf37]
+apps=['libreoffice-startcenter.desktop', 'libreoffice-base.desktop', 'libreoffice-draw.desktop', 'libreoffice-impress.desktop', 'libreoffice-math.desktop', 'org.gnome.gitlab.somas.Apostrophe.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Contacts.desktop']
+name='Birou'
+
+[org/gnome/desktop/app-folders/folders/222c6e90-3fd8-467a-a338-c318a84538fa]
+apps=['firefox.desktop', 'org.gnome.Evolution.desktop', 'vuurmuur.desktop', 'vuurmuur-wizard.desktop']
+name='Internet'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/Pardus]
+categories=['X-Pardus-Apps']
+name='X-Pardus-Apps.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/System]
+apps=['org.gnome.baobab.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.SystemMonitor.desktop', 'gparted.desktop', 'octoxbps.desktop', 'octoxbps-notifier.desktop', 'cups.desktop', 'system-config-printer.desktop', 'hplip.desktop', 'hp-uiscan.desktop', 'btop.desktop']
+name='X-GNOME-Shell-System.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/Utilities]
+apps=['org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.font-viewer.desktop', 'org.gnome.Loupe.desktop']
+name='X-GNOME-Shell-Utilities.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/ba3cd12f-fc41-472f-9935-0145a4d01ae6]
+apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Extensions.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.Screenshot.desktop', 'yelp.desktop', 'simple-scan.desktop', 'org.gnome.Characters.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Weather.desktop', 'org.gnome.Maps.desktop']
+name='Accesorii'
+
+[org/gnome/desktop/app-folders/folders/d7380670-600e-4906-96ec-401c6285bf4f]
+apps=['setThemeFluentLight.desktop', 'setThemeFluentDark.desktop', 'setThemeMacTahoeLight.desktop', 'setThemeMacTahoeDark.desktop', 'setThemeMacTahoeSolidLight.desktop', 'setThemeMacTahoeSolidDark.desktop', 'setThemeWhiteSurLight.desktop', 'setThemeWhiteSurDark.desktop', 'setThemeWhiteSurSolidLight.desktop', 'setThemeWhiteSurSolidDark.desktop']
+name='Setări teme'
+translate=false

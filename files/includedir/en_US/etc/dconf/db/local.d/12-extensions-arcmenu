@@ -1,0 +1,56 @@
+[org/gnome/shell/extensions/arcmenu]
+arc-menu-icon=71
+button-padding=5
+context-menu-items=[{'id': 'org.gnome.Nautilus.desktop'}, {'id': 'org.gnome.Console.desktop'}, {'id': 'org.gnome.Settings.desktop'}, {'id': 'org.gnome.Extensions.desktop'}, {'name': 'Separator', 'icon': 'list-remove-symbolic', 'id': 'ArcMenu_Separator'}, {'id': 'ArcMenu_Settings', 'name': 'ArcMenu Settings', 'icon': 'ArcMenu_ArcMenuIcon'}, {'id': 'ArcMenu_PanelExtensionSettings', 'name': 'Panel Extension Settings', 'icon': 'application-x-addon-symbolic'}, {'id': 'ArcMenu_Separator', 'name': 'Separator', 'icon': 'list-remove-symbolic'}, {'id': 'ArcMenu_PowerOptions', 'name': 'Power Options', 'icon': 'system-shutdown-symbolic'}, {'id': 'ArcMenu_ActivitiesOverview', 'name': 'Activities Overview', 'icon': 'view-fullscreen-symbolic'}, {'id': 'gnome-search-panel.desktop'}, {'id': 'ArcMenu_ShowDesktop', 'name': 'Show Desktop', 'icon': 'computer-symbolic'}]
+custom-menu-button-icon='/usr/share/brgvos-artwork/distro-brgv-os-symbolic.svg'
+custom-menu-button-icon-size=42.0
+dash-to-panel-standalone=true
+distro-icon=5
+eleven-layout-extra-shortcuts=[{'icon': 'org.gnome.Nautilus', 'id': 'org.gnome.Nautilus.desktop'}, {'icon': 'org.gnome.Console', 'id': 'org.gnome.Console.desktop'}, {'id': 'org.gnome.Settings.desktop'}]
+enable-menu-hotkey=true
+force-menu-location='BottomCentered'
+hide-overview-on-startup=true
+left-panel-width=375
+menu-button-appearance='Icon'
+menu-button-icon='/usr/share/brgvos-artwork/distro-brgv-os-symbolic.svg'
+menu-button-icon-size=42
+menu-button-position-offset=0
+menu-height=650
+menu-layout='11'
+multi-monitor=true
+override-menu-theme=false
+pinned-apps=[{'id': 'org.gnome.Nautilus.desktop'}, {'id': 'org.gnome.Console.desktop'}, {'id': '1a14933d-d178-4274-b974-71ba008d07a9', 'name': 'Accesorii', 'isFolder': 'true'}, {'id': 'f8564123-204b-495c-9166-8290aa2ed7be', 'name': 'Birou', 'isFolder': 'true'}, {'id': '55199c40-27af-4a8d-9f8a-58e6cbce674c', 'name': 'Grafică', 'isFolder': 'true'}, {'id': '33ed202d-931f-4f00-9f58-9a28dd792d5c', 'name': 'Internet', 'isFolder': 'true'}, {'id': '3a9bcc77-9f13-4dad-a45a-d9a0935e404f', 'name': 'Multimedia', 'isFolder': 'true'}, {'id': '71c31087-6072-49a3-b20c-c3581bd5bab3', 'name': 'Programare', 'isFolder': 'true'}, {'id': '3a7edee5-c3f9-4b06-ae49-973b54c742e2', 'name': 'Setări teme', 'isFolder': 'true'}, {'id': '6e005829-18d8-48b4-89c8-b52cef96d3a1', 'name': 'Sistem', 'isFolder': 'true'}]
+position-in-panel='Center'
+prefs-visible-page=0
+right-panel-width=200
+search-entry-border-radius=(true, 25)
+show-activities-button=false
+update-notifier-enabled=false
+update-notifier-project-version=73
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/1a14933d-d178-4274-b974-71ba008d07a9]
+pinned-apps=[{'id': 'org.gnome.Terminal.desktop'}, {'id': 'org.gnome.FileRoller.desktop'}, {'id': 'org.gnome.Calculator.desktop'}, {'id': 'org.gnome.Weather.desktop'}, {'id': 'org.gnome.Snapshot.desktop'}, {'id': 'org.gnome.clocks.desktop'}, {'id': 'org.gnome.Maps.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/33ed202d-931f-4f00-9f58-9a28dd792d5c]
+pinned-apps=[{'id': 'firefox.desktop'}, {'id': 'org.gnome.Evolution.desktop'}, {'id': 'vuurmuur.desktop'}, {'id': 'vuurmuur-wizard.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/3a7edee5-c3f9-4b06-ae49-973b54c742e2]
+pinned-apps=[{'id': 'setThemeFluentLight.desktop'}, {'id': 'setThemeFluentDark.desktop'}, {'id': 'setThemeMacTahoeLight.desktop'}, {'id': 'setThemeMacTahoeDark.desktop'}, {'id': 'setThemeMacTahoeSolidLight.desktop'}, {'id': 'setThemeMacTahoeSolidDark.desktop'}, {'id': 'setThemeWhiteSurLight.desktop'}, {'id': 'setThemeWhiteSurDark.desktop'}, {'id': 'setThemeWhiteSurSolidLight.desktop'}, {'id': 'setThemeWhiteSurSolidDark.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/3a9bcc77-9f13-4dad-a45a-d9a0935e404f]
+pinned-apps=[{'id': 'org.gnome.Music.desktop'}, {'id': 'org.gnome.Totem.desktop'}, {'id': 'org.gnome.Rhythmbox3.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/3d0e00ff-7b4a-43b3-b18e-68f23346d00a]
+pinned-apps=[{'id': 'org.gnome.FileRoller.desktop'}, {'id': 'org.gnome.font-viewer.desktop'}, {'id': 'org.gnome.Calculator.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/55199c40-27af-4a8d-9f8a-58e6cbce674c]
+pinned-apps=[{'id': 'org.gnome.Evince.desktop'}, {'id': 'org.gnome.Loupe.desktop'}, {'id': 'org.gnome.Shotwell.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/6e005829-18d8-48b4-89c8-b52cef96d3a1]
+pinned-apps=[{'id': 'gparted.desktop'}, {'id': 'org.gnome.DiskUtility.desktop'}, {'id': 'org.gnome.baobab.desktop'}, {'id': 'org.gnome.SystemMonitor.desktop'}, {'id': 'org.gnome.tweaks.desktop'}, {'id': 'org.gnome.Settings.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/71c31087-6072-49a3-b20c-c3581bd5bab3]
+pinned-apps=[{'id': 'code-oss.desktop'}, {'id': 'org.gnome.Meld.desktop'}]
+
+[org/gnome/shell/extensions/arcmenu/pinned-apps-folders/f8564123-204b-495c-9166-8290aa2ed7be]
+pinned-apps=[{'id': 'libreoffice-startcenter.desktop'}, {'id': 'libreoffice-writer.desktop'}, {'id': 'libreoffice-base.desktop'}, {'id': 'libreoffice-calc.desktop'}, {'id': 'libreoffice-draw.desktop'}, {'id': 'libreoffice-impress.desktop'}, {'id': 'libreoffice-math.desktop'}, {'id': 'org.gnome.TextEditor.desktop'}, {'id': 'simple-scan.desktop'}]

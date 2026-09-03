@@ -1,0 +1,7 @@
+[org/gnome/desktop/background]
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/gnome/fluent_4-l.png'
+picture-uri-dark='file:///usr/share/backgrounds/gnome/fluent_4-d.png'
+primary-color='#ff0000'
+secondary-color='#00ffff'

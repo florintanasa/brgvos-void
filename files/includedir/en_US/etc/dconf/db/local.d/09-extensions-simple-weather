@@ -1,0 +1,10 @@
+[org/gnome/shell/extensions/simple-weather]
+always-packaged-icons=false
+high-contrast=false
+is-activated=true
+locations=['{"name":"Suceava, România","lat":47.5326535,"lon":25.8345939}', '{"isHere":true}']
+main-location-index=int64 0
+my-loc-provider='ipapi.co'
+panel-box='left'
+symbolic-icons-panel=true
+unit-preset='metric'
