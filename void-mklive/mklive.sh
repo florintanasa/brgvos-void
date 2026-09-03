@@ -691,6 +691,10 @@ if [ "$LINUX_VERSION" = linux6.18-tkg-bore ]; then
     KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore"
 fi
 
+if [ "$LINUX_VERSION" = linux7.1-tkg-bore-lto ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore-lto"
+fi
+
 echo "LINUX_VERSION=$LINUX_VERSION"
 echo "KERNELVERSION=$KERNELVERSION"
 sleep 10
