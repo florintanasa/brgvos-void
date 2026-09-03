@@ -13,7 +13,7 @@ zip
 ffmpeg6
 ocean-sound-theme
 bash-completion
-openjdk17-jre
-openjdk17
+openjdk21-jre
+openjdk21
 noto-fonts-cjk
 noto-fonts-emoji 
