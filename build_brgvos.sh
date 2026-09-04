@@ -78,23 +78,6 @@ fi
 
 # Prepare variables and change the name of menu for English USA language
 if [ "$locale" = en_US.UTF-8 ]; then
-    # Change the name of menus in Gnome
-#    info_msg "Change the name of menus in Gnome"
-#    sed -i "s/name='Setări teme'/name='Themes settings'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Birou'/name='Office'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Grafică'/name='Graphics'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Programare'/name='Programming'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Accesorii'/name='Accessories'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/'name': 'Programare'/'name': 'Programming'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Sistem'/'name': 'System'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Birou'/'name': 'Office'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Grafică'/'name': 'Graphics'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Accesorii'/'name': 'Accessories'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Setări teme'/'name': 'Themes settings'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    # Change the default keyboard in Gnome from 'ro' to 'us' 
-#    info_msg "Change the default keyboard in Gnome from 'ro' to 'us'"
-#    sed -i "s/sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/sources=[('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources
-#    sed -i "s/mru-sources=\[('xkb', 'ro'), ('xkb', 'us')]\s*/mru-sources=[('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources 
     # Prepare variables for English USA language
     info_msg "Prepare variables for English USA language"
     #other_pkg=$(cat ../other_pkg)
@@ -164,24 +147,6 @@ elif [ -e ${title}_${variant}_${locale}_Slimbook_EVO_${arch}_${data}.iso ]
     else
         echo "File $title'_'$variant'_'$locale'_'$arch'_'$data.iso not exist, so not create the sha256 file for this"
 fi
-
-# Revert to the default Romania language
-#if [ "$locale" = en_US.UTF-8 ]; then
-#    info_msg "Revert to the default Romania language"
-#    sed -i "s/name='Themes settings'/name='Setări teme'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Office'/name='Birou'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Graphics'/name='Grafică'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Programming'/name='Programare'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/name='Accessories'/name='Accesorii'/g" ../includedir/etc/dconf/db/local.d/27-app-folders
-#    sed -i "s/'name': 'Programming'/'name': 'Programare'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'System'/'name': 'Sistem'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Office'/'name': 'Birou'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Graphics'/'name': 'Grafică'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Accessories'/'name': 'Accesorii'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/'name': 'Themes settings'/'name': 'Setări teme'/g" ../includedir/etc/dconf/db/local.d/12-extensions-arcmenu
-#    sed -i "s/sources=\[('xkb', 'us')]\s*/sources=[('xkb', 'ro'), ('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources
-#    sed -i "s/mru-sources=[('xkb', 'us')]\s*/mru-sources=\[('xkb', 'ro'), ('xkb', 'us')]/g"  ../includedir/etc/dconf/db/local.d/01-input-sources 
-#fi
 
 # Change back the owner for includedir and iso directories
 info_msg "Change back the owner for 'includedir' and 'iso_build' directories"
