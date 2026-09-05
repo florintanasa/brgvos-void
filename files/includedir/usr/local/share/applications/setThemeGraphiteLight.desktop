@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Application
+Icon=night-light-symbolic
+NoDisplay=false
+Exec=/usr/bin/setThemeGraphiteLight.sh
+Path=/usr/bin/
+Terminal=false
+X-GNOME-UsesNotifications=false
+Categories=Settings;System;
+Name=Graphite Light
+Comment=Set the desktop theme to Graphite light
+Name[en_US]=Graphite Light
+Name[en_US.UTF-8]=Graphite Light
+Comment[en_US]=Set the desktop theme to Graphite light
+Comment[en_US.UTF-8]=Set the desktop theme to Graphite light
+Name[ro_RO]=Grafit Luminoasă
+Name[ro_RO.UTF-8]=Grafit Luminoasă
+Comment[ro_RO]=Setează tema desktopului în Grafit luminoasă
+Comment[ro_RO.UTF-8]=Setează tema desktopului în Grafit luminoasă
+Hidden=false
+StartupNotify=false
+
+
