@@ -47,6 +47,6 @@ apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Tex
 name='Accessories'
 
 [org/gnome/desktop/app-folders/folders/d7380670-600e-4906-96ec-401c6285bf4f]
-apps=['setThemeFluentLight.desktop', 'setThemeFluentDark.desktop', 'setThemeMacTahoeLight.desktop', 'setThemeMacTahoeDark.desktop', 'setThemeMacTahoeSolidLight.desktop', 'setThemeMacTahoeSolidDark.desktop', 'setThemeWhiteSurLight.desktop', 'setThemeWhiteSurDark.desktop', 'setThemeWhiteSurSolidLight.desktop', 'setThemeWhiteSurSolidDark.desktop']
+apps=['setThemeFluentLight.desktop', 'setThemeFluentDark.desktop', 'setThemeGraphiteLight.desktop', 'setThemeGraphiteDark.desktop', 'setThemeMacTahoeLight.desktop', 'setThemeMacTahoeDark.desktop', 'setThemeMacTahoeSolidLight.desktop', 'setThemeMacTahoeSolidDark.desktop', 'setThemeWhiteSurLight.desktop', 'setThemeWhiteSurDark.desktop', 'setThemeWhiteSurSolidLight.desktop', 'setThemeWhiteSurSolidDark.desktop']
 name='Themes settings'
 translate=false
