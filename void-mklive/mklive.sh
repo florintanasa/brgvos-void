@@ -436,18 +436,33 @@ EOF
 generate_squashfs() {
     umount_pseudofs || exit 1
 
-    # Find out required size for the rootfs and create an ext3fs image off it.
+    # Find out required size for the rootfs and create an image off it.
     ROOTFS_SIZE=$(du --apparent-size -sm "$ROOTFS"|awk '{print $1}')
     mkdir -p "$BUILDDIR/tmp/LiveOS"
-    truncate -s "$((ROOTFS_SIZE+ROOTFS_SIZE+ROOTFS_SIZE+ROOTFS_SIZE))M" \
-	    "$BUILDDIR"/tmp/LiveOS/ext3fs.img >/dev/null 2>&1
+    
+    # CRITICAL CHANGE: Dracut 112 dropped ext3fs.img support. We must use rootfs.img now.
+    # We allocate a fixed 4GB buffer to accommodate all icons and metadata safely.
+    truncate -s "$((ROOTFS_SIZE+4096))M" \
+	    "$BUILDDIR"/tmp/LiveOS/rootfs.img >/dev/null 2>&1
+        
     mkdir -p "$BUILDDIR/tmp-rootfs"
-    mkfs.ext3 -F -m1 "$BUILDDIR/tmp/LiveOS/ext3fs.img" >/dev/null 2>&1
-    mount -o loop "$BUILDDIR/tmp/LiveOS/ext3fs.img" "$BUILDDIR/tmp-rootfs"
+    
+    # Format the container as Btrfs using the mixed profile to optimize space for smaller images.
+    # Btrfs allocates inodes dynamically, preventing "No space left on device" errors caused by heavy icon themes.
+    mkfs.btrfs -f -M "$BUILDDIR/tmp/LiveOS/rootfs.img" >/dev/null 2>&1
+    
+    # Mount the loop device specifying the btrfs filesystem type and performance mount options.
+    mount -t btrfs -o loop,ssd,nodatacow "$BUILDDIR/tmp/LiveOS/rootfs.img" "$BUILDDIR/tmp-rootfs"
+    
+    # Copy all files from the rootfs source into our freshly created Btrfs container image.
     cp -a "$ROOTFS"/* "$BUILDDIR"/tmp-rootfs/
+    
+    # Force flushing the disk buffer cache to ensure everything is completely written before unmounting.
+    sync
     umount -f "$BUILDDIR/tmp-rootfs"
     mkdir -p "$IMAGEDIR/LiveOS"
 
+    # Generate the final compressed squashfs image containing our valid rootfs.img layout.
     "$VOIDHOSTDIR"/usr/bin/mksquashfs "$BUILDDIR/tmp" "$IMAGEDIR/LiveOS/squashfs.img" \
         -comp "${SQUASHFS_COMPRESSION}" || die "Failed to generate squashfs image"
     chmod 444 "$IMAGEDIR/LiveOS/squashfs.img"
@@ -455,6 +470,7 @@ generate_squashfs() {
     # Remove rootfs and temporary dirs, we don't need them anymore.
     rm -rf "$ROOTFS" "$BUILDDIR/tmp-rootfs" "$BUILDDIR/tmp"
 }
+
 
 generate_iso_image() {
     local bootloader n
