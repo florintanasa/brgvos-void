@@ -439,7 +439,7 @@ generate_squashfs() {
     # Find out required size for the rootfs and create an ext3fs image off it.
     ROOTFS_SIZE=$(du --apparent-size -sm "$ROOTFS"|awk '{print $1}')
     mkdir -p "$BUILDDIR/tmp/LiveOS"
-    truncate -s "$((ROOTFS_SIZE+ROOTFS_SIZE+ROOTFS_SIZE))M" \
+    truncate -s "$((ROOTFS_SIZE+ROOTFS_SIZE+ROOTFS_SIZE+ROOTFS_SIZE))M" \
 	    "$BUILDDIR"/tmp/LiveOS/ext3fs.img >/dev/null 2>&1
     mkdir -p "$BUILDDIR/tmp-rootfs"
     mkfs.ext3 -F -m1 "$BUILDDIR/tmp/LiveOS/ext3fs.img" >/dev/null 2>&1
@@ -691,7 +691,7 @@ if [ "$LINUX_VERSION" = linux6.18-tkg-bore ]; then
     KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore"
 fi
 
-if [ "$LINUX_VERSION" = linux7.1-tkg-bore-lto ]; then
+if [ "$LINUX_VERSION" = linux7.2-tkg-bore-lto ]; then
     KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore-lto"
 fi
 # List kernel used
