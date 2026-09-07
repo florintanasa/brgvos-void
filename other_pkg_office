@@ -10,4 +10,6 @@ libreoffice-draw
 libreoffice-postgresql
 libreoffice-gnome
 libnumbertext
-freefont-ttf 
+freefont-ttf
+noto-fonts-cjk
+noto-fonts-emoji 
