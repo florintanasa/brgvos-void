@@ -5,4 +5,7 @@ lld
 git
 python3-pipx
 vscode
-gtksourceview 
+gtksourceview
+meld
+openjdk21-jre
+openjdk21 
