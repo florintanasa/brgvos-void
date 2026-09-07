@@ -20,7 +20,7 @@ dconf write /org/gnome/desktop/interface/gtk-theme "'MacTahoe-Light-blue'"
 dconf write /org/gnome/desktop/interface/icon-theme "'MacTahoe-blue-light'"
 
 # set user theme for MacTahoe
-dconf write /org/gnome/shell/extensions/user-theme/name "'MacTahoe-Ligt-blue'"
+dconf write /org/gnome/shell/extensions/user-theme/name "'MacTahoe-Light-blue'"
 
 # set theme for accent-gtk-theme
 dconf write /org/gnome/shell/extensions/accent-gtk-theme/blue-theme-dark "'MacTahoe-Dark-blue'"

@@ -20,7 +20,7 @@ dconf write /org/gnome/desktop/interface/gtk-theme "'WhiteSur-Light-solid-purple
 dconf write /org/gnome/desktop/interface/icon-theme "'WhiteSur-purple-light'"
 
 # set user theme for WhiteSur
-dconf write /org/gnome/shell/extensions/user-theme/name "'WhiteSur-Ligt-solid-purple'"
+dconf write /org/gnome/shell/extensions/user-theme/name "'WhiteSur-Light-solid-purple'"
 
 # set theme for accent-gtk-theme
 dconf write /org/gnome/shell/extensions/accent-gtk-theme/blue-theme-dark "'WhiteSur-Dark-solid-blue'"
