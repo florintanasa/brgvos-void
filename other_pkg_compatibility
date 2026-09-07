@@ -6,11 +6,4 @@ mesa-vaapi
 xf86-video-qxl
 spice-vdagent
 adwaita-qt
-adwaita-qt6
-gtk-engine-murrine
-gnome-themes-extra-gtk
-gnome-browser-connector
-fbterm
-fbgrab
-fbv
-fbpdf 
+adwaita-qt6 
