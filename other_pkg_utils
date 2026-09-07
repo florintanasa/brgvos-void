@@ -10,4 +10,8 @@ lm_sensors
 inxi
 sysstat
 tmux
-xtools 
+xtools
+fbterm
+fbgrab
+fbv
+fbpdf 
