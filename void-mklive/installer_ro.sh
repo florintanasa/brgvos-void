@@ -2233,9 +2233,9 @@ menu_useraccount() {
   # If source not set use defaults.
   if [ "$(get_option SOURCE)" = "local" ] || [ -z "$SOURCE_DONE" ]; then # check if user request local installation
     if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then # check if user request to setting audit
-      _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder,audit"
+      _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder,audit,llm"
     else
-      _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder"
+      _groups="wheel,audio,video,floppy,lp,dialout,cdrom,optical,storage,scanner,kvm,plugdev,users,socklog,lpadmin,bluetooth,xbuilder,llm"
     fi
   else # if not request local installation remain network install
     if [ -n "$_audit" ] && [ "$_audit" -eq 1 ]; then # check if user request to setting audit for network install
