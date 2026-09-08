@@ -190,3 +190,11 @@ source "$OSH"/oh-my-bash.sh
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
+
+# LLM's home configuration. Is the path where the models is stored
+# User is necessary to be part from group `llm`
+
+export OLLAMA_MODELS="/var/lib/llms/ollama"
+export HF_HOME="/var/lib/llms/huggingface"
+export FLM_MODEL_PATH="/var/lib/llms/flm"
+
