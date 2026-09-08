@@ -18,7 +18,7 @@ sure to configure your network interface and then use:
 	- xbps-install(1) to install/update packages
 	- xbps-query(1) to query for package info
 
-The BRGV-OS Linux is based by Void Linux distribution.
+The BRGV-OS Linux is based on Void Linux distribution.
 
 Thanks for using BRGV-OS Linux.
 
