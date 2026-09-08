@@ -64,6 +64,7 @@ if [ "$locale" = ro_RO.UTF-8 ]; then
     other_pkg+=$(cat ../other_pkg_compatibility)
     other_pkg+=$(cat ../other_pkg_dev_build)
     other_pkg+=$(cat ../other_pkg_gnome)
+    other_pkg+=$(cat ../other_pkg_llm)
     other_pkg+=$(cat ../other_pkg_networking_security)
     other_pkg+=$(cat ../other_pkg_office)
     other_pkg+=$(cat ../other_pkg_printing_scanning)
@@ -73,7 +74,7 @@ if [ "$locale" = ro_RO.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_ro)
-    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo)
+    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
     [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
 fi
 
@@ -87,6 +88,7 @@ if [ "$locale" = en_US.UTF-8 ]; then
     other_pkg+=$(cat ../other_pkg_compatibility)
     other_pkg+=$(cat ../other_pkg_dev_build)
     other_pkg+=$(cat ../other_pkg_gnome)
+    other_pkg+=$(cat ../other_pkg_llm)
     other_pkg+=$(cat ../other_pkg_networking_security)
     other_pkg+=$(cat ../other_pkg_office)
     other_pkg+=$(cat ../other_pkg_printing_scanning)
@@ -96,7 +98,7 @@ if [ "$locale" = en_US.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_en_US)
-    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo)
+    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
     [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_en_US_evo) || kernel_arg=$(cat ../kernel_arg_en_US)
 fi
 
