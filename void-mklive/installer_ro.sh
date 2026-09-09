@@ -2432,7 +2432,7 @@ set_bootloader() {
     echo "AppArmour a fost setat ca parametru la încârcarea kernelului și a fost setat modul Enforce..." >>$LOG
     {
       chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor lsm=landlock,lockdown,yama,integrity,apparmor,bpf"/' /etc/default/grub
-      chroot $TARGETDIR sed -i 's/APPARMOR=complain/APPARMOR=enforce/g' /etc/default/apparmor
+      #chroot $TARGETDIR sed -i 's/APPARMOR=complain/APPARMOR=enforce/g' /etc/default/apparmor
     } >>$LOG 2>&1
   fi
   # Check if the user set to use Firewall Manager(vuurmuur)

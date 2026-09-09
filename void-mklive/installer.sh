@@ -2431,7 +2431,7 @@ set_bootloader() {
     echo "Security AppArmor was set to be loaded by kernel in Enforce mode..." >>$LOG
     {
       chroot $TARGETDIR sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\([^"]*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 apparmor=1 security=apparmor lsm=landlock,lockdown,yama,integrity,apparmor,bpf"/' /etc/default/grub
-      chroot $TARGETDIR sed -i 's/APPARMOR=complain/APPARMOR=enforce/g' /etc/default/apparmor
+      #chroot $TARGETDIR sed -i 's/APPARMOR=complain/APPARMOR=enforce/g' /etc/default/apparmor
     } >>$LOG 2>&1
   fi
   # Check if the user set to use Firewall Manager(vuurmuur)
