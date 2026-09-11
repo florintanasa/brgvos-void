@@ -19,4 +19,5 @@ curl
 wget
 zip
 7zip
-bash-completion 
+bash-completion
+oh-my-posh 
