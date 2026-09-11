@@ -843,6 +843,12 @@ if [ "$VARIANT" = gnome ]; then
     #info_msg "Update dconf settings for extensions"
     #chroot "$ROOTFS" dconf update
 
+    info_msg "=> Configuring Python-UNO bridge for LibreOffice AI extensions..."
+    PYTHON_VERSION=$(chroot "$ROOTFS" python3 -c "import sys; print(f'python{sys.version_info.major}.{sys.version_info.minor}')")
+    SITE_PACKAGES="/usr/lib/$PYTHON_VERSION/site-packages"
+    chroot "$ROOTFS" mkdir -p "$SITE_PACKAGES"
+    echo "/usr/lib/libreoffice/program" | chroot "$ROOTFS" tee "$SITE_PACKAGES/libreoffice.pth" > /dev/null
+
     # setup flathub
     info_msg "Setup flathub"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
