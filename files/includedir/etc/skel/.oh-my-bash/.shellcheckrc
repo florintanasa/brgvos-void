@@ -1,1 +1,0 @@
-disable=SC1087 # Use braces when expanding arrays -- needed for Zsh, not Bash
