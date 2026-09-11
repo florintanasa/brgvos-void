@@ -14,4 +14,9 @@ xtools
 fbterm
 fbgrab
 fbv
-fbpdf 
+fbpdf
+curl
+wget
+zip
+7zip
+bash-completion 
