@@ -53,7 +53,7 @@ pinned-apps=[{'id': 'org.gnome.Evince.desktop'}, {'id': 'org.gnome.Loupe.desktop
 pinned-apps=[{'id': 'gparted.desktop'}, {'id': 'org.gnome.DiskUtility.desktop'}, {'id': 'org.gnome.baobab.desktop'}, {'id': 'org.gnome.SystemMonitor.desktop'}, {'id': 'org.gnome.tweaks.desktop'}, {'id': 'org.gnome.Settings.desktop'}]
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/71c31087-6072-49a3-b20c-c3581bd5bab3]
-pinned-apps=[{'id': 'code-oss.desktop'}, {'id': 'org.gnome.Meld.desktop'}, {'id': 'lemonade-desktop.desktop'}, {'id': 'lemonade-web-app.desktop'}, {'id': 'llamacpp.desktop'}]
+pinned-apps=[{'id': 'code-oss.desktop'}, {'id': 'org.gnome.Meld.desktop'}]
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/f8564123-204b-495c-9166-8290aa2ed7be]
 pinned-apps=[{'id': 'libreoffice-startcenter.desktop'}, {'id': 'libreoffice-writer.desktop'}, {'id': 'libreoffice-base.desktop'}, {'id': 'libreoffice-calc.desktop'}, {'id': 'libreoffice-draw.desktop'}, {'id': 'libreoffice-impress.desktop'}, {'id': 'libreoffice-math.desktop'}, {'id': 'org.gnome.TextEditor.desktop'}, {'id': 'simple-scan.desktop'}]
