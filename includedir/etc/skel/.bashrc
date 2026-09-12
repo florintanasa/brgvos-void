@@ -34,12 +34,12 @@ if [ "$TERM" = "linux" ]; then
 else
     # For X11/Wayland/TMUX
     if command -v oh-my-posh >/dev/null 2>&1; then
-        eval "$(oh-my-posh init bash --config /usr/share/oh-my-posh/themes/robbyrussell.omp.json)"
+        eval "$(oh-my-posh init bash --config /usr/share/oh-my-posh/themes/multiverse-neon.omp.json)"
     fi
 fi
 
 # LLM's home configuration. Is the path where the models is stored
-# User is necessary to be part from group `llm`
+# User is necessary to be part from group `llm` to have rights on it
 
 export OLLAMA_MODELS="/var/lib/llms/ollama"
 export HF_HOME="/var/lib/llms/huggingface"
