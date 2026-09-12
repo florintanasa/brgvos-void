@@ -6,7 +6,7 @@ apps=['org.gnome.Shotwell.desktop', 'org.gnome.SimpleScan.desktop', 'open-pdf-st
 name='Grafică'
 
 [org/gnome/desktop/app-folders/folders/76c91ac3-121b-4d7d-bb56-016596e0e835]
-apps=['code-oss.desktop', 'org.gnome.Meld.desktop', 'lemonade-desktop.desktop', 'lemonade-web-app.desktop', 'llamacpp.desktop']
+apps=['code-oss.desktop', 'org.gnome.Meld.desktop']
 name='Programare'
 
 [org/gnome/desktop/app-folders/folders/7e62a002-221c-485f-aeea-aaa7265541f1]
