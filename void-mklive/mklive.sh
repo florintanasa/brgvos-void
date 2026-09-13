@@ -873,6 +873,10 @@ if [ "$VARIANT" = gnome ]; then
     info_msg "Change file mode and group for directory /var/log/audit"
     chroot $ROOTFS sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
 
+    # Run ldconfig at the end of the chroot
+    info_msg "=> Regenerating dynamic linker cache inside rootfs..."
+    chroot "$ROOTFS" ldconfig
+
     # wait 10 seconds to can read
     sleep 10
 fi
