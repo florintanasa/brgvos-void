@@ -906,7 +906,7 @@ if [ "$MACHINE" = "evo" ]; then
     # 3. Run the commands simply and cleanly
     chroot "$ROOTFS" lemonade backends install llamacpp:cpu
     chroot "$ROOTFS" lemonade backends install llamacpp:rocm
-    chroot "$ROOTFS" lemonade config setflm.prefer_system=true llamacpp.backend=rocm
+    chroot "$ROOTFS" lemonade config set flm.prefer_system=true llamacpp.backend=rocm
 
     #4. Cleanly stopping the background process
     info_msg "=> Cleaning up temporary lemond services..."
