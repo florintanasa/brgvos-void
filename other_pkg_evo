@@ -9,4 +9,5 @@ slimbook-evo-grub-fix
 slimbook-backlight 
 slimbook-kms-fix 
 ryzen-smu-dkms 
-RyzenAdj-git 
+RyzenAdj-git
+mesa-vulkan-radeon 
