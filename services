@@ -2,7 +2,7 @@ bluetoothd
 cups-browsed
 cupsd
 cronie
-tlp
+power-profiles-daemon
 socklog-unix
 nanoklogd
 spice-vdagentd
