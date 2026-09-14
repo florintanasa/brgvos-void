@@ -519,11 +519,12 @@ generate_iso_image() {
 #
 # main()
 #
-while getopts "a:b:B:r:c:C:T:Kk:l:i:I:S:e:s:o:p:g:v:P:Vh" opt; do
+while getopts "a:b:B:M:r:c:C:T:Kk:l:i:I:S:e:s:o:p:g:v:P:Vh" opt; do
 	case $opt in
 		a) TARGET_ARCH="$OPTARG";;
 		b) BASE_SYSTEM_PKG="$OPTARG";;
         B) VARIANT="$OPTARG";;
+        M) MACHINE="$OPTARG";;
 		r) XBPS_REPOSITORY="--repository=$OPTARG $XBPS_REPOSITORY";;
 		c) XBPS_CACHEDIR="$OPTARG";;
 		g) IGNORE_PKGS+=($OPTARG) ;;
@@ -782,7 +783,7 @@ if [ "$VARIANT" = gnome ]; then
 
     # install gext global to be used for enable the extensions
     # is not used to install because leave dev and proc mounted on $ROOTFS and the mklive crash
-    info_msg "Install 'gnome-extensions-cli' global to be used for enable the extensions"
+    info_msg "=> Install 'gnome-extensions-cli' global to be used for enable the extensions"
     chroot "$ROOTFS" pipx install gnome-extensions-cli --global
     
     # install extensions first version - I leave as example one extenion
@@ -850,27 +851,27 @@ if [ "$VARIANT" = gnome ]; then
     echo "/usr/lib/libreoffice/program" | chroot "$ROOTFS" tee "$SITE_PACKAGES/libreoffice.pth" > /dev/null
 
     # setup flathub
-    info_msg "Setup flathub"
+    info_msg "=> Setup flathub"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    info_msg "Setup flathub-beta"
+    info_msg "=> Setup flathub-beta"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-    info_msg "Setup gnome-nightly"
+    info_msg "=> Setup gnome-nightly"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
 
     # set plymouth theme for BRGV-OS
-    info_msg "Set plymouth theme for BRGV-OS"
+    info_msg "=> Set plymouth theme for BRGV-OS"
     chroot "$ROOTFS" plymouth-set-default-theme brgvos
     
     # create group audit
-    info_msg "Create group 'audit'"
+    info_msg "=> Create group 'audit'"
     chroot "$ROOTFS" groupadd -r audit
 
     # Change log_group to audit
-    info_msg "Change log_group to audit"
+    info_msg "=> Change log_group to audit"
     chroot $ROOTFS sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
 
     # Change file mode and group for directory /var/log/audit
-    info_msg "Change file mode and group for directory /var/log/audit"
+    info_msg "=> Change file mode and group for directory /var/log/audit"
     chroot $ROOTFS sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
 
     # Run ldconfig at the end of the chroot
@@ -880,6 +881,127 @@ if [ "$VARIANT" = gnome ]; then
     # wait 10 seconds to can read
     sleep 10
 fi
+
+# Check if machine are Slimbook EVO
+if [ "$MACHINE" = "evo" ]; then
+    info_msg "=> MACHINE: Slimbook EVO DETECTED. Orchestrating temporary isolated Runit services in chroot..."
+
+    # 1. Ne asigurăm că directorul de date al serviciului există și are permisiunile corecte
+    mkdir -p "$ROOTFS/var/lib/lemonade"
+    chroot "$ROOTFS" chown -R lemonade:lemonade /var/lib/lemonade
+
+    # 2. Creăm un folder de servicii temporar în interiorul chroot-ului (ex: /tmp/services)
+    mkdir -p "$ROOTFS/tmp/services"
+
+    # 3. Facem link către serviciul lemonade-server în acest folder izolat
+    ln -sf /etc/sv/lemonade-server "$ROOTFS/tmp/services/"
+
+    # 4. PORNIM MANAGERUL DE SERVICII IZOLAT ÎN FUNDAL
+    # Lansăm runsvdir în chroot, indicându-i să monitorizeze folderul nostru temporar /tmp/services
+    # Redirecționăm ieșirea în /dev/null pentru a nu aglomera terminalul de build
+    chroot "$ROOTFS" runsvdir -P /tmp/services &
+    RUNIT_PID=$! # Salvăm PID-ul managerului pentru a-l opri la final
+
+    # Așteptăm 3 secunde ca runit să ridice daemonul lemonade-server și să îl stabilizeze
+    sleep 3
+
+    # 5. RULĂM COMENZILE NATIVE LEMONADE (Acum au un server activ la care să se conecteze!)
+    LEMONADE_ENV="USER=lemonade HOME=/var/lib/lemonade LEMONADE_CACHE_DIR=/var/lib/lemonade LEMONADE_DATA_DIR=/var/lib/lemonade"
+
+    chroot "$ROOTFS" su -s /bin/sh lemonade -c "env $LEMONADE_ENV lemonade backends install llamacpp:cpu"
+    chroot "$ROOTFS" su -s /bin/sh lemonade -c "env $LEMONADE_ENV lemonade backends install llamacpp:rocm"
+    chroot "$ROOTFS" su -s /bin/sh lemonade -c "env $LEMONADE_ENV lemonade config set flm.prefer_system=true llamacpp.backend=rocm"
+
+    # 6. OPRIREA CURATĂ A MEDIULUI DE BOOT
+    info_msg "=> Cleaning up temporary services and stopping runsvdir..."
+    kill $RUNIT_PID
+    chroot "$ROOTFS" pkill -u lemonade || true
+    rm -rf "$ROOTFS/tmp/services"
+
+    # 7. Validarea ta excelentă de diagnostic pe calea XDG a serviciului:
+        if [ -f "$ROOTFS/var/lib/lemonade/.config/lemonade/config.json" ]; then
+            info_msg "=> SUCCESS (EVO): Lemonade server ran active in chroot and successfully persisted config.json!"
+            chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
+        fi
+fi
+
+# ==========================================
+# CONFIGURARE PROFIL: EVO (CPU + ROCm + FLM)
+# ==========================================
+if [ "$MACHINE" = "evo" ]; then
+    info_msg "=> MACHINE: Slimbook EVO. Executing Lemonade setup using lemond service..."
+
+    # 1. Check if the service's data directory already exists (created by the package)
+    if [ ! -d "$ROOTFS/var/lib/lemonade" ]; then
+        info_msg "=> Path /var/lib/lemonade not found. Creating and setting permissions..."
+        mkdir -p "$ROOTFS/var/lib/lemonade"
+        chroot "$ROOTFS" chown -R lemonade:lemonade /var/lib/lemonade
+    else
+        info_msg "=> Path /var/lib/lemonade already exists (provided by package). Proceeding..."
+    fi
+
+    # 2. Start the service in the background – it automatically loads all the variables from the 'run' script.
+    info_msg "=> Start service lemond..."
+    chroot "$ROOTFS" sh /etc/sv/lemonade-server/run &
+    RUNIT_PID=$!
+    sleep 3
+
+    # 3. Run the commands simply and cleanly
+    chroot "$ROOTFS" lemonade backends install llamacpp:cpu
+    chroot "$ROOTFS" lemonade backends install llamacpp:rocm
+    chroot "$ROOTFS" lemonade config setflm.prefer_system=true llamacpp.backend=rocm
+
+    #4. Cleanly stopping the background process
+    info_msg "=> Cleaning up temporary lemond services..."
+    kill $RUNIT_PID 2>/dev/null || true
+    chroot "$ROOTFS" pkill -u lemonade || true
+
+    # 5. Diagnostic check of the service's XDG path
+    if [ -f "$ROOTFS/var/lib/lemonade/.config/lemonade/config.json" ]; then
+        info_msg "=> SUCCESS (Generic): Lemonade configuration successfully persisted!"
+        chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
+    fi
+fi
+
+# ==========================================
+# CONFIGURARE PROFIL: GENERIC (CPU + Vulkan)
+# ==========================================
+if [ "$MACHINE" = "generic" ]; then
+    info_msg "=> MACHINE: Generic. Executing Lemonade setup using lemond service..."
+
+    # 1. Check if the service's data directory already exists (created by the package)
+    if [ ! -d "$ROOTFS/var/lib/lemonade" ]; then
+        info_msg "=> Path /var/lib/lemonade not found. Creating and setting permissions..."
+        mkdir -p "$ROOTFS/var/lib/lemonade"
+        chroot "$ROOTFS" chown -R lemonade:lemonade /var/lib/lemonade
+    else
+        info_msg "=> Path /var/lib/lemonade already exists (provided by package). Proceeding..."
+    fi
+
+    # 2. Start the service in the background – it automatically loads all the variables from the 'run' script.
+    info_msg "=> Start service lemond..."
+    chroot "$ROOTFS" sh /etc/sv/lemonade-server/run &
+    RUNIT_PID=$!
+    sleep 3
+
+    # 3. Run the commands simply and cleanly
+    chroot "$ROOTFS" lemonade backends install llamacpp:cpu
+    chroot "$ROOTFS" lemonade backends install llamacpp:vulkan
+    chroot "$ROOTFS" lemonade config set llamacpp.backend=cpu
+
+    #4. Cleanly stopping the background process
+    info_msg "=> Cleaning up temporary lemond services..."
+    kill $RUNIT_PID 2>/dev/null || true
+    chroot "$ROOTFS" pkill -u lemonade || true
+
+    # 5. Diagnostic check of the service's XDG path
+    if [ -f "$ROOTFS/var/lib/lemonade/.config/lemonade/config.json" ]; then
+        info_msg "=> SUCCESS (Generic): Lemonade configuration successfully persisted!"
+        chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
+    fi
+fi
+
+
 # List kernel used
 echo "KERNELVERSION=$KERNELVERSION"
 print_step "Generating initramfs image ($INITRAMFS_COMPRESSION)..."
