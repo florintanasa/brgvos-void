@@ -882,51 +882,8 @@ if [ "$VARIANT" = gnome ]; then
     sleep 10
 fi
 
-# Check if machine are Slimbook EVO
-if [ "$MACHINE" = "evo" ]; then
-    info_msg "=> MACHINE: Slimbook EVO DETECTED. Orchestrating temporary isolated Runit services in chroot..."
-
-    # 1. Ne asigurăm că directorul de date al serviciului există și are permisiunile corecte
-    mkdir -p "$ROOTFS/var/lib/lemonade"
-    chroot "$ROOTFS" chown -R lemonade:lemonade /var/lib/lemonade
-
-    # 2. Creăm un folder de servicii temporar în interiorul chroot-ului (ex: /tmp/services)
-    mkdir -p "$ROOTFS/tmp/services"
-
-    # 3. Facem link către serviciul lemonade-server în acest folder izolat
-    ln -sf /etc/sv/lemonade-server "$ROOTFS/tmp/services/"
-
-    # 4. PORNIM MANAGERUL DE SERVICII IZOLAT ÎN FUNDAL
-    # Lansăm runsvdir în chroot, indicându-i să monitorizeze folderul nostru temporar /tmp/services
-    # Redirecționăm ieșirea în /dev/null pentru a nu aglomera terminalul de build
-    chroot "$ROOTFS" runsvdir -P /tmp/services &
-    RUNIT_PID=$! # Salvăm PID-ul managerului pentru a-l opri la final
-
-    # Așteptăm 3 secunde ca runit să ridice daemonul lemonade-server și să îl stabilizeze
-    sleep 3
-
-    # 5. RULĂM COMENZILE NATIVE LEMONADE (Acum au un server activ la care să se conecteze!)
-    LEMONADE_ENV="USER=lemonade HOME=/var/lib/lemonade LEMONADE_CACHE_DIR=/var/lib/lemonade LEMONADE_DATA_DIR=/var/lib/lemonade"
-
-    chroot "$ROOTFS" su -s /bin/sh lemonade -c "env $LEMONADE_ENV lemonade backends install llamacpp:cpu"
-    chroot "$ROOTFS" su -s /bin/sh lemonade -c "env $LEMONADE_ENV lemonade backends install llamacpp:rocm"
-    chroot "$ROOTFS" su -s /bin/sh lemonade -c "env $LEMONADE_ENV lemonade config set flm.prefer_system=true llamacpp.backend=rocm"
-
-    # 6. OPRIREA CURATĂ A MEDIULUI DE BOOT
-    info_msg "=> Cleaning up temporary services and stopping runsvdir..."
-    kill $RUNIT_PID
-    chroot "$ROOTFS" pkill -u lemonade || true
-    rm -rf "$ROOTFS/tmp/services"
-
-    # 7. Validarea ta excelentă de diagnostic pe calea XDG a serviciului:
-        if [ -f "$ROOTFS/var/lib/lemonade/.config/lemonade/config.json" ]; then
-            info_msg "=> SUCCESS (EVO): Lemonade server ran active in chroot and successfully persisted config.json!"
-            chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
-        fi
-fi
-
 # ==========================================
-# CONFIGURARE PROFIL: EVO (CPU + ROCm + FLM)
+# CONFIGURE PROFILE: EVO (CPU + ROCm + FLM)
 # ==========================================
 if [ "$MACHINE" = "evo" ]; then
     info_msg "=> MACHINE: Slimbook EVO. Executing Lemonade setup using lemond service..."
@@ -964,7 +921,7 @@ if [ "$MACHINE" = "evo" ]; then
 fi
 
 # ==========================================
-# CONFIGURARE PROFIL: GENERIC (CPU + Vulkan)
+# CONFIGURE PROFILE: GENERIC (CPU + Vulkan)
 # ==========================================
 if [ "$MACHINE" = "generic" ]; then
     info_msg "=> MACHINE: Generic. Executing Lemonade setup using lemond service..."
@@ -1000,7 +957,6 @@ if [ "$MACHINE" = "generic" ]; then
         chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
     fi
 fi
-
 
 # List kernel used
 echo "KERNELVERSION=$KERNELVERSION"
