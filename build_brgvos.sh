@@ -13,8 +13,10 @@ data=$(date +'%d%m%Y_%H%M%S')
 # get user name
 username=$(logname)
 
-# get evo parameter
-EVO=$1
+# get machine parameter
+machine=$1
+# check if the parameters are evo return "evo" else return "generic" for later usage
+[ "$machine" = evo ] && machine="evo" || machine="generic"
 
 # change the owner for includedir
 info_msg "Change the owner to root for 'includedir' directory"
@@ -25,7 +27,7 @@ info_msg "Change working directory to 'void-mklive'"
 cd void-mklive
 
 # Read the flags used for build the iso
-if [ "$EVO" = evo ]; then
+if [ "$machine" = evo ]; then
     info_msg "Read the flags used for build the iso for Slimbook EVO"
     arch=$(cat ../arch)
     variant=$(cat ../variant)
@@ -74,8 +76,8 @@ if [ "$locale" = ro_RO.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_ro)
-    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
-    [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
+    [ "$machine" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
+    [ "$machine" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
 fi
 
 # Prepare variables and change the name of menu for English USA language
@@ -98,8 +100,8 @@ if [ "$locale" = en_US.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_en_US)
-    [ "$EVO" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
-    [ "$EVO" = evo ] &&  kernel_arg=$(cat ../kernel_arg_en_US_evo) || kernel_arg=$(cat ../kernel_arg_en_US)
+    [ "$machine" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
+    [ "$machine" = evo ] &&  kernel_arg=$(cat ../kernel_arg_en_US_evo) || kernel_arg=$(cat ../kernel_arg_en_US)
 fi
 
 # Run void linux script to build iso file image
@@ -113,6 +115,7 @@ sudo ./mkiso.sh \
 -r $brgvos_test_repo \
 -- -k $keymap \
 -B $variant \
+-M $machine \
 -l $locale \
 -e $root_shell \
 -v $linux_version \
@@ -148,8 +151,8 @@ elif [ -e ${title}_${variant}_${locale}_Slimbook_EVO_${arch}_${data}.iso ]
         info_msg "Move the files to '../iso_build' directory"
         mv $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.iso ../iso_build
         mv $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.sha256 ../iso_build
-    else
-        echo "File $title'_'$variant'_'$locale'_'$arch'_'$data.iso not exist, so not create the sha256 file for this"
+else
+    echo "File $title'_'$variant'_'$locale'_'$arch'_'$data.iso not exist, so not create the sha256 file for this"
 fi
 
 # Change back the owner for includedir and iso directories
