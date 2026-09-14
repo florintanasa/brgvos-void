@@ -76,6 +76,7 @@ if [ "$locale" = ro_RO.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_ro)
+    [ "$machine" = generic ] &&  other_pkg+=$(cat ../other_pkg_generic)
     [ "$machine" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
     [ "$machine" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
 fi
@@ -100,6 +101,7 @@ if [ "$locale" = en_US.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_en_US)
+    [ "$machine" = generic ] &&  other_pkg+=$(cat ../other_pkg_generic)
     [ "$machine" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
     [ "$machine" = evo ] &&  kernel_arg=$(cat ../kernel_arg_en_US_evo) || kernel_arg=$(cat ../kernel_arg_en_US)
 fi
