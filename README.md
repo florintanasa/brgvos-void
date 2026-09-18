@@ -31,19 +31,36 @@ Also **BRGV-OS** have another extension [Set Notification Banner Position](https
 
 ## $\textcolor{teal}{\texttt{How to build}}$
 
-It is suggested to use **Void Linux** or an others based on this distribution, also **BRGV-OS** work :)  
-Default start the build for Romanian language, if you wish to build for international English USA language edit file `locale` and change from `ro_RO.UTF-8` to `en_US.UTF-8` and also edit file `keymap` and change from `ro` to `us`.  
-That's it.  
-If you wish to build for your language, take a look at file `build_brgvos.sh` how I do it from English USA language and Romanian language.
-To build the iso image, it is necessary to use a based **Void Linux** distribution or **BRGV-OS** (is a spin **Void Linux**) where we run next commands:  
+It is recommended to use **Void Linux** or any other distribution based on it. **BRGV-OS** works perfectly as well!
+
+### Localization
+By default, the pipeline builds the ISO for the **Romanian language**. If you want to build the ISO for **International English (USA)**, please make the following changes:
+* Edit the `locale` file and change `ro_RO.UTF-8` to `en_US.UTF-8`.
+* Edit the `keymap` file and change `ro` to `us`.
+
+If you wish to add support for your own native language, take a look at `build_brgvos.sh` to see how Romanian and English USA profiles are implemented.
+
+### Building a Generic ISO Image
+To build a generic ISO image, you must use a host system running **Void Linux** or **BRGV-OS** (which is a customized spin of Void Linux). Open a terminal and run the following commands:
 
 ```bash
-git clone --recurse-submodules https://github.com/florintanasa/brgvos-void.git
+git clone --recurse-submodules https://github.com
 cd brgvos-void
 sudo ./build_brgvos.sh
 ```  
-  
-After that, if everything works ok, we find the iso image is in directory `iso build`.
+
+### Building a Custom ISO for Slimbook EVO
+Since I use a **Slimbook EVO** laptop, the script includes a specialized hardware profile. To build a highly optimized, custom ISO tailored specifically for this machine (including local NPU and AMD ROCm acceleration), run:
+
+```bash
+sudo ./build_brgvos.sh evo
+```
+
+Once the compilation process successfully finishes, you will find the generated bootable ISO image inside the `iso_build` directory.
+
+---
+*Feel free to explore the codebase, inspect the custom configurations, and tweak the build scripts to create your own personalized spin!*
+
   
 > [!IMPORTANT]  
 > In this moment the build is for ro_RO (Romanian language) and en_US (English USA language) , but with few modifications can be buildid for anothers.  
@@ -58,6 +75,8 @@ After that, if everything works ok, we find the iso image is in directory `iso b
 > or  
 > here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08042026_110503.sha256/download) for **en_US** version 
     
+⚠️ Boot Time Warning: Since the ISO image footprint has grown to over 3.8GB and includes a vast number of files, the system needs more time to unpack and boot into memory. Please be patient during the first startup.
+  
 > [!NOTE]  
 > ## -> [News](NEWS.md)  <-
 > 
