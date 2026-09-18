@@ -916,7 +916,7 @@ if [ "$MACHINE" = "evo" ]; then
 
     # 5. Diagnostic check of the service's XDG path
     if [ -f "$ROOTFS/var/lib/lemonade/.config/lemonade/config.json" ]; then
-        info_msg "=> SUCCESS (Generic): Lemonade configuration successfully persisted!"
+        info_msg "=> SUCCESS (Slimbook EVO): Lemonade configuration successfully persisted!"
         chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
     fi
 fi
