@@ -50,7 +50,7 @@ pinned-apps=[{'id': 'lemonade-web-app.desktop'}, {'id': 'lemonade-desktop.deskto
 pinned-apps=[{'id': 'org.gnome.Evince.desktop'}, {'id': 'org.gnome.Loupe.desktop'}, {'id': 'org.gnome.Shotwell.desktop'}, {'id': 'open-pdf-studio.desktop'}, {'id': 'OpenCADStudio.desktop'}]
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/6e005829-18d8-48b4-89c8-b52cef96d3a1]
-pinned-apps=[{'id': 'gparted.desktop'}, {'id': 'org.gnome.DiskUtility.desktop'}, {'id': 'org.gnome.baobab.desktop'}, {'id': 'org.gnome.SystemMonitor.desktop'}, {'id': 'org.gnome.tweaks.desktop'}, {'id': 'org.gnome.Settings.desktop'}]
+pinned-apps=[{'id': 'gparted.desktop'}, {'id': 'org.gnome.DiskUtility.desktop'}, {'id': 'org.gnome.baobab.desktop'}, {'id': 'org.gnome.SystemMonitor.desktop'}, {'id': 'btop.desktop'},{'id': 'org.gnome.tweaks.desktop'}, {'id': 'org.gnome.Settings.desktop'}, {'id': 'tech.geektoshi.Runkit.desktop'}]
 
 [org/gnome/shell/extensions/arcmenu/pinned-apps-folders/71c31087-6072-49a3-b20c-c3581bd5bab3]
 pinned-apps=[{'id': 'code-oss.desktop'}, {'id': 'org.gnome.Meld.desktop'}]
