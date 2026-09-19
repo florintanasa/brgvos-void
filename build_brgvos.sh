@@ -4,7 +4,7 @@
 
 # Check for root permissions.
 if [ "$(id -u)" -ne 0 ]; then
-    die "Must be run as root, exiting..."
+    die "=> Must be run as root, exiting..."
 fi
 
 # set the date and time
@@ -16,19 +16,23 @@ username=$(logname)
 # get machine parameter
 machine=$1
 # check if the parameters are evo return "evo" else return "generic" for later usage
-[ "$machine" = evo ] && machine="evo" || machine="generic"
+if [ "$machine" = evo ]; then
+    machine="evo"
+else
+    machine="generic"
+fi
 
 # change the owner for includedir
-info_msg "Change the owner to root for 'includedir' directory"
+info_msg "=> Change the owner to root for 'includedir' directory"
 chown root:root -R includedir
 
 # change working directory
-info_msg "Change working directory to 'void-mklive'" 
+info_msg "=> Change working directory to 'void-mklive'" 
 cd void-mklive
 
 # Read the flags used for build the iso
-if [ "$machine" = evo ]; then
-    info_msg "Read the flags used for build the iso for Slimbook EVO"
+if [ "$machine" = "evo" ]; then
+    info_msg "=> Read the flags used for build the iso for 'Slimbook EVO'"
     arch=$(cat ../arch)
     variant=$(cat ../variant)
     keymap=$(cat ../keymap)
@@ -40,9 +44,11 @@ if [ "$machine" = evo ]; then
     main_repo=$(cat ../main-repo)
     brgvos_repo=$(cat ../brgvos-current-repo)
     brgvos_test_repo=$(cat ../brgvos-test-repo)
+    ignore_pkg=$(cat ../ignore_pkg)
     name_file="${title}_${variant}_${locale}_Slimbook_EVO_${arch}_${data}.iso"
-else 
-    info_msg "Read the flags used for build the iso"
+fi
+if [ "$machine" = "generic" ]; then
+    info_msg "=> Read the flags used for build the iso for 'Generic machine'"
     arch=$(cat ../arch)
     variant=$(cat ../variant)
     keymap=$(cat ../keymap)
@@ -54,12 +60,13 @@ else
     main_repo=$(cat ../main-repo)
     brgvos_repo=$(cat ../brgvos-current-repo)
     brgvos_test_repo=$(cat ../brgvos-test-repo)
+    ignore_pkg=$(cat ../ignore_pkg)
     name_file="${title}_${variant}_${locale}_${arch}_${data}.iso"
 fi
 
 # Prepare variables for Romanian language
-if [ "$locale" = ro_RO.UTF-8 ]; then
-    info_msg "Prepare variables for Romanian language"
+if [ "$locale" = "ro_RO.UTF-8" ]; then
+    info_msg "=> Prepare variables for Romanian language"
     #other_pkg=$(cat ../other_pkg)
     other_pkg=$(cat ../other_pkg_apps_media)
     other_pkg+=$(cat ../other_pkg_branding)
@@ -76,15 +83,23 @@ if [ "$locale" = ro_RO.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_ro)
-    [ "$machine" = generic ] &&  other_pkg+=$(cat ../other_pkg_generic)
-    [ "$machine" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
-    [ "$machine" = evo ] &&  kernel_arg=$(cat ../kernel_arg_ro_evo) || kernel_arg=$(cat ../kernel_arg_ro)
+    if [ "$machine" = "evo" ]; then
+        info_msg "=> Hardware profile 'Slimbook EVO' active. Loading dedicated package lists and kernel arguments..."
+        other_pkg+=$(cat ../other_pkg_evo)
+        other_pkg+=$(cat ../other_pkg_llm_evo)
+        kernel_arg=$(cat ../kernel_arg_ro_evo)
+    fi
+    if [ "$machine" = "generic" ]; then
+        info_msg "=> Hardware profile 'Generic machine' active. Loading dedicated package lists and kernel arguments..."
+        other_pkg+=$(cat ../other_pkg_generic)
+        kernel_arg=$(cat ../kernel_arg_ro)
+    fi
 fi
 
 # Prepare variables and change the name of menu for English USA language
-if [ "$locale" = en_US.UTF-8 ]; then
+if [ "$locale" = "en_US.UTF-8" ]; then
     # Prepare variables for English USA language
-    info_msg "Prepare variables for English USA language"
+    info_msg "=> Prepare variables for English USA language"
     #other_pkg=$(cat ../other_pkg)
     other_pkg=$(cat ../other_pkg_apps_media)
     other_pkg+=$(cat ../other_pkg_branding)
@@ -101,13 +116,21 @@ if [ "$locale" = en_US.UTF-8 ]; then
     other_pkg+=$(cat ../brgvos-gnome-extensions-pkg)
     other_pkg+=$(cat ../brgvos-includedir-pkg)
     other_pkg+=$(cat ../other_pkg_en_US)
-    [ "$machine" = generic ] &&  other_pkg+=$(cat ../other_pkg_generic)
-    [ "$machine" = evo ] &&  other_pkg+=$(cat ../other_pkg_evo); other_pkg+=$(cat ../other_pkg_llm_evo)
-    [ "$machine" = evo ] &&  kernel_arg=$(cat ../kernel_arg_en_US_evo) || kernel_arg=$(cat ../kernel_arg_en_US)
+    if [ "$machine" = "evo" ]; then
+        info_msg "=> Hardware profile 'Slimbook EVO' active. Loading dedicated package lists and kernel arguments..."
+        other_pkg+=$(cat ../other_pkg_evo)
+        other_pkg+=$(cat ../other_pkg_llm_evo)
+        kernel_arg=$(cat ../kernel_arg_en_US_evo)
+    fi
+    if [ "$machine" = "generic" ]; then
+        info_msg "=> Hardware profile 'Generic machine' active. Loading dedicated package lists and kernel arguments..."
+        other_pkg+=$(cat ../other_pkg_generic)
+        kernel_arg=$(cat ../kernel_arg_en_US)
+    fi
 fi
 
 # Run void linux script to build iso file image
-info_msg "Now I run 'mkiso.sh' with the flags prepared before"
+info_msg "=> Now I run 'mkiso.sh' with the flags prepared before"
 sudo ./mkiso.sh \
 -a $arch \
 -b $variant \
@@ -126,31 +149,32 @@ sudo ./mkiso.sh \
 -p "$other_pkg" \
 -S "$service" \
 -o "$name_file" \
+-g "$ignore_pkg" \
 -I ../includedir
 
 # Create hash file and move the files to iso directory
 if [ -e $title'_'$variant'_'$locale'_'$arch'_'$data.iso ]
     then
-        info_msg "Create hash file and move the files to '../iso_build' directory"
+        info_msg "=> Create hash file and move the files to '../iso_build' directory"
         HASH=`sha256sum $title'_'$variant'_'$locale'_'$arch'_'$data.iso`
         echo $HASH > $title'_'$variant'_'$locale'_'$arch'_'$data.sha256
         # Run sync to be sure the file was finished to written
-        info_msg "Run sync to be sure the file was finished to written"
+        info_msg "=> Run sync to be sure the file was finished to written"
         sync
         # Move the files to '../iso_build' directory
-        info_msg "Move the files to '../iso_build' directory"
+        info_msg "=> Move the files to '../iso_build' directory"
         mv $title'_'$variant'_'$locale'_'$arch'_'$data.iso ../iso_build
         mv $title'_'$variant'_'$locale'_'$arch'_'$data.sha256 ../iso_build
 elif [ -e ${title}_${variant}_${locale}_Slimbook_EVO_${arch}_${data}.iso ]
     then
-        info_msg "Create hash file and move the files to '../iso_build' directory"
+        info_msg "=> Create hash file and move the files to '../iso_build' directory"
         HASH=`sha256sum $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.iso`
         echo $HASH > $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.sha256
         # Run sync to be sure the file was finished to written
-        info_msg "Run sync to be sure the file was finished to written"
+        info_msg "=> Run sync to be sure the file was finished to written"
         sync
         # Move the files to '../iso_build' directory
-        info_msg "Move the files to '../iso_build' directory"
+        info_msg "=> Move the files to '../iso_build' directory"
         mv $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.iso ../iso_build
         mv $title'_'$variant'_'$locale'_'Slimbook_EVO_$arch'_'$data.sha256 ../iso_build
 else
@@ -158,14 +182,14 @@ else
 fi
 
 # Change back the owner for includedir and iso directories
-info_msg "Change back the owner for 'includedir' and 'iso_build' directories"
+info_msg "=> Change back the owner for 'includedir' and 'iso_build' directories"
 cd ..
 chown $username:$username -R includedir
 chown $username:$username -R iso_build
 
 # Run sync to be sure the file was finished to written
-info_msg "Run sync to be sure the file was finished to written"
+info_msg "=> Run sync to be sure the file was finished to written"
 sync
 
 # Final message
-printf "Next files exist in './iso_build' directory:\n$(ls ./iso_build)\n"
+printf "=> Next files exist in './iso_build' directory:\n$(ls ./iso_build)\n"
