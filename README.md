@@ -1,4 +1,4 @@
-# $\textcolor{cyan}{\texttt{ {BRGV-OS}}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/) ![Rank on https://distrowatch.com](https://img.shields.io/badge/Rank_195_Last_6_months-0?style=flat&label=Distrowatch)
+# $\textcolor{cyan}{\texttt{ {BRGV-OS}}}$ [<img src="https://img.shields.io/sourceforge/dt/brgv-os.svg" />](https://sourceforge.net/projects/brgv-os/files/brgv-os-2025/) [<img src="./screenshots/bandage_sourceforge_dark.png" width="106" height="106" />](https://sourceforge.net/projects/brgv-os/)
 
 
 
@@ -8,15 +8,14 @@ The name **BRGV** is an acronym from Romanian "**B**anca de **R**esurse **G**ene
   
 |                     Theme Light                                     |                         Theme Dark                               |
 |:-------------------------------------------------------------------:|:----------------------------------------------------------------:|
-|![BRGV-OS Light](./screenshots/screeshot_1.png "BRGV-OS Light Theme")|![BRGV-OS Dark](./screenshots/screenshot_1_dark.png "BRGV-OS Dark Theme")|
+|![BRGV-OS Fluent Light](./screenshots/screeshot_1.png "BRGV-OS Fluent Light Theme")|![BRGV-OS Fluent Dark](./screenshots/screenshot_1_dark.png "BRGV-OS Fluent Dark Theme")|
 
 |                                                        |                                                        |
 |:------------------------------------------------------:|:------------------------------------------------------:|
-|![BRGV-OS 1](./screenshots/screenshot_2.png "BRGV-OS 1")|![BRGV-OS 2](./screenshots/screenshot_3.png "BRGV-OS 2")|
+|![BRGV-OS 1](./screenshots/WhiteSur_Light.png "BRGV-OS 1")|![BRGV-OS 2](./screenshots/Graphite_Dark.png "BRGV-OS 2")|
 
-**BRGV-OS** have now 10 themes, 2 for users what prefers classical style and 8 for the users what prefers Unix&#174; style, look at next movie:  
+**BRGV-OS** have now 12 themes, 2 for users what prefers classical style and 10 for the users what prefers Unix&#174; style. Watch the video below to see how easy it is to switch themes:  
     
-
 [<img src="https://img.youtube.com/vi/EDnMTKS-B8k/maxresdefault.jpg" width="960" height="510"/>](https://www.youtube.com/embed/EDnMTKS-B8k?autoplay=1&mute=1)
 
 For theme management I wrote the following extensions, scripts and menus:
@@ -25,7 +24,7 @@ For theme management I wrote the following extensions, scripts and menus:
 * [Accent icons theme](https://extensions.gnome.org/extension/8499/accent-icons-theme/), it is a `Gnome™` extension that changes the icons themes, based on the `accent color` chosen by the user in `Gnome Settings` (gnome-control-center), `Appearance` screen and by preferred `color schema`, `Light` or `Dark`, source code [here](https://github.com/florintanasa/accent-icons-theme);
 * [Accent user theme](https://extensions.gnome.org/extension/8498/accent-user-theme/), it is a `Gnome™` extension that changes the user's theme based on the accent color chosen by the user in `Gnome Settings`, `Appearance` screen and by preferred `color schema`, `Light` or `Dark`, source code [here](https://github.com/florintanasa/accent-user-theme);
 * [Light/Dark cursor theme](https://extensions.gnome.org/extension/8496/lightdark-cursor-theme/), it is a `Gnome™` extension that changes the cursor themes, based on the preferred `color schema`, `Light` or `Dark`, source code [here](https://github.com/florintanasa/light-dark-cursor-theme);
-* And 10 [scripts](https://github.com/florintanasa/brgvos-void/tree/main/includedir/usr/local/bin), these are called by 10 [menus](https://github.com/florintanasa/brgvos-void/tree/main/includedir/usr/local/share/applications).
+* And 12 [scripts](./files/includedir/usr/local/bin), these are called by 12 [menus](./files/includedir/usr/local/share/applications).
   
 Also **BRGV-OS** have another extension [Set Notification Banner Position](https://extensions.gnome.org/extension/8495/set-notification-banner-position/), it is a `Gnome™` extension that changes the position of the banner notification on the sreen, source code [here](https://github.com/florintanasa/set-notification-position).
 
@@ -64,7 +63,7 @@ Once the compilation process successfully finishes, you will find the generated 
   
 > [!IMPORTANT]  
 > In this moment the build is for ro_RO (Romanian language) and en_US (English USA language) , but with few modifications can be buildid for anothers.  
-> Exist iso images files for: ro_RO.UTF-8 and en_US.UTF-8.  
+> Exist ISO images files for `Generic machine`: ro_RO.UTF-8 and en_US.UTF-8.  
 > ISO files can be downloaded from:  
 > here [![Download BRGV-OS iso ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08042026_104718.iso/download) for **ro_RO** versions   
 > or  
@@ -74,8 +73,15 @@ Once the compilation process successfully finishes, you will find the generated 
 > here [![Download BRGV-OS sha256 ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08042026_104718.sha256/download) for **ro_RO** versions  
 > or  
 > here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08042026_110503.sha256/download) for **en_US** version 
-    
-⚠️ Boot Time Warning: Since the ISO image footprint has grown to over 3.8GB and includes a vast number of files, the system needs more time to unpack and boot into memory. Please be patient during the first startup.
+>  
+> Also, exist ISO image for `Slimbook EVO laptop`:  
+> ISO file can be downloaded from:  
+> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/) for **en_US** version
+> and  
+> SHA256 files can be downloaded from:  
+> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/) for **en_US** version
+
+⚠️ **Boot Time Warning:** Since the ISO image footprint has grown to over 3.8GB and includes a vast number of files, the system needs more time to unpack and boot into memory. Please be patient during the first startup.
   
 > [!NOTE]  
 > ## -> [News](NEWS.md)  <-
@@ -102,7 +108,7 @@ Once the compilation process successfully finishes, you will find the generated 
 > ### $\textcolor{orange}{\texttt{For how to install, configure and use the BRGV-OS read on}}$ [Wiki](https://github.com/florintanasa/brgvos-void/wiki) 
   
 >[!NOTE]  
-> Is not in plan to create an iso for each language, because, in my opinion, it is a waste of energy, human and physical (bandwidth consumption, electricity, etc.), to manage a multitude of iso images.  
+> Is not in plan to create an ISO for each language, because, in my opinion, it is a waste of energy, human and physical (bandwidth consumption, electricity, etc.), to manage a multitude of iso images.  
 > The next approach will be to use scripts for each language and which:
 > * will add support for the respective language to the system;
 > * will modify the menu with the appropriate translation;
@@ -113,8 +119,8 @@ Once the compilation process successfully finishes, you will find the generated 
 >
 > Will ensure the transition from one language to another through English.
 >
-> If you wish to contribuite look at next [link](https://github.com/florintanasa/utils/tree/main/patch)  
-> In the following link is a [video demonstration](https://youtu.be/pN8bdZ6Hw88).
+> If you wish to contribuite look at next scripts `set_xx_XX.UTF-8_gnome.sh` from [link](./files/includedir/usr/local/bin) and   
+> In the following link is a [video demonstration](https://youtu.be/pN8bdZ6Hw88) how can be used these scripts.
 
 ## $\textcolor{teal}{\texttt{License}}$
 
@@ -132,17 +138,18 @@ https://github.com/vinceliuice/WhiteSur-gtk-theme
 https://github.com/vinceliuice/WhiteSur-icon-theme  
 https://github.com/vinceliuice/MacTahoe-gtk-theme  
 https://github.com/vinceliuice/MacTahoe-icon-theme  
-https://github.com/ohmybash/oh-my-bash  
+https://github.com/vinceliuice/Graphite-gtk-theme  
+https://github.com/jandedobbeleer/oh-my-posh  
 https://github.com/scopatz/nanorc  
 https://github.com/CarterLi/maple-font  
 https://github.com/ryanoasis/nerd-fonts  
 https://github.com/Anduin2017/AnduinOS/tree/1.4/src/mods/20-deskmon-mod  
-https://github.com/voidlinux-br/void-installer  
+https://github.com/florintanasa/brgvos-installer  
 https://4kwallpapers.com/windows-11-stock-wallpapers/  
 https://4kwallpapers.com/ios-26-carplay-wallpapers/  
 https://4kwallpapers.com/macos-tahoe-26-stock-wallpapers/  
 
-[List with packages](installed_packages.txt) installed on BRGV-OS (english version).
+[List with packages](./installed_packages_generic_ro.txt) installed on **BRGV-OS** for `Generic machine` (romanian version).
 
 ---
   
