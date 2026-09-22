@@ -33,7 +33,7 @@ name='X-Pardus-Apps.directory'
 translate=true
 
 [org/gnome/desktop/app-folders/folders/System]
-apps=['org.gnome.baobab.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.SystemMonitor.desktop', 'gparted.desktop', 'octoxbps.desktop', 'octoxbps-notifier.desktop', 'cups.desktop', 'system-config-printer.desktop', 'hplip.desktop', 'hp-uiscan.desktop', 'btop.desktop', 'tech.geektoshi.Runkit.desktop']
+apps=['org.gnome.baobab.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.SystemMonitor.desktop', 'gparted.desktop', 'octoxbps.desktop', 'octoxbps-notifier.desktop', 'cups.desktop', 'system-config-printer.desktop', 'hplip.desktop', 'hp-uiscan.desktop', 'btop.desktop', 'tech.geektoshi.Runkit.desktop', 'slimbook-indicator.desktop']
 name='X-GNOME-Shell-System.directory'
 translate=true
 
