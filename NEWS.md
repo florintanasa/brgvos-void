@@ -1,4 +1,61 @@
 # What is news?
+
+## 23092026
+
+**BRGV-OS** now offers two distinct flavors: a **Generic** distribution and a dedicated edition optimized for the **Slimbook EVO** laptop. The full source code for the ISO generation pipeline is completely open, allowing you to inspect the build scripts and create your own personalized, custom spins tailored for different devices and hardware use-cases.
+
+Here are the major applications, services, and structural updates included in this new release:
+
+### 🤖 Out-of-the-Box, Turnkey AI Apps & Services
+The local AI ecosystem is fully configured; the user only needs to pull or load their favorite large language model (LLM), depending on their hardware capabilities. All underlying services now utilize a **Shared Storage Architecture** located globally at `/var/lib/llms`, entirely preventing model data fragmentation and storage duplication.
+
+* **Lemonade**, featuring optimized execution backends for:
+  * `CPU` (System fallback);
+  * `Vulkan` (Universal GPU acceleration for Intel, AMD, and discrete graphics);
+  * `ROCm` (Native AMD GPU acceleration, pre-compiled into the Slimbook EVO flavor).
+* **llama.cpp**, providing deep support for:
+  * `BLAS` (Vectorized CPU acceleration);
+  * `Vulkan` (High-performance GPU inference).
+* **FastFlowLM**, pre-installed exclusively on the **Slimbook EVO** flavor to target **AMD Ryzen AI** processors equipped with a Neural Processing Unit (**NPU**).
+
+💡 For the **Slimbook EVO** ISO image, the **ROCm** backend is enabled by default, and the system is pre-configured to seamlessly run **FLM** models on the **NPU** right out-of-the-box:
+```bash
+lemonade config set flm.prefer_system=true llamacpp.backend=rocm
+```
+
+💡 For the **Generic** ISO image, Lemonade is set to `auto` mode by default, allowing it to dynamically choose the best local hardware acceleration layer (Vulkan or CPU). Users with **NVIDIA** discrete graphics cards can easily install the **CUDA** backend manually. To audit which backends are active and available on your current system, run:
+```bash
+lemonade backends
+```
+
+These pre-configured services are highly beneficial for researchers, engineers, economists, and anyone interested in running local LLM inference with absolute data security and privacy. Comprehensive documentation is available on our official wiki page: [BRGV-OS Wiki - 9. LLM](https://github.com/florintanasa/brgvos-void/wiki/9.-LLM).
+
+---
+
+### 📐 Professional Engineering Applications
+* **Open CAD Studio** — A native desktop solution that reads and writes DWG and DXF technical drawings natively without subscription models.
+* **Open PDF Studio** — A lightweight, native desktop application providing professional-grade PDF annotation, markup, and editing tools without subscriptions, telemetry, or bloatware.
+
+---
+
+### 🎛️ System Management & CLI Utilities
+* **Runkit** — A modern graphical service manager built in GTK4/Libadwaita for managing Runit system services. It allows everyday users to easily enable, disable, start, or stop system daemons (including the backend AI servers) via a clean user interface.
+* **Modernized Shell Environment** — The legacy `oh-my-bash` framework has been replaced with **`oh-my-posh`**, a significantly faster, more efficient, and highly customizable prompt engine delivered as a single optimized binary.
+
+---
+
+### 🎨 Visual Polish & System Branding
+* A premium new GTK theme named `Graphite`, providing beautiful color-matched variants across the entire visual spectrum.
+* The system is paired with the elegant new `Tecla circle` icon pack, ensuring crisp and pixel-perfect high-density assets on HiDPI and 2.5K displays.
+
+---
+
+### 📦 Infrastructure, Repositories, and Filesystem Tweaks
+* **Btrfs-backed SquashFS Architecture** — The live system image wrapped inside the ISO now relies on the **Btrfs** filesystem. This major shift allowed the distribution to expand its file structure to **over 1.8 million unique files**. *Note: This massive payload requires a bit of patience during the initial Live boot sequence while the Dracut system maps and mounts the compressed images into your system RAM.*
+* **Official BRGV-OS XBPS Repository** — The custom package tree has reached a milestone of **129 independent packages**, featuring the latest upstream revisions of our custom **6.18** and **7.2 (TKG-Bore)** kernels, compiled with aggressive hardware-specific optimizations.
+* **Ollama in the Repositories** — Both `ollama` and `ollama-rocm` packages are fully maintained in repository branch. To save critical space on the live USB installation media due to their substantial binary footprints, they are omitted from the ISO but can be installed instantly with a single command on live target systems.
+* **Distribution Sovereignty via Core Packages** — Distro-wide modifications and system configs have been entirely decoupled and isolated into native `brgvos-*` meta-packages. This structured architecture ensures that performing global system updates via the XBPS package manager will be remarkably clean and robust in the future.
+
 ## 08042026
 The `brgvos-installer` has reached version `0.32` with a new option for hardening:  
 * **Firewall Manager** - vuurmuur   
