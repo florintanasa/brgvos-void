@@ -65,21 +65,21 @@ Once the compilation process successfully finishes, you will find the generated 
 > In this moment the build is for ro_RO (Romanian language) and en_US (English USA language) , but with few modifications can be buildid for anothers.  
 > Exist ISO images files for `Generic machine`: ro_RO.UTF-8 and en_US.UTF-8.  
 > ISO files can be downloaded from:  
-> here [![Download BRGV-OS iso ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08042026_104718.iso/download) for **ro_RO** versions   
+> here [![Download BRGV-OS iso ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_23092026_084031.iso/download) for **ro_RO** versions   
 > or  
-> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08042026_110503.iso/download) for **en_US** version   
+> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_23092026_081837.iso/download) for **en_US** version   
 > and  
 > SHA256 files can be downloaded from:  
-> here [![Download BRGV-OS sha256 ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_08042026_104718.sha256/download) for **ro_RO** versions  
+> here [![Download BRGV-OS sha256 ro_RO version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/ro_RO/BRGV-OS_gnome_ro_RO.UTF-8_x86_64_23092026_084031.sha256/download) for **ro_RO** versions  
 > or  
-> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_08042026_110503.sha256/download) for **en_US** version 
+> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_x86_64_23092026_081837.sha256/download) for **en_US** version 
 >  
 > Also, exist ISO image for `Slimbook EVO laptop`:  
 > ISO file can be downloaded from:  
-> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/) for **en_US** version
+> here [![Download BRGV-OS iso en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_Slimbook_EVO_x86_64_23092026_102717.iso/download) for **en_US** version
 > and  
 > SHA256 files can be downloaded from:  
-> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/) for **en_US** version
+> here [![Download BRGV-OS sha256 en_US version](https://img.shields.io/sourceforge/dm/brgv-os.svg)](https://sourceforge.net/projects/brgv-os/files/brgv-os/en_US/BRGV-OS_gnome_en_US.UTF-8_Slimbook_EVO_x86_64_23092026_102717.sha256/download) for **en_US** version
 
 ⚠️ **Boot Time Warning:** Since the ISO image footprint has grown to over 3.8GB and includes a vast number of files, the system needs more time to unpack and boot into memory. Please be patient during the first startup.
   
