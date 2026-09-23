@@ -436,18 +436,33 @@ EOF
 generate_squashfs() {
     umount_pseudofs || exit 1
 
-    # Find out required size for the rootfs and create an ext3fs image off it.
+    # Find out required size for the rootfs and create an image off it.
     ROOTFS_SIZE=$(du --apparent-size -sm "$ROOTFS"|awk '{print $1}')
     mkdir -p "$BUILDDIR/tmp/LiveOS"
-    truncate -s "$((ROOTFS_SIZE+ROOTFS_SIZE+ROOTFS_SIZE))M" \
-	    "$BUILDDIR"/tmp/LiveOS/ext3fs.img >/dev/null 2>&1
+    
+    # CRITICAL CHANGE: Dracut 112 dropped ext3fs.img support. We must use rootfs.img now.
+    # We allocate a fixed 4GB buffer to accommodate all icons and metadata safely.
+    truncate -s "$((ROOTFS_SIZE+4096))M" \
+	    "$BUILDDIR"/tmp/LiveOS/rootfs.img >/dev/null 2>&1
+        
     mkdir -p "$BUILDDIR/tmp-rootfs"
-    mkfs.ext3 -F -m1 "$BUILDDIR/tmp/LiveOS/ext3fs.img" >/dev/null 2>&1
-    mount -o loop "$BUILDDIR/tmp/LiveOS/ext3fs.img" "$BUILDDIR/tmp-rootfs"
+    
+    # Format the container as Btrfs using the mixed profile to optimize space for smaller images.
+    # Btrfs allocates inodes dynamically, preventing "No space left on device" errors caused by heavy icon themes.
+    mkfs.btrfs -f -M "$BUILDDIR/tmp/LiveOS/rootfs.img" >/dev/null 2>&1
+    
+    # Mount the loop device specifying the btrfs filesystem type and performance mount options.
+    mount -t btrfs -o loop,ssd,nodatacow "$BUILDDIR/tmp/LiveOS/rootfs.img" "$BUILDDIR/tmp-rootfs"
+    
+    # Copy all files from the rootfs source into our freshly created Btrfs container image.
     cp -a "$ROOTFS"/* "$BUILDDIR"/tmp-rootfs/
+    
+    # Force flushing the disk buffer cache to ensure everything is completely written before unmounting.
+    sync
     umount -f "$BUILDDIR/tmp-rootfs"
     mkdir -p "$IMAGEDIR/LiveOS"
 
+    # Generate the final compressed squashfs image containing our valid rootfs.img layout.
     "$VOIDHOSTDIR"/usr/bin/mksquashfs "$BUILDDIR/tmp" "$IMAGEDIR/LiveOS/squashfs.img" \
         -comp "${SQUASHFS_COMPRESSION}" || die "Failed to generate squashfs image"
     chmod 444 "$IMAGEDIR/LiveOS/squashfs.img"
@@ -455,6 +470,7 @@ generate_squashfs() {
     # Remove rootfs and temporary dirs, we don't need them anymore.
     rm -rf "$ROOTFS" "$BUILDDIR/tmp-rootfs" "$BUILDDIR/tmp"
 }
+
 
 generate_iso_image() {
     local bootloader n
@@ -503,11 +519,12 @@ generate_iso_image() {
 #
 # main()
 #
-while getopts "a:b:B:r:c:C:T:Kk:l:i:I:S:e:s:o:p:g:v:P:Vh" opt; do
+while getopts "a:b:B:M:r:c:C:T:Kk:l:i:I:S:e:s:o:p:g:v:P:Vh" opt; do
 	case $opt in
 		a) TARGET_ARCH="$OPTARG";;
 		b) BASE_SYSTEM_PKG="$OPTARG";;
         B) VARIANT="$OPTARG";;
+        M) MACHINE="$OPTARG";;
 		r) XBPS_REPOSITORY="--repository=$OPTARG $XBPS_REPOSITORY";;
 		c) XBPS_CACHEDIR="$OPTARG";;
 		g) IGNORE_PKGS+=($OPTARG) ;;
@@ -691,6 +708,10 @@ if [ "$LINUX_VERSION" = linux6.18-tkg-bore ]; then
     KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore"
 fi
 
+if [ "$LINUX_VERSION" = linux7.2-tkg-bore-lto ]; then
+    KERNELVERSION="${KERNELVERSION%%_*}_${KERNELVERSION##*_}-tkg-bore-lto"
+fi
+# List kernel used
 echo "LINUX_VERSION=$LINUX_VERSION"
 echo "KERNELVERSION=$KERNELVERSION"
 sleep 10
@@ -739,53 +760,35 @@ if [ "$VARIANT" = gnome ]; then
     # print the path for $ROOTFS
     info_msg "List the working path"
     echo $ROOTFS
+    #
+    #=======================================================
+    # Logical was changed from includedir to package manager
+    # I leave as exeample in comment for includedir
+    #=======================================================
+    #
     # delete default extensions installed
-    info_msg "Delete some default extensions installed"
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/auto-move-windows@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/apps-menu@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/launch-new-instance@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/native-window-placement@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/places-menu@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/window-list@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/windowsNavigator@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/light-style@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/system-monitor@gnome-shell-extensions.gcampax.github.com
-    chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com
+    #info_msg "Delete some default extensions installed"
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/auto-move-windows@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/apps-menu@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/launch-new-instance@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/native-window-placement@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/places-menu@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/window-list@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/windowsNavigator@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/workspace-indicator@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/light-style@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/system-monitor@gnome-shell-extensions.gcampax.github.com
+    #chroot "$ROOTFS" rm -rf /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com
 
     # install gext global to be used for enable the extensions
     # is not used to install because leave dev and proc mounted on $ROOTFS and the mklive crash
-    info_msg "Install 'gnome-extensions-cli' global to be used for enable the extensions"
+    info_msg "=> Install 'gnome-extensions-cli' global to be used for enable the extensions"
     chroot "$ROOTFS" pipx install gnome-extensions-cli --global
     
-    # install extensions first version
-    info_msg "Install extensions from includedir"
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/ProxySwitcherflannaghan.com.v25.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/VitalsCoreCoding.com.v73.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/accent-gtk-themebrgvos.v8.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/accent-icons-themebrgvos.v4.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/accent-user-themebrgvos.v3.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/appindicatorsupportrgcjonas.gmail.com.v61.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/arcmenuarcmenu.com.v70.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/blur-my-shellaunetx.v70.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/caffeinepatapon.info.v59.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/clipboard-indicatortudmotu.com.v69.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/customize-ibushollowman.ml.v92.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dash-to-dockmicxgx.gmail.com.v102.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dash-to-paneljderose9.github.com.v72.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/dingrastersoft.com.v80.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/light-dark-cursor-themebrgvos.v2.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/lockkeysvaina.lt.v67.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/logomenuaryan_k.v38.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/mediacontrolscliffniff.github.com.v43.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/radiokayradokaton.com.v7.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/set-notification-positionbrgvos.v3.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/simple-weatherromanlefler.com.v5.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/space-barluchrioh.v34.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tiling-assistantleleat-on-github.v53.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/tilingshellferrarodomenico.com.v61.shell-extension.zip
-    chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/user-themegnome-shell-extensions.gcampax.github.com.v64.shell-extension.zip
+    # install extensions first version - I leave as example one extenion
+    #info_msg "Install extensions from includedir"
+    #chroot "$ROOTFS" gnome-extensions install --force /tmp/extensions/ProxySwitcherflannaghan.com.v25.shell-extension.zip
 
     # install extensions this was second version but is intercative - I leave as example
     #chroot "$ROOTFS" unzip -q /tmp/extensions/blur-my-shellaunetx.v68.shell-extension.zip -d /usr/share/gnome-shell/extensions/
@@ -793,310 +796,170 @@ if [ "$VARIANT" = gnome ]; then
     # work also but crash mklive because can't unmount the dev and proc remain accesated by dbus
     #chroot "$ROOTFS" gext -F install blur-my-shell@aunetx
 
-    # move estension from user to system
-    info_msg "Move estension from 'root' user to system '/usr/share/gnome-shell/extensions/'"
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/Vitals@CoreCoding.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/accent-gtk-theme@brgvos /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/accent-icons-theme@brgvos /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/accent-user-theme@brgvos /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/arcmenu@arcmenu.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/blur-my-shell@aunetx /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/caffeine@patapon.info /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/customize-ibus@hollowman.ml /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/dash-to-dock@micxgx.gmail.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/ding@rastersoft.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/light-dark-cursor-theme@brgvos /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/lockkeys@vaina.lt /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/logomenu@aryan_k /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/radiokayra@dokaton.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/set-notification-position@brgvos /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/simple-weather@romanlefler.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/space-bar@luchrioh /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/tiling-assistant@leleat-on-github /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/tilingshell@ferrarodomenico.com /usr/share/gnome-shell/extensions/
-    chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com  /usr/share/gnome-shell/extensions/
+    # move estension from user to system - I leave as example one extenion
+    #info_msg "Move estension from 'root' user to system '/usr/share/gnome-shell/extensions/'"
+    #chroot "$ROOTFS" mv /root/.local/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com /usr/share/gnome-shell/extensions/
     
-    # create directory schemas for extensions 
-    info_msg "Create directory schemas for extensions"
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/Vitals@CoreCoding.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/accent-gtk-theme@brgvos/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/accent-icons-theme@brgvos/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/accent-user-theme@brgvos/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/caffeine@patapon.info/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/customize-ibus@hollowman.ml/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/dash-to-dock@micxgx.gmail.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/light-dark-cursor-theme@brgvos/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/lockkeys@vaina.lt/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/radiokayra@dokaton.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/set-notification-position@brgvos/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/simple-weather@romanlefler.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/space-bar@luchrioh/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/tiling-assistant@leleat-on-github/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/tilingshell@ferrarodomenico.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
-    chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas 
+    # create directory schemas for extensions - I leave as example one extenion
+    #info_msg "Create directory schemas for extensions"
+    #chroot "$ROOTFS" mkdir -p /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
 
-    # compile schemas for extensions 
-    info_msg "Compile schemas for extensions"
-   chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/Vitals@CoreCoding.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/accent-gtk-theme@brgvos/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/accent-icons-theme@brgvos/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/accent-user-theme@brgvos/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/blur-my-shell@aunetx/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/caffeine@patapon.info/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/clipboard-indicator@tudmotu.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/customize-ibus@hollowman.ml/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/dash-to-dock@micxgx.gmail.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/dash-to-panel@jderose9.github.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/ding@rastersoft.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/light-dark-cursor-theme@brgvos/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/lockkeys@vaina.lt/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/logomenu@aryan_k/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/set-notification-position@brgvos/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/simple-weather@romanlefler.com/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/space-bar@luchrioh/schemas   
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/tiling-assistant@leleat-on-github/schemas
-    chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/user-theme@gnome-shell-extensions.gcampax.github.com/schemas
+    # compile schemas for extensions - I leave as example one extenion
+    #info_msg "Compile schemas for extensions"
+    #chroot "$ROOTFS" glib-compile-schemas /usr/share/gnome-shell/extensions/ProxySwitcher@flannaghan.com/schemas
     
     # add permissions to the user to read extensions
-    info_msg "Add permissions to the user to read extensions"
-    chroot "$ROOTFS" chmod -R 755 /usr/share/gnome-shell/extensions/
+    #info_msg "Add permissions to the user to read extensions"
+    #chroot "$ROOTFS" chmod -R 755 /usr/share/gnome-shell/extensions/
 
-    # extract Fluent icons and Fluent cursors
-    info_msg "Extract Fluent icons and Fluent cursors"
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/01-Fluent.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-cursors.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-dark-cursors.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-green.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-grey.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-orange.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-pink.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-purple.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-red.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-teal.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/Fluent-yellow.tar.xz -C /usr/share/icons
+    # extract Fluent icons and Fluent cursors - I leave as example one file
+    #info_msg "Extract Fluent icons and Fluent cursors"
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/01-Fluent.tar.xz -C /usr/share/icons
     
-    # extract MacTahoe icons and MacTahoe cursors
-    info_msg "Extract MacTahoe icons and MacTahoe cursors"
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/01-MacTahoe.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-blue.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-cursors.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-dark-cursors.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-green.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-grey.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-light.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-nord.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-orange.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-purple.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-red.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe-yellow.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/MacTahoe.tar.xz -C /usr/share/icons
+    # extract MacTahoe icons and MacTahoe cursors - I leave as example one file
+    #info_msg "Extract MacTahoe icons and MacTahoe cursors"
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/01-MacTahoe.tar.xz -C /usr/share/icons
 
-    # extract WhiteSur icons
-    info_msg "Extract WhiteSur icons"
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/01-WhiteSur.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-green.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-grey.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-light.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-nord.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-orange.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-pink.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-purple.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-red.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow-dark.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow-light.tar.xz -C /usr/share/icons
-    chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur-yellow.tar.xz -C /usr/share/icons
-    #chroot "$ROOTFS" tar -Jxf /tmp/icons/WhiteSur.tar.xz -C /usr/share/icons
+    # extract WhiteSur icons - I leave as example one file
+    #info_msg "Extract WhiteSur icons"
+    #chroot "$ROOTFS" tar -Jxf /tmp/icons/01-WhiteSur.tar.xz -C /usr/share/icons
 
-    # extract Fluent themes
-    info_msg "Extract Fluent themes"
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-teal.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round.tar.xz -C /usr/share/themes
+    # extract Fluent themes - I leave as example one file
+    #info_msg "Extract Fluent themes"
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-round-green.tar.xz -C /usr/share/themes
 
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-green.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-grey.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-orange.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-pink.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-purple.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-red.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-teal.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent-yellow.tar.xz -C /usr/share/themes
-    #chroot "$ROOTFS" tar -Jxf /tmp/themes/Fluent.tar.xz -C /usr/share/themes
+    # extract MacTahoe themes - I leave as example one file
+    #info_msg "Extract MacTahoe themes"
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-blue.tar.xz -C /usr/share/themes
 
-    # extract MacTahoe themes
-    info_msg "Extract MacTahoe themes"
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-nord.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-nord.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-solid.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Dark.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-nord.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-nord.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-solid.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/MacTahoe-Light.tar.xz -C /usr/share/themes
-
-    # extract WhiteSur themes
-    info_msg "Extract WhiteSur themes"
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-solid.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-blue.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-green.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-grey.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-orange.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-pink.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-purple.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-red.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-solid.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light-yellow.tar.xz -C /usr/share/themes
-    chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Light.tar.xz -C /usr/share/themes
+    # extract WhiteSur themes - I leave as example one file
+    #info_msg "Extract WhiteSur themes"
+    #chroot "$ROOTFS" tar -Jxf /tmp/themes/WhiteSur-Dark-blue.tar.xz -C /usr/share/themes
 
     # add custom icon for arcmenu
-    info_msg "Add BRGV-OS icon for arcmenu"
-    chroot "$ROOTFS" cp /tmp/icons/brgvos-logo.svg /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/icons/
+    #info_msg "Add BRGV-OS icon for arcmenu"
+    #chroot "$ROOTFS" cp /tmp/icons/brgvos-logo.svg /usr/share/gnome-shell/extensions/arcmenu@arcmenu.com/icons/
 
     # update dconf settings for extensions
-    info_msg "Update dconf settings for extensions"
-    chroot "$ROOTFS" dconf update
+    #info_msg "Update dconf settings for extensions"
+    #chroot "$ROOTFS" dconf update
+
+    info_msg "=> Configuring Python-UNO bridge for LibreOffice AI extensions..."
+    PYTHON_VERSION=$(chroot "$ROOTFS" python3 -c "import sys; print(f'python{sys.version_info.major}.{sys.version_info.minor}')")
+    SITE_PACKAGES="/usr/lib/$PYTHON_VERSION/site-packages"
+    chroot "$ROOTFS" mkdir -p "$SITE_PACKAGES"
+    echo "/usr/lib/libreoffice/program" | chroot "$ROOTFS" tee "$SITE_PACKAGES/libreoffice.pth" > /dev/null
 
     # setup flathub
-    info_msg "Setup flathub"
+    info_msg "=> Setup flathub"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    info_msg "Setup flathub-beta"
+    info_msg "=> Setup flathub-beta"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-    info_msg "Setup gnome-nightly"
+    info_msg "=> Setup gnome-nightly"
     chroot "$ROOTFS" flatpak remote-add --if-not-exists gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
 
     # set plymouth theme for BRGV-OS
-    info_msg "Set plymouth theme for BRGV-OS"
+    info_msg "=> Set plymouth theme for BRGV-OS"
     chroot "$ROOTFS" plymouth-set-default-theme brgvos
     
     # create group audit
-    info_msg "Create group 'audit'"
+    info_msg "=> Create group 'audit'"
     chroot "$ROOTFS" groupadd -r audit
 
     # Change log_group to audit
-    info_msg "Change log_group to audit"
+    info_msg "=> Change log_group to audit"
     chroot $ROOTFS sed -i 's/log_group = root/log_group = audit/g' /etc/audit/auditd.conf
 
     # Change file mode and group for directory /var/log/audit
-    info_msg "Change file mode and group for directory /var/log/audit"
+    info_msg "=> Change file mode and group for directory /var/log/audit"
     chroot $ROOTFS sed -i 's/d \/var\/log\/audit 0700 root root - -/d \/var\/log\/audit 0750 root audit - -/g'  /usr/lib/tmpfiles.d/audit.conf
+
+    # Run ldconfig at the end of the chroot
+    info_msg "=> Regenerating dynamic linker cache inside rootfs..."
+    chroot "$ROOTFS" ldconfig
 
     # wait 10 seconds to can read
     sleep 10
 fi
+
+# ==========================================
+# CONFIGURE PROFILE: EVO (CPU + ROCm + FLM)
+# ==========================================
+if [ "$MACHINE" = "evo" ]; then
+    info_msg "=> MACHINE: Slimbook EVO. Executing Lemonade setup using lemond service..."
+
+    # 1. Check if the service's data directory already exists (created by the package)
+    if [ ! -d "$ROOTFS/var/lib/lemonade" ]; then
+        info_msg "=> Path /var/lib/lemonade not found. Creating and setting permissions..."
+        mkdir -p "$ROOTFS/var/lib/lemonade"
+        chroot "$ROOTFS" chown -R lemonade:lemonade /var/lib/lemonade
+    else
+        info_msg "=> Path /var/lib/lemonade already exists (provided by package). Proceeding..."
+    fi
+
+    # 2. Start the service in the background – it automatically loads all the variables from the 'run' script.
+    info_msg "=> Start service lemond..."
+    chroot "$ROOTFS" sh /etc/sv/lemonade-server/run &
+    RUNIT_PID=$!
+    sleep 3
+
+    # 3. Run the commands simply and cleanly
+    chroot "$ROOTFS" lemonade backends install llamacpp:cpu
+    chroot "$ROOTFS" lemonade backends install llamacpp:vulkan
+    chroot "$ROOTFS" lemonade backends install llamacpp:rocm
+    chroot "$ROOTFS" lemonade config set flm.prefer_system=true llamacpp.backend=rocm
+
+    #4. Cleanly stopping the background process
+    info_msg "=> Cleaning up temporary lemond services..."
+    kill $RUNIT_PID 2>/dev/null || true
+    chroot "$ROOTFS" pkill -u lemonade || true
+
+    # 5. Diagnostic check of the service's XDG path
+    if [ -f "$ROOTFS/var/lib/lemonade/.config/lemonade/config.json" ]; then
+        info_msg "=> SUCCESS (Slimbook EVO): Lemonade configuration successfully persisted!"
+        chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
+    fi
+fi
+
+# ==========================================
+# CONFIGURE PROFILE: GENERIC (CPU + Vulkan)
+# ==========================================
+if [ "$MACHINE" = "generic" ]; then
+    info_msg "=> MACHINE: Generic. Executing Lemonade setup using lemond service..."
+
+    # 1. Check if the service's data directory already exists (created by the package)
+    if [ ! -d "$ROOTFS/var/lib/lemonade" ]; then
+        info_msg "=> Path /var/lib/lemonade not found. Creating and setting permissions..."
+        mkdir -p "$ROOTFS/var/lib/lemonade"
+        chroot "$ROOTFS" chown -R lemonade:lemonade /var/lib/lemonade
+    else
+        info_msg "=> Path /var/lib/lemonade already exists (provided by package). Proceeding..."
+    fi
+
+    # 2. Start the service in the background – it automatically loads all the variables from the 'run' script.
+    info_msg "=> Start service lemond..."
+    chroot "$ROOTFS" sh /etc/sv/lemonade-server/run &
+    RUNIT_PID=$!
+    sleep 3
+
+    # 3. Run the commands simply and cleanly
+    chroot "$ROOTFS" lemonade backends install llamacpp:cpu
+    chroot "$ROOTFS" lemonade backends install llamacpp:vulkan
+    chroot "$ROOTFS" lemonade config set llamacpp.backend=auto
+
+    #4. Cleanly stopping the background process
+    info_msg "=> Cleaning up temporary lemond services..."
+    kill $RUNIT_PID 2>/dev/null || true
+    chroot "$ROOTFS" pkill -u lemonade || true
+
+    # 5. Diagnostic check of the service's XDG path
+    if [ -f "$ROOTFS/var/lib/lemonade/.config/lemonade/config.json" ]; then
+        info_msg "=> SUCCESS (Generic): Lemonade configuration successfully persisted!"
+        chroot "$ROOTFS" cat /var/lib/lemonade/.config/lemonade/config.json
+    fi
+fi
+
+# List kernel used
 echo "KERNELVERSION=$KERNELVERSION"
 print_step "Generating initramfs image ($INITRAMFS_COMPRESSION)..."
 generate_initramfs

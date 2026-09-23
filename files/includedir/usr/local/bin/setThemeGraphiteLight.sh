@@ -1,0 +1,116 @@
+#!/bin/bash
+
+# disable extensions used in Fluent
+gnome-extensions disable 'mediacontrols@cliffniff.github.com'
+gnome-extensions disable 'arcmenu@arcmenu.com'
+gnome-extensions disable 'dash-to-panel@jderose9.github.com'
+gnome-extensions disable 'tilingshell@ferrarodomenico.com'
+
+# enable extensions used in Graphite
+gnome-extensions enable 'dash-to-dock@micxgx.gmail.com'
+gnome-extensions enable 'logomenu@aryan_k'
+gnome-extensions enable 'space-bar@luchrioh'
+gnome-extensions enable 'tiling-assistant@leleat-on-github'
+
+# set interface to Light theme
+dconf write /org/gnome/desktop/interface/accent-color "'slate'"
+dconf write /org/gnome/desktop/interface/color-scheme "'default'"
+dconf write /org/gnome/desktop/interface/cursor-theme "'MacTahoe-cursors'"
+dconf write /org/gnome/desktop/interface/gtk-theme "'Graphite-Light'"
+dconf write /org/gnome/desktop/interface/icon-theme "'Tela-circle-grey-light'"
+	
+# set user theme for Graphite
+dconf write /org/gnome/shell/extensions/user-theme/name "'Graphite-Light'"
+
+# set theme for accent-gtk-theme
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/blue-theme-dark "'Graphite-blue-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/blue-theme-light "'Graphite-blue-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/green-theme-dark "'Graphite-green-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/green-theme-light "'Graphite-green-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/orange-theme-dark "'Graphite-orange-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/orange-theme-light "'Graphite-orange-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/pink-theme-dark "'Graphite-pink-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/pink-theme-light "'Graphite-pink-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/purple-theme-dark "'Graphite-purple-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/purple-theme-light "'Graphite-purple-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/red-theme-dark "'Graphite-red-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/red-theme-light "'Graphite-red-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/slate-theme-dark "'Graphite-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/slate-theme-light "'Graphite-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/teal-theme-dark "'Graphite-teal-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/teal-theme-light "'Graphite-teal-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/yellow-theme-dark "'Graphite-yellow-Dark'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/yellow-theme-light "'Graphite-yellow-Light'"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/set-link-gtk4 "true"
+dconf write /org/gnome/shell/extensions/accent-gtk-theme/set-theme-path "'/usr/share/themes'"
+
+# set theme Graphite for accent-user-theme
+dconf write /org/gnome/shell/extensions/accent-user-theme/blue-theme-dark "'Graphite-blue-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/blue-theme-light "'Graphite-blue-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/green-theme-dark "'Graphite-green-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/green-theme-light "'Graphite-green-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/orange-theme-dark "'Graphite-orange-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/orange-theme-light "'Graphite-orange-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/pink-theme-dark "'Graphite-pink-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/pink-theme-light "'Graphite-pink-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/purple-theme-dark "'Graphite-purple-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/purple-theme-light "'Graphite-purple-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/red-theme-dark "'Graphite-red-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/red-theme-light "'Graphite-red-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/slate-theme-dark "'Graphite-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/slate-theme-light "'Graphite-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/teal-theme-dark "'Graphite-teal-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/teal-theme-light "'Graphite-teal-Light'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/yellow-theme-dark "'Graphite-yellow-Dark'"
+dconf write /org/gnome/shell/extensions/accent-user-theme/yellow-theme-light "'Graphite-yellow-Light'"
+
+# set Tela-circle icons for accent-icons-theme
+dconf write /org/gnome/shell/extensions/accent-icons-theme/blue-theme-dark "'Tela-circle-blue-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/blue-theme-light "'Tela-circle-blue-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/green-theme-dark "'Tela-circle-green-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/green-theme-light "'Tela-circle-green-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/orange-theme-dark "'Tela-circle-orange-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/orange-theme-light "'Tela-circle-orange-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/pink-theme-dark "'Tela-circle-pink-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/pink-theme-light "'Tela-circle-pink-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/purple-theme-dark "'Tela-circle-purple-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/purple-theme-light "'Tela-circle-purple-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/red-theme-dark "'Tela-circle-red-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/red-theme-light "'Tela-circle-red-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/slate-theme-dark "'Tela-circle-grey-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/slate-theme-light "'Tela-circle-grey-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/teal-theme-dark "'Tela-circle-nord-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/teal-theme-light "'Tela-circle-nord-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/yellow-theme-dark "'Tela-circle-yellow-dark'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/yellow-theme-light "'Tela-circle-yellow-light'"
+dconf write /org/gnome/shell/extensions/accent-icons-theme/change-app-colors "false"
+
+# set Graphite light-dark-cursor-theme
+dconf write /org/gnome/shell/extensions/light-dark-cursor-theme/default "'MacTahoe-cursors'"
+dconf write /org/gnome/shell/extensions/light-dark-cursor-theme/prefer-dark "'MacTahoe-dark-cursors'"
+
+# set Graphite background
+dconf write /org/gnome/desktop/background/color-shading-type "'solid'"
+dconf write /org/gnome/desktop/background/picture-options "'zoom'"
+dconf write /org/gnome/desktop/background/picture-uri "'file:///usr/share/backgrounds/gnome/wave-l.jpg'"
+dconf write /org/gnome/desktop/background/picture-uri-dark "'file:///usr/share/backgrounds/gnome/wave-d.jpg'"
+dconf write /org/gnome/desktop/background/primary-color "'#ff0000'"
+dconf write /org/gnome/desktop/background/secondary-color "'#00ffff'"
+
+# set preferences position for buttons on windows
+dconf write /org/gnome/desktop/wm/preferences/button-layout "'appmenu:minimize,maximize,close'"
+
+# set position on panel for simple-weather
+dconf write /org/gnome/shell/extensions/simple-weather/panel-box "'center'"
+dconf write /org/gnome/shell/extensions/simple-weather/main-location-index "int64 0"
+dconf write /org/gnome/shell/extensions/simple-weather/panel-priority "int64 0"
+
+# set space-bar appearence
+dconf write /org/gnome/shell/extensions/space-bar/appearance/active-workspace-text-color "'rgb(128,128,128)'"
+dconf write /org/gnome/shell/extensions/space-bar/appearance/inactive-workspace-text-color "'rgb(192,192,192)'"
+
+# in Wayland we can't restart gnome-shell so next message work only X
+#killall -HUP gnome-shell
+
+# so in Wayland logout is solution with prompt maybe is necessary to save something
+gnome-session-quit

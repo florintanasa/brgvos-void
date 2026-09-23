@@ -1,0 +1,11 @@
+base-devel
+meson
+clang
+lld
+git
+python3-pipx
+vscode
+gtksourceview
+meld
+openjdk21-jre
+openjdk21 

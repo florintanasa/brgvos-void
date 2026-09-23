@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Application
+Icon=folder-wine-symbolic
+NoDisplay=false
+Exec=/usr/bin/setThemeFluentDark.sh
+Path=/usr/bin/
+Terminal=false
+X-GNOME-UsesNotifications=false
+Categories=Settings;System;
+Name=Fluent Dark
+Name[en_US]=Fluent Dark
+Name[en_US.UTF-8]=Fluent Dark
+Comment=Set the desktop theme to Fluent dark
+Comment[en_US]=Set the desktop theme to Fluent dark
+Comment[en_US.UTF-8]=Set the desktop theme to Fluent dark
+Name[ro_RO]=Fluent Întunecoasă
+Name[ro_RO.UTF-8]=Fluent Întunecoasă
+Comment[ro_RO]=Setează tema desktopului în Fluent întunecoasă
+Comment[ro_RO.UTF-8]=Setează tema desktopului în Fluent întunecoasă
+Hidden=false
+StartupNotify=false
+
+

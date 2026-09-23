@@ -1,0 +1,6 @@
+linux6.18-tkg-bore-headers
+vulkan-loader
+mesa-vulkan-intel
+mesa-vulkan-lavapipe
+mesa-vulkan-radeon
+mesa-vulkan-nouveau 

@@ -1,0 +1,3 @@
+[org/gnome/shell/extensions/light-dark-cursor-theme]
+default='MacTahoe-cursors'
+prefer-dark='MacTahoe-dark-cursors'

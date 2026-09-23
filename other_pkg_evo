@@ -1,4 +1,4 @@
-linux6.18-tkg-bore-lto-zen5-headers 
+linux7.2-tkg-bore-lto-headers 
 libslimbook 
 python3-slimbook 
 slimbook-qc71-dkms 
@@ -9,4 +9,5 @@ slimbook-evo-grub-fix
 slimbook-backlight 
 slimbook-kms-fix 
 ryzen-smu-dkms 
-RyzenAdj-git 
+RyzenAdj-git
+mesa-vulkan-radeon 

@@ -1,0 +1,21 @@
+[Desktop Entry]
+Type=Application
+Icon=stock_weather-sunny
+NoDisplay=false
+Exec=/usr/bin/setThemeWhiteSurSolidLight.sh
+Path=/usr/bin/
+Terminal=false
+X-GNOME-UsesNotifications=false
+Categories=Settings;System;
+Name=WhiteSur Solid Light
+Comment=Set the desktop theme to  WhiteSur solid light
+Name[en_US]=WhiteSur Solid Light
+Name[en_US.UTF-8]=WhiteSur Solid Light
+Comment[en_US]=Set the desktop theme to  WhiteSur solid light
+Comment[en_US.UTF-8]=Set the desktop theme to  WhiteSur solid light
+Name[ro_RO]=WhiteSur Solid Luminoasă
+Name[ro_RO.UTF-8]=WhiteSur Solid Luminoasă
+Comment[ro_RO]=Setează tema desktopului în WhiteSur solid luminoasă
+Comment[ro_RO.UTF-8]=Setează tema desktopului în WhiteSur solid luminoasă
+Hidden=false
+StartupNotify=false

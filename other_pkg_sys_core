@@ -1,0 +1,16 @@
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+xdg-desktop-portal-gnome
+xdg-user-dirs
+xdg-user-dirs-gtk
+xdg-utils
+flatpak
+gparted
+plymouth
+tlp
+tlp-rdw
+powertop
+cronie
+socklog-void
+octoxbps
+runkit 
